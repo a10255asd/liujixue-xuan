@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, CircleDot, Clock3 } from '@/components/icons'
-import { featureBlocks, knowledgeCards, site, xuanTools } from '@/lib/site'
+import { featureBlocks, knowledgeCards, scenarioCards, site, xuanComingTools, xuanTools } from '@/lib/site'
 
 const dailyHexagram = {
   time: '今日灵感',
@@ -34,6 +34,7 @@ export default function HomePage() {
                 <ArrowRight size={16} />
               </Link>
               <Link className='button' href='/tools/liuyao'>六爻排盘</Link>
+              <Link className='button' href='/tools/calendar'>黄历节气</Link>
               <a className='button' href={site.mainSite}>回主站</a>
             </div>
           </div>
@@ -81,9 +82,9 @@ export default function HomePage() {
           <div className='xuan-section-head'>
             <div>
               <span className='xuan-kicker'>Tools</span>
-              <h2>排盘工具</h2>
+              <h2>玄学工具箱</h2>
             </div>
-            <p>入口压到最少，盘面字段放到最前。每个工具都保留文本导出和图片导出，方便继续交给 AI 或人工分析。</p>
+            <p>对标成熟玄学工具站的功能结构，先把八字、紫微、六爻、每日一卦和黄历节气做成稳定入口。</p>
           </div>
           <div className='xuan-tool-grid'>
             {xuanTools.map((tool, index) => (
@@ -102,6 +103,19 @@ export default function HomePage() {
                   <ArrowRight size={15} />
                 </strong>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className='xuan-section compact'>
+        <div className='xuan-container'>
+          <div className='xuan-scenario-grid'>
+            {scenarioCards.map(item => (
+              <article className='xuan-scenario-card' key={item.title}>
+                <span>{item.title}</span>
+                <p>{item.text}</p>
+              </article>
             ))}
           </div>
         </div>
@@ -136,6 +150,27 @@ export default function HomePage() {
                 <CircleDot size={18} />
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className='xuan-section compact'>
+        <div className='xuan-container'>
+          <div className='xuan-section-head'>
+            <div>
+              <span className='xuan-kicker'>Roadmap</span>
+              <h2>后续功能矩阵</h2>
+            </div>
+            <p>这些先作为站内规划露出，后续按优先级逐步做成可用工具，不让主站工具页越来越杂。</p>
+          </div>
+          <div className='xuan-coming-grid'>
+            {xuanComingTools.map(item => (
+              <article className='xuan-coming-card' key={item.title}>
+                <span>{item.status}</span>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
               </article>
             ))}
           </div>

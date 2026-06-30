@@ -6,7 +6,7 @@
 - Planned domain: `https://xuan.liujixue.cn`
 - Vercel project: `a10255asds-projects/liujixue-xuan`
 - Production URL: `https://liujixue-xuan.vercel.app`
-- Custom domain status: added to Vercel, waiting for DNS.
+- Custom domain status: live at `https://xuan.liujixue.cn`.
 - Required DNS record: `CNAME xuan d9b8b7be22d9773b.vercel-dns-017.com.`
 - Purpose: standalone metaphysics charting site split away from `liujixue-main`.
 - First version includes:
@@ -14,7 +14,16 @@
   - `/tools/bazi` reusing the verified BaZi chart calculator.
   - `/tools/ziwei` reusing the verified Zi Wei Dou Shu calculator.
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
+  - `/tools/daily` daily time-hexagram record tool.
+  - `/tools/calendar` Huangli / Jieqi field lookup tool.
   - `/api/geocode` for birthplace coordinate lookup.
+
+## 2026-07-01 Update
+
+- Expanded the homepage from a 3-tool charting site into a larger metaphysics toolbox structure.
+- Added actual routes for `每日一卦` and `黄历节气`.
+- Added planned feature cards for name five-elements lookup, compatibility comparison, question records, and AI analysis packages.
+- Keep these two new tools field-only: no auspicious/inauspicious conclusions, no scare copy, no deterministic predictions.
 
 ## Source Boundaries
 
@@ -41,8 +50,7 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add the DNS record above at the current nameserver provider, then run `vercel domains verify xuan.liujixue.cn`.
-2. Verify `https://xuan.liujixue.cn` after DNS propagation.
-3. Add a simple `/tools` index if the homepage grows too long.
-4. Add daily one-hexagram or Huangli as a lightweight non-login feature.
-5. Consider login/history/favorites only after the first public version has usage.
+1. Add a simple `/tools` index if the homepage grows too long.
+2. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
+3. Add saved records / question notebook after public usage appears.
+4. Add AI analysis packages only with explicit boundaries and copy/export tests.
