@@ -10,7 +10,7 @@ export default function BaZiPage() {
   return (
     <ToolPageFrame
       title='八字专业细盘'
-      description='输入出生时间和出生地，默认按真太阳时排盘，输出四柱、十神、藏干、纳音、神煞、大运、流年和可导出文本。'>
+      description={'输入出生时间和出生地。\n按真太阳时输出四柱、神煞、大运、流年和导出文本。'}>
       <BaZiChartCalculator />
     </ToolPageFrame>
   )

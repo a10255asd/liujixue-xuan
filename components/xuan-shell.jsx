@@ -17,6 +17,10 @@ export function XuanHeader() {
           <Link href='/#tools'>工具</Link>
           <Link href='/#knowledge'>知识</Link>
           <a href={site.mainSite}>主站</a>
+          <Link className='xuan-nav-primary' href='/tools/bazi'>
+            开始排盘
+            <ArrowUpRight size={14} />
+          </Link>
         </nav>
       </div>
     </header>
@@ -47,17 +51,33 @@ export function XuanFooter() {
 }
 
 export function ToolPageFrame({ children, description, title }) {
+  const descriptionLines = typeof description === 'string' ? description.split('\n') : [description]
+
   return (
     <>
       <section className='xuan-tool-hero'>
-        <div className='xuan-container'>
-          <span className='xuan-kicker'>Tool / Chart</span>
-          <h1>{title}</h1>
-          <p>{description}</p>
+        <div className='xuan-container xuan-tool-hero-inner'>
+          <div>
+            <span className='xuan-kicker'>Tool / Chart</span>
+            <h1>{title}</h1>
+            <p>
+              {descriptionLines.map((line, index) => (
+                <span key={`${title}-${index}`}>{line}</span>
+              ))}
+            </p>
+          </div>
+          <div className='xuan-tool-switcher' aria-label='工具切换'>
+            {xuanTools.map(tool => (
+              <Link href={tool.href} key={tool.href}>
+                <span>{tool.title}</span>
+                <ArrowUpRight size={14} />
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
-      <section className='section'>
-        <div className='container'>
+      <section className='xuan-tool-workspace'>
+        <div className='xuan-container'>
           {children}
         </div>
       </section>
