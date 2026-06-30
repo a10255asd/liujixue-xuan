@@ -4,6 +4,10 @@
 
 - Project path: `/Users/LIU/Documents/workTable/liujixue-xuan`
 - Planned domain: `https://xuan.liujixue.cn`
+- Vercel project: `a10255asds-projects/liujixue-xuan`
+- Production URL: `https://liujixue-xuan.vercel.app`
+- Custom domain status: added to Vercel, waiting for DNS.
+- Required DNS record: `CNAME xuan d9b8b7be22d9773b.vercel-dns-017.com.`
 - Purpose: standalone metaphysics charting site split away from `liujixue-main`.
 - First version includes:
   - `/` homepage with tool matrix, daily inspiration block, knowledge blocks, and future membership/history placeholders.
@@ -37,8 +41,8 @@ npm run build
 
 ## Next Recommended Work
 
-1. Deploy to Vercel as a separate project, likely `liujixue-xuan`.
-2. Bind `xuan.liujixue.cn`.
+1. Add the DNS record above at the current nameserver provider, then run `vercel domains verify xuan.liujixue.cn`.
+2. Verify `https://xuan.liujixue.cn` after DNS propagation.
 3. Add a simple `/tools` index if the homepage grows too long.
 4. Add daily one-hexagram or Huangli as a lightweight non-login feature.
 5. Consider login/history/favorites only after the first public version has usage.

@@ -2,6 +2,14 @@
 
 独立玄学排盘工具站，计划部署到 `https://xuan.liujixue.cn`。
 
+当前 Vercel 生产地址：`https://liujixue-xuan.vercel.app`。
+
+自定义域名已添加到 Vercel，DNS 需要添加：
+
+```text
+CNAME xuan d9b8b7be22d9773b.vercel-dns-017.com.
+```
+
 第一版目标：
 
 - 首页展示东方命理工具矩阵。
