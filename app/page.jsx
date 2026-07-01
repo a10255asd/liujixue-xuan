@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, CircleDot, Clock3 } from '@/components/icons'
+import { XuanToolSuiteGrid } from '@/components/xuan-tool-suite-grid'
 import { featureBlocks, knowledgeCards, scenarioCards, site, xuanComingTools, xuanTools } from '@/lib/site'
 
 const dailyHexagram = {
@@ -74,6 +75,19 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className='xuan-section xuan-suite-section'>
+        <div className='xuan-container'>
+          <div className='xuan-section-head'>
+            <div>
+              <span className='xuan-kicker'>Use Cases</span>
+              <h2>先选场景，再进工具</h2>
+            </div>
+            <p>把出生盘、问事、日课和基础资料拆成四条路径，用户不需要先理解每个术语，也能找到入口。</p>
+          </div>
+          <XuanToolSuiteGrid actionLabel='进入这组工具' />
         </div>
       </section>
 

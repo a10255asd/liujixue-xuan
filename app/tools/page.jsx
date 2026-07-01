@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, CircleDot } from '@/components/icons'
+import { ArrowRight, ArrowUpRight, Blocks, CircleDot } from '@/components/icons'
+import { XuanToolSuiteGrid } from '@/components/xuan-tool-suite-grid'
 import { scenarioCards, site, xuanComingTools, xuanTools } from '@/lib/site'
 
 export const metadata = {
@@ -22,6 +23,19 @@ export default function ToolsIndexPage() {
             <strong>{xuanTools.length}</strong>
             <em>已上线工具</em>
           </div>
+        </div>
+      </section>
+
+      <section className='xuan-section xuan-suite-section'>
+        <div className='xuan-container'>
+          <div className='xuan-section-head'>
+            <div>
+              <span className='xuan-kicker'>Use Cases</span>
+              <h2>按用途进入</h2>
+            </div>
+            <p>如果不知道该打开哪个工具，先按用途选一组：出生盘、问事、日课时间或基础资料。</p>
+          </div>
+          <XuanToolSuiteGrid actionLabel='打开主工具' />
         </div>
       </section>
 
