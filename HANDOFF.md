@@ -35,6 +35,13 @@
 - Added planned feature cards for name five-elements lookup, compatibility comparison, question records, and AI analysis packages.
 - Keep these two new tools field-only: no auspicious/inauspicious conclusions, no scare copy, no deterministic predictions.
 
+## 2026-07-02 Update
+
+- Ran production/mobile visual QA for BaZi, ZiWei, and LiuYao after the result-panel polish.
+- Fixed BaZi mobile luck cards: `大运` / `流年` now force a two-column grid under 640px so cards no longer clip on the right edge.
+- Added mobile wrapping protection for chart export action buttons inside heavy tool result headers.
+- Verified ZiWei and LiuYao mobile long screenshots: wide palace/table sections stay inside internal horizontal scroll containers, with no page-level layout break observed.
+
 ## Source Boundaries
 
 - Reference site reviewed: `https://suanlemeai.cn/`.
@@ -60,8 +67,7 @@ npm run build
 
 ## Next Recommended Work
 
-1. Do a visual QA pass on production for BaZi / ZiWei / LiuYao after this result-panel polish, especially mobile screenshots and horizontal tables.
-2. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
-3. Add saved records / question notebook after public usage appears.
-4. Add AI analysis packages only with explicit boundaries and copy/export tests.
-5. If more tools are added, route them through `/tools`, `xuanToolSuites`, and unique `xuanTools.title` values first.
+1. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
+2. Add saved records / question notebook after public usage appears.
+3. Add AI analysis packages only with explicit boundaries and copy/export tests.
+4. If more tools are added, route them through `/tools`, `xuanToolSuites`, and unique `xuanTools.title` values first.

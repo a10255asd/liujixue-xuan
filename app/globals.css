@@ -9088,4 +9088,17 @@ body {
   .xuan-tool-workspace .bazi-luck-panel {
     padding: 16px 14px 14px;
   }
+
+  .xuan-tool-workspace .bazi-luck-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .xuan-tool-workspace .chart-export-actions {
+    width: 100%;
+  }
+
+  .xuan-tool-workspace .chart-export-action-button {
+    flex: 1 1 132px;
+    min-width: 0;
+  }
 }
