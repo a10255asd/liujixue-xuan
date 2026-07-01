@@ -41,6 +41,9 @@
 - Fixed BaZi mobile luck cards: `大运` / `流年` now force a two-column grid under 640px so cards no longer clip on the right edge.
 - Added mobile wrapping protection for chart export action buttons inside heavy tool result headers.
 - Verified ZiWei and LiuYao mobile long screenshots: wide palace/table sections stay inside internal horizontal scroll containers, with no page-level layout break observed.
+- Added LiuYao alternate起卦 modes after tests: `手动指定`, `三数起卦`, and `时间起卦`.
+- LiuYao engine now stores stable method keys (`manual`, `numbers`, `time`) while UI/export text shows Chinese method labels and a `起卦推导` field.
+- Added unit tests for three-number and time-based LiuYao derivation, including expected本卦、变卦、动爻 and time-method lunar fields.
 
 ## Source Boundaries
 
@@ -67,7 +70,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
-2. Add saved records / question notebook after public usage appears.
-3. Add AI analysis packages only with explicit boundaries and copy/export tests.
-4. If more tools are added, route them through `/tools`, `xuanToolSuites`, and unique `xuanTools.title` values first.
+1. Add saved records / question notebook after public usage appears.
+2. Add AI analysis packages only with explicit boundaries and copy/export tests.
+3. If more tools are added, route them through `/tools`, `xuanToolSuites`, and unique `xuanTools.title` values first.

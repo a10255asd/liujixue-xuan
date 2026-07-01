@@ -74,3 +74,39 @@ test('liu yao export payload contains chart fields without judgement copy', () =
   assert.ok(!text.includes('断语：'))
   assert.ok(!text.includes('建议：'))
 })
+
+test('liu yao three-number method derives hexagram and moving line', () => {
+  const chart = calculateLiuYaoChart({
+    ...defaultLiuYaoInput,
+    method: 'numbers',
+    numbers: [1, 8, 6]
+  })
+
+  assert.equal(chart.input.method, 'numbers')
+  assert.equal(chart.input.methodLabel, '三数起卦')
+  assert.deepEqual(chart.input.numbers, [1, 8, 6])
+  assert.equal(chart.hexagram.name, '天地否')
+  assert.equal(chart.changedHexagram.name, '泽地萃')
+  assert.deepEqual(chart.movingLines, [6])
+  assert.equal(chart.lines[5].state, 'oldYang')
+  assert.equal(chart.methodDetail.upperTrigram, '乾')
+  assert.equal(chart.methodDetail.lowerTrigram, '坤')
+  assert.equal(chart.methodDetail.movingLine, 6)
+})
+
+test('liu yao time method uses lunar date and hour branch to derive line states', () => {
+  const chart = calculateLiuYaoChart({
+    ...defaultLiuYaoInput,
+    method: 'time'
+  })
+
+  assert.equal(chart.input.method, 'time')
+  assert.equal(chart.input.methodLabel, '时间起卦')
+  assert.equal(chart.hexagram.name, '水泽节')
+  assert.equal(chart.changedHexagram.name, '水雷屯')
+  assert.deepEqual(chart.movingLines, [2])
+  assert.equal(chart.methodDetail.yearBranch, '午')
+  assert.equal(chart.methodDetail.lunarMonth, 3)
+  assert.equal(chart.methodDetail.lunarDay, 28)
+  assert.equal(chart.methodDetail.timeBranch, '亥')
+})

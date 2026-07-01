@@ -7832,6 +7832,16 @@ body {
   color: #687168;
 }
 
+.xuan-tool-workspace .liuyao-method-control {
+  grid-template-columns: 1fr;
+}
+
+.xuan-tool-workspace .liuyao-number-seed-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0;
+}
+
 .xuan-tool-workspace .liuyao-line-input-list {
   border: 1px solid rgba(17, 20, 17, 0.1);
   border-radius: 8px;
@@ -8029,6 +8039,10 @@ body {
 
   .xuan-tool-workspace .chart-segment-button {
     min-height: 60px;
+  }
+
+  .xuan-tool-workspace .liuyao-number-seed-grid {
+    grid-template-columns: 1fr;
   }
 
   .xuan-tool-workspace .liuyao-line-input-list {

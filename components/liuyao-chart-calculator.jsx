@@ -7,7 +7,8 @@ import {
   buildLiuYaoExportPayload,
   calculateLiuYaoChart,
   defaultLiuYaoInput,
-  liuYaoLineStateOptions
+  liuYaoLineStateOptions,
+  liuYaoMethodOptions
 } from '@/lib/liuyao-chart'
 import { useMemo, useState } from 'react'
 
@@ -20,6 +21,11 @@ const numberFields = [
 ]
 
 const lineInputLabels = ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻']
+const numberSeedFields = [
+  { index: 0, label: '上卦数', suffix: '上', maxLength: 6 },
+  { index: 1, label: '下卦数', suffix: '下', maxLength: 6 },
+  { index: 2, label: '动爻数', suffix: '动', maxLength: 6 }
+]
 const elementClassMap = {
   木: 'wood',
   火: 'fire',
@@ -57,6 +63,13 @@ const normalizeFormForChart = form => ({
   ...Object.fromEntries(numberFields.map(field => [field.key, getChartValue(form, field)]))
 })
 
+const getNumberSeedValue = value => {
+  if (value === '') return ''
+  const number = Math.trunc(Number(value))
+  if (!Number.isFinite(number)) return ''
+  return clamp(number, 1, 999999)
+}
+
 function NumberField({ field, form, onChange, onCommit }) {
   return (
     <div className={`chart-field ${field.wide ? 'wide' : ''}`}>
@@ -89,6 +102,47 @@ function QuestionField({ value, onChange }) {
         value={value}
         onChange={event => onChange(event.target.value)}
       />
+    </div>
+  )
+}
+
+function MethodField({ value, onChange }) {
+  return (
+    <div className='chart-field wide'>
+      <label>起卦方式</label>
+      <div className='chart-segmented-control liuyao-method-control'>
+        {liuYaoMethodOptions.map(option => (
+          <button
+            className={`chart-segment-button ${value === option.value ? 'active' : ''}`}
+            key={option.value}
+            type='button'
+            onClick={() => onChange(option.value)}>
+            <strong>{option.label}</strong>
+            <span>{option.description}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function NumberSeedField({ field, value, onChange, onCommit }) {
+  return (
+    <div className='chart-field'>
+      <label htmlFor={`liuyao-number-${field.index}`}>{field.label}</label>
+      <div className='chart-number-control'>
+        <input
+          id={`liuyao-number-${field.index}`}
+          type='text'
+          inputMode='numeric'
+          maxLength={field.maxLength}
+          autoComplete='off'
+          value={value}
+          onChange={event => onChange(field.index, event.target.value)}
+          onBlur={event => onCommit(field.index, event.target.value)}
+        />
+        <span>{field.suffix}</span>
+      </div>
     </div>
   )
 }
@@ -276,6 +330,20 @@ export function LiuYaoChartCalculator() {
     }))
   }
 
+  const setNumberSeedDraft = (index, value) => {
+    setForm(current => ({
+      ...current,
+      numbers: current.numbers.map((item, itemIndex) => itemIndex === index ? sanitizeNumberDraft(value).slice(0, 6) : item)
+    }))
+  }
+
+  const commitNumberSeed = (index, value) => {
+    setForm(current => ({
+      ...current,
+      numbers: current.numbers.map((item, itemIndex) => itemIndex === index ? getNumberSeedValue(value) : item)
+    }))
+  }
+
   return (
     <div className='chart-tool liuyao-chart-tool'>
       <aside className='chart-side-panel'>
@@ -295,6 +363,11 @@ export function LiuYaoChartCalculator() {
             onChange={value => setForm(current => ({ ...current, question: value }))}
           />
 
+          <MethodField
+            value={form.method}
+            onChange={value => setForm(current => ({ ...current, method: value }))}
+          />
+
           {numberFields.map(field => (
             <NumberField
               field={field}
@@ -305,19 +378,38 @@ export function LiuYaoChartCalculator() {
             />
           ))}
 
-          <div className='chart-field wide'>
-            <label>爻位</label>
-            <div className='liuyao-line-input-list'>
-              {[5, 4, 3, 2, 1, 0].map(index => (
-                <LineStateField
-                  index={index}
-                  key={index}
-                  value={form.lines[index]}
-                  onChange={setLineState}
-                />
-              ))}
+          {form.method === 'numbers' && (
+            <div className='chart-field wide'>
+              <label>三数</label>
+              <div className='chart-form-grid liuyao-number-seed-grid'>
+                {numberSeedFields.map(field => (
+                  <NumberSeedField
+                    field={field}
+                    key={field.index}
+                    value={form.numbers[field.index]}
+                    onChange={setNumberSeedDraft}
+                    onCommit={commitNumberSeed}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {form.method === 'manual' && (
+            <div className='chart-field wide'>
+              <label>爻位</label>
+              <div className='liuyao-line-input-list'>
+                {[5, 4, 3, 2, 1, 0].map(index => (
+                  <LineStateField
+                    index={index}
+                    key={index}
+                    value={form.lines[index]}
+                    onChange={setLineState}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </aside>
 
@@ -329,6 +421,7 @@ export function LiuYaoChartCalculator() {
             <p>{chart.input.question}</p>
           </div>
           <div className='chart-summary-grid'>
+            <SummaryItem label='起卦方式' value={chart.input.methodLabel} />
             <SummaryItem label='卦宫' value={`${chart.hexagram.palace}宫${chart.hexagram.palaceElement}`} />
             <SummaryItem label='世应' value={`世${chart.hexagram.world} / 应${chart.hexagram.response}`} />
             <SummaryItem label='动爻' value={chart.movingLines.length ? chart.movingLines.map(item => `${item}爻`).join('、') : '无'} />
@@ -345,7 +438,8 @@ export function LiuYaoChartCalculator() {
           </div>
           <dl className='chart-detail-list compact'>
             <DetailRow label='起卦时间' value={`${chart.dateText}（${chart.lunarText}）`} />
-            <DetailRow label='起卦方式' value={chart.input.method} />
+            <DetailRow label='起卦方式' value={chart.input.methodLabel} />
+            <DetailRow label='起卦推导' value={chart.methodDetail.summary} />
             <DetailRow label='节气' value={chart.jieQiText} />
             <DetailRow label='干支' value={`${chart.yearGanZhi}年 ${chart.monthGanZhi}月 ${chart.dayGanZhi}日 ${chart.timeGanZhi}时`} />
             <DetailRow label='月建 / 日辰' value={`${chart.monthZhi}月 / ${chart.dayZhi}日`} />
