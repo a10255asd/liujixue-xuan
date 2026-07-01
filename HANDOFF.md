@@ -28,6 +28,7 @@
 - Added actual routes for `每日一卦`, `黄历节气`, `干支五行速查`, `六十四卦速查`, `十二时辰速查`, and `/tools` index.
 - Added reusable use-case navigation via `xuanToolSuites`: `出生盘排盘`, `问事起卦`, `日课时间`, and `基础资料库`.
 - Homepage and `/tools` now show the same use-case suite grid before the flat tool list, so visitors can pick by intent first.
+- Individual tool pages now use `ToolPageFrame` to derive the current tool and suite, then show a focused status/tags/related-tools panel instead of a flat all-tools switcher.
 - Added planned feature cards for name five-elements lookup, compatibility comparison, question records, and AI analysis packages.
 - Keep these two new tools field-only: no auspicious/inauspicious conclusions, no scare copy, no deterministic predictions.
 
@@ -56,8 +57,8 @@ npm run build
 
 ## Next Recommended Work
 
-1. Improve the individual tool pages visually so each page feels like the same product family.
+1. Improve form-level UI polish inside the heavy chart tools, especially BaZi / ZiWei / LiuYao input panels.
 2. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
 3. Add saved records / question notebook after public usage appears.
 4. Add AI analysis packages only with explicit boundaries and copy/export tests.
-5. If more tools are added, route them through `/tools` and `xuanToolSuites` first.
+5. If more tools are added, route them through `/tools`, `xuanToolSuites`, and unique `xuanTools.title` values first.

@@ -16,6 +16,12 @@ test('xuan tool suites reference existing tools', () => {
   }
 })
 
+test('xuan tools expose unique page titles for tool shell lookup', () => {
+  const titles = xuanTools.map(tool => tool.title)
+
+  assert.equal(new Set(titles).size, titles.length)
+})
+
 test('xuan tool suites cover every online tool once', () => {
   const groupedHrefs = xuanToolSuites.flatMap(suite => suite.toolHrefs)
   const expectedHrefs = xuanTools.map(tool => tool.href).sort()

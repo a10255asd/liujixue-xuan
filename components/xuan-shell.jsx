@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowUpRight, Blocks } from '@/components/icons'
-import { site, xuanTools } from '@/lib/site'
+import { site, xuanTools, xuanToolSuites } from '@/lib/site'
 
 export function XuanHeader() {
   return (
@@ -53,6 +53,13 @@ export function XuanFooter() {
 
 export function ToolPageFrame({ children, description, title }) {
   const descriptionLines = typeof description === 'string' ? description.split('\n') : [description]
+  const currentTool = xuanTools.find(tool => tool.title === title)
+  const currentSuite = currentTool
+    ? xuanToolSuites.find(suite => suite.toolHrefs.includes(currentTool.href))
+    : null
+  const relatedTools = currentSuite
+    ? currentSuite.toolHrefs.map(href => xuanTools.find(tool => tool.href === href)).filter(Boolean)
+    : xuanTools.slice(0, 3)
 
   return (
     <>
@@ -67,13 +74,34 @@ export function ToolPageFrame({ children, description, title }) {
               ))}
             </p>
           </div>
-          <div className='xuan-tool-switcher' aria-label='工具切换'>
-            {xuanTools.map(tool => (
-              <Link href={tool.href} key={tool.href}>
-                <span>{tool.title}</span>
-                <ArrowUpRight size={14} />
+          <div className='xuan-tool-panel'>
+            <div className='xuan-tool-panel-head'>
+              <span>{currentSuite?.eyebrow ?? 'Tool'}</span>
+              <em>{currentTool?.status ?? '已上线'}</em>
+            </div>
+            <strong>{currentSuite?.title ?? '工具工作台'}</strong>
+            <p>{currentTool?.summary ?? descriptionLines.join(' ')}</p>
+            {currentTool?.tags?.length ? (
+              <div className='xuan-tool-panel-tags'>
+                {currentTool.tags.map(tag => <span key={tag}>{tag}</span>)}
+              </div>
+            ) : null}
+            <div className='xuan-tool-related'>
+              <span>同组工具</span>
+              {relatedTools.map(tool => (
+                <Link
+                  aria-current={tool.href === currentTool?.href ? 'page' : undefined}
+                  href={tool.href}
+                  key={tool.href}>
+                  {tool.title}
+                  <ArrowUpRight size={13} />
+                </Link>
+              ))}
+              <Link href='/tools'>
+                全部工具
+                <ArrowUpRight size={13} />
               </Link>
-            ))}
+            </div>
           </div>
         </div>
       </section>
