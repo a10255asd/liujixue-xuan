@@ -88,6 +88,14 @@ export function Route(props) {
   return <SvgIcon {...props}><circle cx='6' cy='19' r='3' /><circle cx='18' cy='5' r='3' /><path d='M12 19h2a4 4 0 0 0 0-8H10a4 4 0 0 1 0-8h2' /></SvgIcon>
 }
 
+export function Save(props) {
+  return <SvgIcon {...props}><path d='M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z' /><path d='M17 21v-8H7v8' /><path d='M7 3v5h8' /></SvgIcon>
+}
+
+export function Star(props) {
+  return <SvgIcon {...props}><path d='m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z' /></SvgIcon>
+}
+
 export function Server(props) {
   return <SvgIcon {...props}><rect x='4' y='4' width='16' height='6' rx='2' /><rect x='4' y='14' width='16' height='6' rx='2' /><path d='M8 7h.01' /><path d='M8 17h.01' /></SvgIcon>
 }
@@ -98,6 +106,10 @@ export function Smartphone(props) {
 
 export function Wrench(props) {
   return <SvgIcon {...props}><path d='M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z' /></SvgIcon>
+}
+
+export function Trash2(props) {
+  return <SvgIcon {...props}><path d='M3 6h18' /><path d='M8 6V4h8v2' /><path d='m19 6-1 14H6L5 6' /><path d='M10 11v5' /><path d='M14 11v5' /></SvgIcon>
 }
 
 export function X(props) {

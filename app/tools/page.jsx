@@ -5,7 +5,7 @@ import { scenarioCards, site, xuanComingTools, xuanTools } from '@/lib/site'
 
 export const metadata = {
   title: '玄学工具箱',
-  description: '鸡血玄策的工具总览，包含八字、紫微斗数、六爻、每日一卦、黄历节气、干支五行、六十四卦和十二时辰。'
+  description: '鸡血玄策的工具总览，包含八字、紫微斗数、六爻、梅花、奇门六壬、黄历择日、姓名五格、资料和记录。'
 }
 
 export default function ToolsIndexPage() {
@@ -16,7 +16,7 @@ export default function ToolsIndexPage() {
           <div>
             <span className='xuan-kicker'><Blocks size={16} /> Tools</span>
             <h1>玄学工具箱</h1>
-            <p>把排盘、起卦、日课和基础速查拆成独立入口。先输出字段，再交给 AI 或人工继续分析。</p>
+            <p>把排盘、起卦、日课、择日、资料和记录拆成独立入口。先输出字段，再交给 AI 或人工继续分析。</p>
           </div>
           <div className='xuan-tool-index-panel'>
             <span>Online</span>
@@ -33,7 +33,7 @@ export default function ToolsIndexPage() {
               <span className='xuan-kicker'>Use Cases</span>
               <h2>按用途进入</h2>
             </div>
-            <p>如果不知道该打开哪个工具，先按用途选一组：出生盘、问事、日课时间或基础资料。</p>
+            <p>如果不知道该打开哪个工具，先按用途选一组：出生盘、问事、高阶术数、日课时间、姓名五行或资料记录。</p>
           </div>
           <XuanToolSuiteGrid actionLabel='打开主工具' />
         </div>

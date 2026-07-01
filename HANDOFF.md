@@ -14,11 +14,22 @@
   - `/tools/bazi` reusing the verified BaZi chart calculator.
   - `/tools/ziwei` reusing the verified Zi Wei Dou Shu calculator.
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
+  - `/tools/meihua` Meihua Yishu number/time charting fields.
   - `/tools/daily` daily time-hexagram record tool.
+  - `/tools/qimen` Qimen Dunjia first-version field overview.
+  - `/tools/daliuren` Da Liu Ren first-version field overview.
   - `/tools/calendar` Huangli / Jieqi field lookup tool.
+  - `/tools/date-selection` date-range Huangli selection overview.
+  - `/tools/daily-fortune` daily fields overview.
   - `/tools/wuxing` stems, branches, hidden stems, five-elements and relation lookup.
+  - `/tools/name` name five-grid / five-elements field calculator.
   - `/tools/hexagrams` sixty-four hexagram matrix lookup.
   - `/tools/shichen` twelve double-hour time branch lookup.
+  - `/tools/birth-time` birth-time correction comparison table.
+  - `/tools/find-time` twelve-hour candidate chart table.
+  - `/tools/records` local favorites and saved chart records.
+  - `/classics` classics/source index.
+  - `/knowledge` knowledge map / flow explanation page.
   - `/tools` standalone tool index.
   - `/api/geocode` for birthplace coordinate lookup.
 
@@ -44,6 +55,15 @@
 - Added LiuYao alternate起卦 modes after tests: `手动指定`, `三数起卦`, and `时间起卦`.
 - LiuYao engine now stores stable method keys (`manual`, `numbers`, `time`) while UI/export text shows Chinese method labels and a `起卦推导` field.
 - Added unit tests for three-number and time-based LiuYao derivation, including expected本卦、变卦、动爻 and time-method lunar fields.
+- Added the first two parity batches versus `suanlemeai.cn` while intentionally skipping membership/payment:
+  - New tool pages: `/tools/meihua`, `/tools/name`, `/tools/daily-fortune`, `/tools/qimen`, `/tools/daliuren`, `/tools/birth-time`, `/tools/find-time`, `/tools/date-selection`.
+  - New product loop page: `/tools/records`, backed by browser `localStorage` for favorites and saved records.
+  - New content layer pages: `/classics` and `/knowledge`.
+- Added `lib/structured-tools.js` and `components/structured-tool.jsx` so lightweight tools share one input/result/copy/save/favorite pattern.
+- Structured tools currently output field overviews only. `qimen` and `daliuren` are explicitly first-version field overviews, not final professional judgement engines.
+- Updated `xuanTools` / `xuanToolSuites` to cover all 19 online entries once; sitemap now includes the new routes through `xuanTools`.
+- Added `tests/structured-tools.test.mjs` for structured tool catalogue, Meihua baseline, date-selection range clamp, and name five-grid calculations.
+- Mobile QA checked `/tools`, `/tools/meihua`, `/tools/qimen`, `/tools/daliuren`, `/tools/date-selection`, `/tools/birth-time`, `/tools/name`, `/tools/records`, `/classics`, and `/knowledge`; no page-level horizontal overflow was observed at 390px.
 
 ## Source Boundaries
 
@@ -70,6 +90,13 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add saved records / question notebook after public usage appears.
-2. Add AI analysis packages only with explicit boundaries and copy/export tests.
-3. If more tools are added, route them through `/tools`, `xuanToolSuites`, and unique `xuanTools.title` values first.
+1. Deepen professional accuracy for second-batch tools:
+   - Replace the current `qimen` first-version overview with a verified library/table-driven full盘.
+   - Replace the current `daliuren` first-version overview with verified四课三传/月将/贵人 rules.
+   - Add regression examples before changing either engine.
+2. Add richer history UX without membership:
+   - Search/filter saved records.
+   - Save records from BaZi, ZiWei, LiuYao, calendar and existing heavy tools, not only structured tools.
+   - Export/import local records as JSON.
+3. Add AI analysis packages only with explicit boundaries and copy/export tests.
+4. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.

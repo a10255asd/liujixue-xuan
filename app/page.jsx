@@ -26,7 +26,7 @@ export default function HomePage() {
             <span className='xuan-kicker'><Blocks size={16} /> 鸡血玄策</span>
             <h1>排盘工作台</h1>
             <p>
-              <span>八字、紫微斗数、六爻独立工具站。</span>
+              <span>八字、紫微、六爻、梅花、奇门六壬工具站。</span>
               <span>先排准字段，再导出文本和图片。</span>
             </p>
             <div className='xuan-hero-actions'>
@@ -98,7 +98,7 @@ export default function HomePage() {
               <span className='xuan-kicker'>Tools</span>
               <h2>玄学工具箱</h2>
             </div>
-            <p>对标成熟玄学工具站的功能结构，先把八字、紫微、六爻、每日一卦和黄历节气做成稳定入口。</p>
+            <p>对标成熟玄学工具站的功能结构，先把出生盘、问事、奇门六壬、黄历择日、资料和记录做成稳定入口。</p>
           </div>
           <div className='xuan-tool-grid'>
             {xuanTools.map((tool, index) => (
@@ -197,7 +197,7 @@ export default function HomePage() {
             <div>
               <span className='xuan-kicker'>Next</span>
               <h2>下一步做成可长期使用的命理工具箱</h2>
-              <p>先稳定排盘和导出，再逐步加入历史记录、收藏、每日一卦、合盘和带边界的 AI 解读。</p>
+              <p>先稳定排盘、导出、历史记录和收藏，再逐步加入合盘和带边界的 AI 解读。</p>
             </div>
             <a className='button primary' href={site.mainSite}>
               从主站进入

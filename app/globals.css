@@ -9116,3 +9116,439 @@ body {
     min-width: 0;
   }
 }
+
+/* Structured tool matrix */
+.structured-tool .chart-side-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.structured-tool .chart-side-panel .chart-form-grid {
+  padding: 18px;
+}
+
+.structured-action-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+  border-top: 1px solid rgba(17, 20, 17, 0.08);
+  padding: 16px 18px 18px;
+}
+
+.structured-action-grid .button {
+  width: 100%;
+  border-radius: 999px;
+}
+
+.structured-hero-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(244, 242, 235, 0.12);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(215, 192, 142, 0.18), transparent 30%),
+    linear-gradient(135deg, #111411 0%, #18211d 58%, #243730 100%);
+  color: #fffdf6;
+  padding: 22px;
+  box-shadow: 0 26px 82px rgba(17, 20, 17, 0.18);
+}
+
+.structured-hero-card > span {
+  color: #d7c08e;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.structured-hero-card h2 {
+  margin: 16px 0 0;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.02;
+}
+
+.structured-hero-card p {
+  margin: 12px 0 0;
+  color: rgba(255, 253, 246, 0.68);
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.structured-hero-card div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.structured-hero-card em {
+  border: 1px solid rgba(255, 253, 246, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 253, 246, 0.08);
+  color: #fffdf6;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 850;
+  padding: 7px 10px;
+}
+
+.structured-result-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.structured-result-section {
+  overflow: hidden;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(248, 247, 241, 0.92)),
+    #fffdf8;
+  box-shadow: 0 20px 64px rgba(17, 20, 17, 0.08);
+}
+
+.structured-result-section h3 {
+  margin: 0;
+  border-bottom: 1px solid rgba(244, 242, 235, 0.12);
+  background:
+    linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
+    #111411;
+  color: #fffdf6;
+  font-size: 18px;
+  padding: 16px 18px;
+}
+
+.structured-result-section dl {
+  display: grid;
+  margin: 0;
+}
+
+.structured-result-section dl > div {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.26fr) minmax(0, 1fr);
+  gap: 14px;
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  padding: 13px 18px;
+}
+
+.structured-result-section dl > div:last-child {
+  border-bottom: 0;
+}
+
+.structured-result-section dt,
+.structured-result-section dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+}
+
+.structured-result-section dt {
+  color: #687168;
+  font-size: 13px;
+  font-weight: 860;
+}
+
+.structured-result-section dd {
+  color: #111411;
+  font-size: 14px;
+  font-weight: 780;
+}
+
+.structured-textarea {
+  min-height: 110px;
+  resize: vertical;
+  padding: 12px;
+}
+
+.memory-dashboard {
+  display: grid;
+  gap: 18px;
+}
+
+.memory-panel {
+  overflow: hidden;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 246, 0.9);
+  box-shadow: 0 20px 64px rgba(17, 20, 17, 0.08);
+}
+
+.memory-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  background:
+    linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
+    #111411;
+  padding: 18px;
+}
+
+.memory-panel-head h2 {
+  margin: 4px 0 0;
+  color: #fffdf6;
+  font-size: 24px;
+}
+
+.memory-panel-head strong {
+  display: grid;
+  min-width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(255, 253, 246, 0.14);
+  border-radius: 50%;
+  color: #d7c08e;
+  font-size: 20px;
+}
+
+.memory-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+  padding: 18px;
+}
+
+.memory-tool-card {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.86);
+  padding: 16px;
+}
+
+.memory-tool-card span {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.08);
+  color: #0d6f61;
+  font-size: 12px;
+  font-weight: 850;
+  padding: 5px 8px;
+}
+
+.memory-tool-card h3 {
+  margin: 18px 0 0;
+  font-size: 21px;
+  line-height: 1.14;
+}
+
+.memory-tool-card p {
+  margin: 10px 0 0;
+  color: #5e675f;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.memory-tool-actions,
+.memory-record-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.memory-tool-actions button,
+.memory-tool-actions a,
+.memory-record-actions button,
+.memory-record-actions a {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(13, 111, 97, 0.16);
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.07);
+  color: #0d6f61;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+  padding: 0 11px;
+}
+
+.memory-tool-actions button.active {
+  border-color: rgba(168, 101, 35, 0.3);
+  background: rgba(215, 192, 142, 0.18);
+  color: #8a541d;
+}
+
+.memory-record-list {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.memory-record-card {
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.86);
+  padding: 16px;
+}
+
+.memory-record-card > div:first-child {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.memory-record-card span {
+  color: #687168;
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.memory-record-card h3 {
+  margin: 7px 0 0;
+  font-size: 20px;
+}
+
+.memory-record-actions {
+  margin-top: 14px;
+}
+
+.memory-record-card pre {
+  max-height: 260px;
+  overflow: auto;
+  margin: 14px 0 0;
+  border: 1px solid rgba(17, 20, 17, 0.08);
+  border-radius: 8px;
+  background: rgba(17, 20, 17, 0.035);
+  color: #2f352f;
+  font: 700 12px/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
+.memory-empty {
+  padding: 28px 18px;
+}
+
+.memory-empty h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.memory-empty p {
+  max-width: 520px;
+  margin: 10px 0 0;
+  color: #687168;
+  line-height: 1.7;
+}
+
+.classic-grid,
+.knowledge-map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.classic-card,
+.knowledge-map-card {
+  min-height: 260px;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(248, 247, 241, 0.92)),
+    #fffdf8;
+  padding: 24px;
+  box-shadow: 0 20px 64px rgba(17, 20, 17, 0.08);
+}
+
+.classic-card span {
+  display: inline-flex;
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.08);
+  color: #0d6f61;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.classic-card h2,
+.knowledge-map-card h2 {
+  margin: 28px 0 0;
+  color: #111411;
+  font-size: 30px;
+  line-height: 1.08;
+}
+
+.classic-card p,
+.knowledge-map-card p {
+  margin: 16px 0 0;
+  color: #5e675f;
+  line-height: 1.75;
+}
+
+.knowledge-map-card div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.knowledge-map-card span {
+  position: relative;
+  min-height: 32px;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 999px;
+  background: rgba(17, 20, 17, 0.035);
+  color: #2f352f;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.classics-next-panel {
+  margin-top: 18px;
+}
+
+@media (max-width: 900px) {
+  .classic-grid,
+  .knowledge-map-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .memory-record-card > div:first-child {
+    display: grid;
+  }
+}
+
+@media (max-width: 640px) {
+  .structured-tool .chart-side-panel .chart-form-grid,
+  .structured-action-grid,
+  .memory-tool-grid,
+  .memory-record-list {
+    padding: 14px;
+  }
+
+  .structured-result-section dl > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 12px 14px;
+  }
+
+  .structured-hero-card {
+    padding: 18px;
+  }
+
+  .memory-tool-card {
+    min-height: 0;
+  }
+
+  .classic-card,
+  .knowledge-map-card {
+    min-height: 0;
+    padding: 20px;
+  }
+
+  .classic-card h2,
+  .knowledge-map-card h2 {
+    font-size: 25px;
+  }
+}
