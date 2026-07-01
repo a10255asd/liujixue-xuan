@@ -356,21 +356,6 @@ export function LiuYaoChartCalculator() {
 
         <LiuYaoChartTable chart={chart} copyText={copyText} exportPayload={exportPayload} />
 
-        <section className='chart-section-card liuyao-note-card'>
-          <div className='chart-section-head'>
-            <div>
-              <span className='chart-kicker'>Boundary</span>
-              <h2>输出边界</h2>
-            </div>
-          </div>
-          <div className='check-list compact'>
-            {chart.notes.map(note => (
-              <div className='check-item' key={note}>
-                <span>{note}</span>
-              </div>
-            ))}
-          </div>
-        </section>
       </section>
     </div>
   )

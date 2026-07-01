@@ -8642,3 +8642,450 @@ body {
     max-width: 322px;
   }
 }
+
+/* Premium result surfaces for heavy chart tools */
+.xuan-tool-card strong {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(13, 111, 97, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.72);
+  color: #0d6f61;
+  padding: 0 13px;
+}
+
+.xuan-tool-card:hover strong {
+  border-color: rgba(13, 111, 97, 0.36);
+  background: rgba(13, 111, 97, 0.08);
+}
+
+.xuan-tool-workspace .chart-result-panel {
+  gap: 20px;
+}
+
+.xuan-tool-workspace .bazi-summary-card,
+.xuan-tool-workspace .ziwei-summary-card {
+  overflow: hidden;
+  border: 1px solid rgba(244, 242, 235, 0.12);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 14% 14%, rgba(215, 192, 142, 0.16), transparent 28%),
+    linear-gradient(135deg, #111411 0%, #18211d 58%, #22342e 100%);
+  box-shadow: 0 26px 82px rgba(17, 20, 17, 0.18);
+}
+
+.xuan-tool-workspace .chart-summary-item {
+  border-color: rgba(255, 253, 246, 0.14);
+  background: rgba(255, 253, 246, 0.08);
+}
+
+.xuan-tool-workspace .chart-summary-item span {
+  color: rgba(255, 253, 246, 0.58);
+}
+
+.xuan-tool-workspace .chart-summary-item strong {
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .bazi-pillar-token {
+  position: relative;
+  overflow: hidden;
+  min-height: 112px;
+  border-color: rgba(17, 20, 17, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(245, 241, 232, 0.86)),
+    #fffdf8;
+  box-shadow: 0 18px 48px rgba(17, 20, 17, 0.07);
+}
+
+.xuan-tool-workspace .bazi-pillar-token::after {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  width: 28px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.26);
+  content: '';
+}
+
+.xuan-tool-workspace .bazi-pillar-token span {
+  color: #687168;
+  font-weight: 860;
+}
+
+.xuan-tool-workspace .bazi-pillar-token strong {
+  color: #111411;
+  font-size: 31px;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .chart-section-card {
+  border-color: rgba(17, 20, 17, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(248, 247, 241, 0.92)),
+    #fffdf8;
+  box-shadow: 0 20px 64px rgba(17, 20, 17, 0.08);
+}
+
+.xuan-tool-workspace .chart-section-card > .chart-section-head {
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  margin: -18px -18px 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.05), rgba(255, 253, 248, 0.02)),
+    #111411;
+  padding: 16px 18px;
+}
+
+.xuan-tool-workspace .chart-section-card > .chart-section-head h2 {
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .chart-section-card > .chart-section-head .chart-kicker {
+  color: #d7c08e;
+}
+
+.xuan-tool-workspace .chart-section-card > .chart-section-head .chart-source {
+  border-color: rgba(255, 253, 246, 0.14);
+  background: rgba(255, 253, 246, 0.08);
+  color: rgba(255, 253, 246, 0.78);
+}
+
+.xuan-tool-workspace .chart-detail-row {
+  border-color: rgba(17, 20, 17, 0.08);
+}
+
+.xuan-tool-workspace .chart-detail-row dt {
+  color: #687168;
+  font-weight: 840;
+}
+
+.xuan-tool-workspace .chart-detail-row dd {
+  color: #111411;
+  font-weight: 820;
+}
+
+.xuan-tool-workspace .bazi-fine-chart-card,
+.xuan-tool-workspace .ziwei-fine-chart-card,
+.xuan-tool-workspace .liuyao-chart-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.xuan-tool-workspace .bazi-fine-chart-card .chart-section-head,
+.xuan-tool-workspace .ziwei-fine-chart-card .chart-section-head,
+.xuan-tool-workspace .liuyao-chart-card .chart-section-head {
+  margin: 0;
+  border-bottom: 1px solid rgba(244, 242, 235, 0.12);
+  background:
+    linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
+    #111411;
+  padding: 18px;
+}
+
+.xuan-tool-workspace .bazi-fine-actions,
+.xuan-tool-workspace .ziwei-fine-actions {
+  gap: 10px;
+}
+
+.xuan-tool-workspace .chart-export-actions {
+  gap: 8px;
+}
+
+.xuan-tool-workspace .chart-export-action-button {
+  min-height: 38px;
+  border-color: rgba(215, 192, 142, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 253, 246, 0.08);
+  color: #fffdf6;
+  padding: 0 12px;
+}
+
+.xuan-tool-workspace .chart-export-action-button:hover {
+  border-color: rgba(215, 192, 142, 0.46);
+  background: rgba(215, 192, 142, 0.14);
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .bazi-fine-table-wrap,
+.xuan-tool-workspace .ziwei-fine-chart-wrap,
+.xuan-tool-workspace .liuyao-chart-table-wrap {
+  background:
+    linear-gradient(180deg, rgba(248, 247, 241, 0.9), rgba(255, 253, 248, 0.94)),
+    #fffdf8;
+}
+
+.xuan-tool-workspace .bazi-fine-table-wrap {
+  padding: 18px;
+}
+
+.xuan-tool-workspace .bazi-fine-table {
+  overflow: hidden;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-collapse: separate;
+  border-radius: 8px;
+  border-spacing: 0;
+  background: #fffdf8;
+}
+
+.xuan-tool-workspace .bazi-fine-table th,
+.xuan-tool-workspace .bazi-fine-table td {
+  border-top: 0;
+  border-right: 1px solid rgba(17, 20, 17, 0.08);
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  padding: 13px 10px;
+}
+
+.xuan-tool-workspace .bazi-fine-table th {
+  background: rgba(17, 20, 17, 0.04);
+  color: #687168;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .bazi-fine-table td {
+  color: #111411;
+  font-weight: 820;
+}
+
+.xuan-tool-workspace .bazi-fine-table tr.major td {
+  background: rgba(255, 253, 248, 0.78);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.xuan-tool-workspace .bazi-fine-table tr:last-child th,
+.xuan-tool-workspace .bazi-fine-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.xuan-tool-workspace .bazi-fine-table th:last-child,
+.xuan-tool-workspace .bazi-fine-table td:last-child {
+  border-right: 0;
+}
+
+.xuan-tool-workspace .bazi-element-symbol {
+  font-size: 36px;
+  font-weight: 920;
+}
+
+.xuan-tool-workspace .bazi-fine-cell-list {
+  gap: 4px;
+}
+
+.xuan-tool-workspace .bazi-fine-cell-list span {
+  color: inherit;
+  font-weight: 780;
+}
+
+.xuan-tool-workspace .bazi-luck-panel {
+  gap: 22px;
+  border-top-color: rgba(17, 20, 17, 0.08);
+  background:
+    linear-gradient(180deg, #f7f4ed 0%, #fffdf8 100%);
+  padding: 20px 18px 18px;
+}
+
+.xuan-tool-workspace .bazi-luck-head h3 {
+  color: #111411;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .bazi-luck-head span {
+  color: #687168;
+  font-weight: 760;
+}
+
+.xuan-tool-workspace .bazi-luck-grid {
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 10px;
+}
+
+.xuan-tool-workspace .bazi-luck-card {
+  min-height: 112px;
+  border-color: rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.88);
+  padding: 12px;
+}
+
+.xuan-tool-workspace .bazi-luck-card.active {
+  border-color: rgba(13, 111, 97, 0.54);
+  background:
+    linear-gradient(180deg, rgba(223, 244, 238, 0.88), rgba(255, 253, 248, 0.9));
+  box-shadow: inset 0 0 0 1px rgba(13, 111, 97, 0.16);
+}
+
+.xuan-tool-workspace .bazi-luck-card strong {
+  font-size: 26px;
+  font-weight: 920;
+}
+
+.xuan-tool-workspace .element-meter {
+  border-color: rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.76);
+}
+
+.xuan-tool-workspace .ziwei-fine-chart-wrap {
+  border-top: 1px solid rgba(17, 20, 17, 0.08);
+  padding: 18px;
+}
+
+.xuan-tool-workspace .ziwei-fine-chart-grid {
+  gap: 10px;
+}
+
+.xuan-tool-workspace .ziwei-fine-palace,
+.xuan-tool-workspace .ziwei-fine-center {
+  border-color: rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: none;
+}
+
+.xuan-tool-workspace .ziwei-fine-palace {
+  border-top: 3px solid rgba(17, 20, 17, 0.12);
+}
+
+.xuan-tool-workspace .ziwei-fine-palace.is-ming,
+.xuan-tool-workspace .ziwei-fine-palace.is-body {
+  border-color: rgba(13, 111, 97, 0.38);
+  border-top-color: #0d6f61;
+  background:
+    linear-gradient(180deg, rgba(223, 244, 238, 0.66), rgba(255, 253, 248, 0.88) 46%),
+    #fffdf8;
+}
+
+.xuan-tool-workspace .ziwei-fine-palace-head span {
+  background: rgba(17, 20, 17, 0.05);
+  color: #a86523;
+}
+
+.xuan-tool-workspace .ziwei-fine-palace-head strong {
+  color: #111411;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .ziwei-fine-palace-head em {
+  background: #0d6f61;
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .ziwei-fine-main-stars strong {
+  color: #a86523;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .ziwei-fine-star-lines span {
+  color: #687168;
+}
+
+.xuan-tool-workspace .ziwei-fine-center {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(215, 192, 142, 0.18), transparent 28%),
+    linear-gradient(145deg, #111411, #1d2924);
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .ziwei-fine-center h3 {
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .ziwei-fine-center .chart-kicker {
+  color: #d7c08e;
+}
+
+.xuan-tool-workspace .ziwei-fine-center .chart-detail-row {
+  border-color: rgba(255, 253, 246, 0.12);
+}
+
+.xuan-tool-workspace .ziwei-fine-center .chart-detail-row dt {
+  color: rgba(255, 253, 246, 0.56);
+}
+
+.xuan-tool-workspace .ziwei-fine-center .chart-detail-row dd {
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .liuyao-chart-table-wrap {
+  margin: 18px;
+  border-color: rgba(17, 20, 17, 0.1);
+  background: #fffdf8;
+}
+
+.xuan-tool-workspace .liuyao-chart-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.xuan-tool-workspace .liuyao-chart-table thead th {
+  background: #111411;
+  color: rgba(255, 253, 246, 0.78);
+}
+
+.xuan-tool-workspace .liuyao-chart-table th,
+.xuan-tool-workspace .liuyao-chart-table td {
+  border-color: rgba(17, 20, 17, 0.08);
+}
+
+.xuan-tool-workspace .liuyao-chart-table tbody th {
+  background: rgba(17, 20, 17, 0.03);
+  color: #687168;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .liuyao-chart-table tbody tr.moving {
+  background: rgba(223, 244, 238, 0.52);
+}
+
+.xuan-tool-workspace .liuyao-line-mark i {
+  height: 7px;
+  border-radius: 999px;
+  background: #111411;
+}
+
+.xuan-tool-workspace .liuyao-tag-list span {
+  border-color: rgba(13, 111, 97, 0.14);
+  background: rgba(13, 111, 97, 0.07);
+  color: #0d6f61;
+}
+
+.xuan-tool-workspace .liuyao-hidden-spirit {
+  color: #a86523;
+}
+
+@media (max-width: 640px) {
+  .xuan-tool-card strong {
+    min-height: 36px;
+  }
+
+  .xuan-tool-workspace .chart-section-card > .chart-section-head {
+    margin: -16px -16px 16px;
+    padding: 15px 16px;
+  }
+
+  .xuan-tool-workspace .bazi-fine-chart-card .chart-section-head,
+  .xuan-tool-workspace .ziwei-fine-chart-card .chart-section-head,
+  .xuan-tool-workspace .liuyao-chart-card .chart-section-head {
+    margin: 0;
+    padding: 16px;
+  }
+
+  .xuan-tool-workspace .bazi-fine-table-wrap,
+  .xuan-tool-workspace .ziwei-fine-chart-wrap {
+    padding: 14px;
+  }
+
+  .xuan-tool-workspace .liuyao-chart-table-wrap {
+    margin: 14px;
+  }
+
+  .xuan-tool-workspace .bazi-luck-panel {
+    padding: 16px 14px 14px;
+  }
+}

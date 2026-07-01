@@ -30,6 +30,8 @@
 - Homepage and `/tools` now show the same use-case suite grid before the flat tool list, so visitors can pick by intent first.
 - Individual tool pages now use `ToolPageFrame` to derive the current tool and suite, then show a focused status/tags/related-tools panel instead of a flat all-tools switcher.
 - Heavy tool input panels were visually upgraded inside `xuan-tool-workspace`: dark panel headers, stronger form controls, clearer active segmented controls, wider vertical birthplace selectors, and cleaner Liu Yao line buttons.
+- Heavy tool result panels now share the same premium surface language: dark section headers, refined export buttons, upgraded BaZi fine table and luck cards, stronger Zi Wei palace grid, improved Liu Yao table styling, and lighter tool-card CTAs.
+- Removed the Liu Yao visible boundary note card so the chart page focuses on field output.
 - Added planned feature cards for name five-elements lookup, compatibility comparison, question records, and AI analysis packages.
 - Keep these two new tools field-only: no auspicious/inauspicious conclusions, no scare copy, no deterministic predictions.
 
@@ -58,7 +60,7 @@ npm run build
 
 ## Next Recommended Work
 
-1. Improve result-section polish inside BaZi / ZiWei / LiuYao so output cards match the upgraded input panels.
+1. Do a visual QA pass on production for BaZi / ZiWei / LiuYao after this result-panel polish, especially mobile screenshots and horizontal tables.
 2. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
 3. Add saved records / question notebook after public usage appears.
 4. Add AI analysis packages only with explicit boundaries and copy/export tests.
