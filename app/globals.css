@@ -7673,6 +7673,56 @@ body {
   padding: 34px 0 72px;
 }
 
+.xuan-tool-workspace .chart-tool {
+  gap: 24px;
+}
+
+.xuan-tool-workspace .chart-side-panel {
+  overflow: hidden;
+  border-color: rgba(17, 20, 17, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(246, 242, 233, 0.9)),
+    #fffdf8;
+  box-shadow: 0 24px 70px rgba(17, 20, 17, 0.1);
+  padding: 0;
+}
+
+.xuan-tool-workspace .chart-panel-head {
+  align-items: center;
+  border-bottom: 1px solid rgba(244, 242, 235, 0.1);
+  background:
+    linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
+    #111411;
+  margin: 0;
+  padding: 20px;
+}
+
+.xuan-tool-workspace .chart-panel-head h2 {
+  color: #fffdf6;
+  font-size: 24px;
+  letter-spacing: 0;
+}
+
+.xuan-tool-workspace .chart-panel-head .chart-kicker {
+  color: #d7c08e;
+}
+
+.xuan-tool-workspace .chart-reset-button {
+  border-color: rgba(244, 242, 235, 0.16);
+  background: rgba(244, 242, 235, 0.08);
+  color: rgba(255, 253, 246, 0.78);
+}
+
+.xuan-tool-workspace .chart-reset-button:hover {
+  border-color: rgba(215, 192, 142, 0.42);
+  color: #fffdf6;
+}
+
+.xuan-tool-workspace .chart-side-panel .chart-form-grid {
+  gap: 14px;
+  padding: 18px;
+}
+
 .xuan-tool-workspace .chart-card,
 .xuan-tool-workspace .form-panel,
 .xuan-tool-workspace .chart-section-card,
@@ -7689,8 +7739,122 @@ body {
 .xuan-tool-workspace select,
 .xuan-tool-workspace textarea {
   border-color: rgba(17, 20, 17, 0.13);
-  border-radius: 6px;
+  border-radius: 7px;
   background: #fffdf8;
+}
+
+.xuan-tool-workspace .chart-field {
+  gap: 8px;
+}
+
+.xuan-tool-workspace .chart-field label {
+  color: #5f695f;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.xuan-tool-workspace .chart-number-control,
+.xuan-tool-workspace .chart-field select,
+.xuan-tool-workspace .chart-text-input {
+  min-height: 48px;
+  border-color: rgba(17, 20, 17, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 253, 248, 0.94)),
+    #fffdf8;
+}
+
+.xuan-tool-workspace .chart-number-control:focus-within,
+.xuan-tool-workspace .chart-field select:focus,
+.xuan-tool-workspace .chart-text-input:focus {
+  border-color: rgba(13, 111, 97, 0.55);
+  box-shadow: 0 0 0 3px rgba(13, 111, 97, 0.11);
+}
+
+.xuan-tool-workspace .chart-number-control input {
+  height: 46px;
+  color: #111411;
+  font-size: 18px;
+  font-weight: 860;
+}
+
+.xuan-tool-workspace .chart-number-control span {
+  color: #687168;
+  font-weight: 860;
+}
+
+.xuan-tool-workspace .chart-location-select-grid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.xuan-tool-workspace .chart-location-status {
+  border-radius: 7px;
+}
+
+.xuan-tool-workspace .chart-segmented-control {
+  gap: 10px;
+}
+
+.xuan-tool-workspace .chart-segment-button {
+  position: relative;
+  min-height: 66px;
+  border-color: rgba(17, 20, 17, 0.1);
+  background: rgba(255, 253, 248, 0.78);
+  padding: 12px;
+}
+
+.xuan-tool-workspace .chart-segment-button:hover,
+.xuan-tool-workspace .chart-segment-button.active {
+  border-color: rgba(13, 111, 97, 0.5);
+  background: rgba(223, 244, 238, 0.58);
+  box-shadow: none;
+}
+
+.xuan-tool-workspace .chart-segment-button.active::after {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0d6f61;
+  content: '';
+}
+
+.xuan-tool-workspace .chart-segment-button strong {
+  color: #111411;
+  font-size: 14px;
+}
+
+.xuan-tool-workspace .chart-segment-button span {
+  color: #687168;
+}
+
+.xuan-tool-workspace .liuyao-line-input-list {
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.6);
+  padding: 10px;
+}
+
+.xuan-tool-workspace .liuyao-line-input-row > span {
+  border-color: rgba(17, 20, 17, 0.1);
+  background: rgba(17, 20, 17, 0.04);
+  color: #525a51;
+}
+
+.xuan-tool-workspace .liuyao-line-state-button {
+  min-height: 54px;
+  border-color: rgba(17, 20, 17, 0.1);
+  background: #fffdf8;
+}
+
+.xuan-tool-workspace .liuyao-line-state-button.active {
+  border-color: rgba(13, 111, 97, 0.55);
+  background: rgba(223, 244, 238, 0.68);
+  color: #0d6f61;
 }
 
 .xuan-tool-workspace .tool-actions .button,
@@ -7849,6 +8013,26 @@ body {
   .xuan-tool-workspace .chart-form-grid,
   .xuan-tool-workspace .chart-location-select-grid {
     grid-template-columns: 1fr;
+  }
+
+  .xuan-tool-workspace .chart-side-panel {
+    position: static;
+  }
+
+  .xuan-tool-workspace .chart-panel-head {
+    padding: 18px;
+  }
+
+  .xuan-tool-workspace .chart-side-panel .chart-form-grid {
+    padding: 14px;
+  }
+
+  .xuan-tool-workspace .chart-segment-button {
+    min-height: 60px;
+  }
+
+  .xuan-tool-workspace .liuyao-line-input-list {
+    padding: 8px;
   }
 
   .xuan-tool-workspace {
