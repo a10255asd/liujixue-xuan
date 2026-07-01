@@ -7868,3 +7868,215 @@ body {
 .xuan-tool-hero {
   overflow: hidden;
 }
+
+.xuan-tool-index-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(244, 242, 235, 0.1);
+  background: #111411;
+  color: #fffdf6;
+  padding: 78px 0 54px;
+}
+
+.xuan-tool-index-hero::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background:
+    linear-gradient(90deg, rgba(244, 242, 235, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(244, 242, 235, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+}
+
+.xuan-tool-index-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 42px;
+  align-items: end;
+}
+
+.xuan-tool-index-inner h1 {
+  margin: 22px 0 0;
+  font-size: clamp(56px, 9vw, 118px);
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+.xuan-tool-index-inner p {
+  max-width: 760px;
+  margin: 24px 0 0;
+  color: rgba(255, 253, 246, 0.68);
+  font-size: 18px;
+  line-height: 1.72;
+}
+
+.xuan-tool-index-panel {
+  border: 1px solid rgba(244, 242, 235, 0.14);
+  border-radius: 8px;
+  background: rgba(244, 242, 235, 0.06);
+  padding: 22px;
+}
+
+.xuan-tool-index-panel span,
+.xuan-tool-index-panel em {
+  display: block;
+  color: rgba(255, 253, 246, 0.62);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 840;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.xuan-tool-index-panel strong {
+  display: block;
+  margin: 12px 0 8px;
+  color: #fffdf6;
+  font-size: 72px;
+  line-height: 0.9;
+}
+
+.wuxing-reference-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.wuxing-reference-card {
+  min-width: 0;
+}
+
+.wuxing-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.wuxing-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.wuxing-table th,
+.wuxing-table td {
+  border-right: 1px solid rgba(17, 20, 17, 0.08);
+  border-bottom: 1px solid rgba(17, 20, 17, 0.09);
+  padding: 14px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.wuxing-table th:last-child,
+.wuxing-table td:last-child {
+  border-right: 0;
+}
+
+.wuxing-table tr:last-child th,
+.wuxing-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.wuxing-table thead th {
+  background: #f4eee2;
+  color: #687168;
+  font-size: 13px;
+  font-weight: 860;
+}
+
+.wuxing-table tbody th {
+  color: #111411;
+  font-size: 20px;
+}
+
+.wuxing-element {
+  display: inline-flex;
+  min-width: 34px;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(17, 20, 17, 0.07);
+  color: #111411;
+  font-weight: 860;
+}
+
+.wuxing-element.wood { background: rgba(35, 145, 82, 0.12); color: #239152; }
+.wuxing-element.fire { background: rgba(190, 24, 43, 0.12); color: #be182b; }
+.wuxing-element.earth { background: rgba(142, 112, 55, 0.16); color: #8e7037; }
+.wuxing-element.metal { background: rgba(92, 99, 112, 0.12); color: #5c6370; }
+.wuxing-element.water { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+
+.wuxing-relation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.wuxing-relation-card {
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 16px;
+}
+
+.wuxing-relation-card span {
+  display: block;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 840;
+}
+
+.wuxing-relation-card div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.wuxing-relation-card strong {
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.08);
+  color: #0d6f61;
+  padding: 6px 9px;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .xuan-tool-index-inner,
+  .wuxing-relation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .xuan-tool-index-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .xuan-tool-index-hero {
+    padding: 56px 0 38px;
+  }
+
+  .xuan-tool-index-inner h1 {
+    font-size: 48px;
+  }
+
+  .xuan-tool-index-inner p {
+    font-size: 16px;
+  }
+
+  .xuan-tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .xuan-tool-index-inner p,
+  .xuan-section-head p,
+  .xuan-tool-card p {
+    width: min(100%, 322px);
+    max-width: 322px;
+  }
+}

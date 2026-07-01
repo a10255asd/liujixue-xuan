@@ -16,12 +16,14 @@
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
   - `/tools/daily` daily time-hexagram record tool.
   - `/tools/calendar` Huangli / Jieqi field lookup tool.
+  - `/tools/wuxing` stems, branches, hidden stems, five-elements and relation lookup.
+  - `/tools` standalone tool index.
   - `/api/geocode` for birthplace coordinate lookup.
 
 ## 2026-07-01 Update
 
 - Expanded the homepage from a 3-tool charting site into a larger metaphysics toolbox structure.
-- Added actual routes for `每日一卦` and `黄历节气`.
+- Added actual routes for `每日一卦`, `黄历节气`, `干支五行速查`, and `/tools` index.
 - Added planned feature cards for name five-elements lookup, compatibility comparison, question records, and AI analysis packages.
 - Keep these two new tools field-only: no auspicious/inauspicious conclusions, no scare copy, no deterministic predictions.
 
@@ -50,7 +52,7 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add a simple `/tools` index if the homepage grows too long.
-2. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
-3. Add saved records / question notebook after public usage appears.
-4. Add AI analysis packages only with explicit boundaries and copy/export tests.
+1. Improve Liu Yao with alternate起卦 modes only after adding unit tests for each mode.
+2. Add saved records / question notebook after public usage appears.
+3. Add AI analysis packages only with explicit boundaries and copy/export tests.
+4. If more tools are added, route them through `/tools` first and keep the homepage focused.

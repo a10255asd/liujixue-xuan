@@ -1,6 +1,6 @@
 import { site, xuanTools } from '@/lib/site'
 
-const staticRoutes = ['']
+const staticRoutes = ['', '/tools']
 
 export default function sitemap() {
   return [...staticRoutes, ...xuanTools.map(tool => tool.href)].map(route => ({
