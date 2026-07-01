@@ -8045,9 +8045,124 @@ body {
   font-size: 13px;
 }
 
+.hexagram-table {
+  min-width: 980px;
+}
+
+.hexagram-table td strong,
+.hexagram-table td span {
+  display: block;
+}
+
+.hexagram-table td strong {
+  color: #111411;
+  font-size: 15px;
+}
+
+.hexagram-table td span {
+  margin-top: 5px;
+  color: #687168;
+  font-size: 12px;
+}
+
+.trigram-card-grid,
+.shichen-card-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.trigram-card-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.shichen-card-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.trigram-card,
+.shichen-card {
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 16px;
+}
+
+.trigram-card > span {
+  display: block;
+  color: #111411;
+  font-size: 42px;
+  line-height: 1;
+}
+
+.trigram-card h3,
+.shichen-card h3 {
+  margin: 14px 0 0;
+  color: #111411;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.trigram-card p,
+.shichen-card p {
+  margin: 9px 0 0;
+  color: #687168;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.trigram-card div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.trigram-card em {
+  color: #687168;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.shichen-card {
+  display: grid;
+  gap: 12px;
+}
+
+.shichen-card > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.shichen-card span {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.1);
+  color: #0d6f61;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 860;
+}
+
+.shichen-card strong {
+  justify-self: end;
+  color: #111411;
+  font-size: 14px;
+  text-align: right;
+  white-space: nowrap;
+}
+
 @media (max-width: 900px) {
   .xuan-tool-index-inner,
-  .wuxing-relation-grid {
+  .wuxing-relation-grid,
+  .trigram-card-grid,
+  .shichen-card-grid {
     grid-template-columns: 1fr;
   }
 
@@ -8071,6 +8186,17 @@ body {
 
   .xuan-tool-grid {
     grid-template-columns: 1fr;
+  }
+
+  .shichen-card > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .shichen-card strong {
+    justify-self: start;
+    text-align: left;
+    white-space: normal;
   }
 
   .xuan-tool-index-inner p,

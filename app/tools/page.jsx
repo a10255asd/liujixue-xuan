@@ -4,7 +4,7 @@ import { scenarioCards, site, xuanComingTools, xuanTools } from '@/lib/site'
 
 export const metadata = {
   title: '玄学工具箱',
-  description: '鸡血玄策的工具总览，包含八字、紫微斗数、六爻、每日一卦、黄历节气和干支五行速查。'
+  description: '鸡血玄策的工具总览，包含八字、紫微斗数、六爻、每日一卦、黄历节气、干支五行、六十四卦和十二时辰。'
 }
 
 export default function ToolsIndexPage() {

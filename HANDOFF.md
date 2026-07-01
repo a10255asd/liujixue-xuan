@@ -17,13 +17,15 @@
   - `/tools/daily` daily time-hexagram record tool.
   - `/tools/calendar` Huangli / Jieqi field lookup tool.
   - `/tools/wuxing` stems, branches, hidden stems, five-elements and relation lookup.
+  - `/tools/hexagrams` sixty-four hexagram matrix lookup.
+  - `/tools/shichen` twelve double-hour time branch lookup.
   - `/tools` standalone tool index.
   - `/api/geocode` for birthplace coordinate lookup.
 
 ## 2026-07-01 Update
 
 - Expanded the homepage from a 3-tool charting site into a larger metaphysics toolbox structure.
-- Added actual routes for `每日一卦`, `黄历节气`, `干支五行速查`, and `/tools` index.
+- Added actual routes for `每日一卦`, `黄历节气`, `干支五行速查`, `六十四卦速查`, `十二时辰速查`, and `/tools` index.
 - Added planned feature cards for name five-elements lookup, compatibility comparison, question records, and AI analysis packages.
 - Keep these two new tools field-only: no auspicious/inauspicious conclusions, no scare copy, no deterministic predictions.
 
