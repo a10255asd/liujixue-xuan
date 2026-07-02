@@ -66,6 +66,7 @@
 - Mobile QA checked `/tools`, `/tools/meihua`, `/tools/qimen`, `/tools/daliuren`, `/tools/date-selection`, `/tools/birth-time`, `/tools/name`, `/tools/records`, `/classics`, and `/knowledge`; no page-level horizontal overflow was observed at 390px.
 - Added shared local-memory helpers in `lib/local-memory.js`.
 - BaZi, ZiWei and LiuYao heavy chart export actions now include `保存记录`, so their AI/export text can be stored into `/tools/records`.
+- `/tools/calendar` and `/tools/daily` direct-copy actions now also include `保存记录`, so lightweight日课/起卦 records can enter the same local record center.
 - `/tools/records` now supports:
   - favorite tool strip,
   - record search,
@@ -75,6 +76,7 @@
   - JSON import / merge.
 - Added `tests/local-memory.test.mjs` for record/favorite merge behavior.
 - Mobile QA checked `/tools/records` and `/tools/bazi` at 390px after record enhancements; no page-level horizontal overflow was observed, and BaZi export actions include `保存记录`.
+- Mobile QA checked `/tools/calendar` and `/tools/daily` at 390px after direct-save enhancements; no page-level horizontal overflow was observed, action buttons stack cleanly, and `保存记录` changes to `已保存` after click.
 
 ## Source Boundaries
 
@@ -105,6 +107,5 @@ npm run build
    - Replace the current `qimen` first-version overview with a verified library/table-driven full盘.
    - Replace the current `daliuren` first-version overview with verified四课三传/月将/贵人 rules.
    - Add regression examples before changing either engine.
-2. Add saved-record hooks for the smaller direct-copy tools (`/tools/calendar` and `/tools/daily`) if users start relying on records there.
-3. Add AI analysis packages only with explicit boundaries and copy/export tests.
-4. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
+2. Add AI analysis packages only with explicit boundaries and copy/export tests.
+3. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.

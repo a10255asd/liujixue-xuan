@@ -1,6 +1,7 @@
 'use client'
 
-import { Copy, RefreshCcw } from '@/components/icons'
+import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
+import { saveMemoryRecord } from '@/lib/local-memory'
 import { useMemo, useState } from 'react'
 
 const trigramOrder = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤']
@@ -122,17 +123,30 @@ export function DailyHexagramTool() {
     topic: '今天适合推进什么？'
   })
   const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
   const chart = useMemo(() => buildHexagram(form), [form])
   const copyText = useMemo(() => buildCopyText(chart), [chart])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
     setCopied(false)
+    setSaved(false)
   }
 
   const copy = async () => {
     await navigator.clipboard.writeText(copyText)
     setCopied(true)
+  }
+
+  const save = () => {
+    saveMemoryRecord({
+      tool: '每日一卦',
+      href: '/tools/daily',
+      title: `${chart.topic} · ${chart.name}`,
+      text: copyText
+    })
+    setSaved(true)
+    window.setTimeout(() => setSaved(false), 1800)
   }
 
   return (
@@ -143,7 +157,14 @@ export function DailyHexagramTool() {
             <span className='chart-kicker'>Daily Hexagram</span>
             <h2>起卦信息</h2>
           </div>
-          <button className='chart-icon-button' type='button' onClick={() => setForm({ date: todayDate(), time: currentTime(), topic: form.topic })}>
+          <button
+            className='chart-icon-button'
+            type='button'
+            onClick={() => {
+              setForm({ date: todayDate(), time: currentTime(), topic: form.topic })
+              setCopied(false)
+              setSaved(false)
+            }}>
             <RefreshCcw size={18} />
           </button>
         </div>
@@ -167,10 +188,16 @@ export function DailyHexagramTool() {
             />
           </div>
         </div>
-        <button className='button primary daily-copy-button' type='button' onClick={copy}>
-          <Copy size={16} />
-          {copied ? '已复制起卦记录' : '复制起卦记录'}
-        </button>
+        <div className='daily-action-row'>
+          <button className='button primary' type='button' onClick={copy}>
+            {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+            {copied ? '已复制起卦记录' : '复制起卦记录'}
+          </button>
+          <button className='button' type='button' onClick={save}>
+            {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saved ? '已保存' : '保存记录'}
+          </button>
+        </div>
       </section>
 
       <section className='chart-section-card daily-hexagram-card'>

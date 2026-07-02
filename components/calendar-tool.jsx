@@ -1,6 +1,7 @@
 'use client'
 
-import { Copy, RefreshCcw } from '@/components/icons'
+import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
+import { saveMemoryRecord } from '@/lib/local-memory'
 import { Solar } from 'lunar-javascript'
 import { useMemo, useState } from 'react'
 
@@ -105,22 +106,36 @@ export function CalendarTool() {
     time: currentTime()
   })
   const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
   const calendar = useMemo(() => buildCalendar(form), [form])
   const copyText = useMemo(() => buildCopyText(calendar), [calendar])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
     setCopied(false)
+    setSaved(false)
   }
 
   const resetNow = () => {
     setForm({ date: todayDate(), time: currentTime() })
     setCopied(false)
+    setSaved(false)
   }
 
   const copy = async () => {
     await navigator.clipboard.writeText(copyText)
     setCopied(true)
+  }
+
+  const save = () => {
+    saveMemoryRecord({
+      tool: '黄历节气',
+      href: '/tools/calendar',
+      title: `${calendar.solar} · ${calendar.ganZhi.day}日`,
+      text: copyText
+    })
+    setSaved(true)
+    window.setTimeout(() => setSaved(false), 1800)
   }
 
   return (
@@ -145,10 +160,16 @@ export function CalendarTool() {
             <input id='calendar-time' type='time' value={form.time} onChange={event => updateForm('time', event.target.value)} />
           </div>
         </div>
-        <button className='button primary daily-copy-button' type='button' onClick={copy}>
-          <Copy size={16} />
-          {copied ? '已复制日课字段' : '复制日课字段'}
-        </button>
+        <div className='daily-action-row'>
+          <button className='button primary' type='button' onClick={copy}>
+            {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+            {copied ? '已复制日课字段' : '复制日课字段'}
+          </button>
+          <button className='button' type='button' onClick={save}>
+            {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saved ? '已保存' : '保存记录'}
+          </button>
+        </div>
       </section>
 
       <section className='chart-section-card calendar-card'>
