@@ -17,7 +17,7 @@
   - `/tools/meihua` Meihua Yishu number/time charting fields.
   - `/tools/daily` daily time-hexagram record tool.
   - `/tools/qimen` Qimen Dunjia Chai-Bu method chart using `qimen-dunjia`.
-  - `/tools/daliuren` Da Liu Ren first-version field overview.
+  - `/tools/daliuren` Da Liu Ren four lessons / three transmissions chart using `daliuren-lib`.
   - `/tools/calendar` Huangli / Jieqi field lookup tool.
   - `/tools/date-selection` date-range Huangli selection overview.
   - `/tools/daily-fortune` daily fields overview.
@@ -60,7 +60,7 @@
   - New product loop page: `/tools/records`, backed by browser `localStorage` for favorites and saved records.
   - New content layer pages: `/classics` and `/knowledge`.
 - Added `lib/structured-tools.js` and `components/structured-tool.jsx` so lightweight tools share one input/result/copy/save/favorite pattern.
-- Structured tools currently output field overviews only. `qimen` now uses the `qimen-dunjia` Chai-Bu method library for chart fields; `daliuren` is still a first-version field overview, not a final professional judgement engine.
+- Structured tools currently output field overviews only. `qimen` now uses the `qimen-dunjia` Chai-Bu method library for chart fields; `daliuren` now uses `daliuren-lib` for month-general, four-lessons, three-transmissions and heavenly-general fields. Neither page outputs final judgement copy.
 - Updated `xuanTools` / `xuanToolSuites` to cover all 19 online entries once; sitemap now includes the new routes through `xuanTools`.
 - Added `tests/structured-tools.test.mjs` for structured tool catalogue, Meihua baseline, date-selection range clamp, and name five-grid calculations.
 - Mobile QA checked `/tools`, `/tools/meihua`, `/tools/qimen`, `/tools/daliuren`, `/tools/date-selection`, `/tools/birth-time`, `/tools/name`, `/tools/records`, `/classics`, and `/knowledge`; no page-level horizontal overflow was observed at 390px.
@@ -82,6 +82,11 @@
 - Added structured matrix rendering in `StructuredTool` for nine-palace charts, with compact mobile stacking at 390px.
 - Added a Qimen regression test; unit coverage is now 28 passing tests.
 - Mobile QA checked `/tools/qimen` at 390px after the Qimen upgrade; no page-level horizontal overflow was observed, nine palace cells render, simplified text is consistent, and `保存记录` changes to `已保存`.
+- Upgraded `/tools/daliuren` from a local field overview into a `daliuren-lib@0.2.1` based chart.
+- `/tools/daliuren` now derives month general from the previous中气, then outputs天地盘十二宫、四课、三传、课型、干上 and twelve heavenly generals.
+- Added Liuren matrix rendering using the shared `StructuredTool` palace-grid layout, with 12 + 4 + 3 cells stacking cleanly on mobile.
+- Added a Daliuren regression test; unit coverage is now 29 passing tests.
+- Mobile QA checked `/tools/daliuren` at 390px after the Liuren upgrade; no page-level horizontal overflow was observed, all 19 matrix cells render, and `保存记录` changes to `已保存`.
 
 ## Source Boundaries
 
@@ -108,8 +113,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Deepen professional accuracy for second-batch tools:
-   - Replace the current `daliuren` first-version overview with verified四课三传/月将/贵人 rules.
-   - Add regression examples before changing the Daliuren engine.
-2. Add AI analysis packages only with explicit boundaries and copy/export tests.
-3. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
+1. Add AI analysis packages only with explicit boundaries and copy/export tests.
+2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
+3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.

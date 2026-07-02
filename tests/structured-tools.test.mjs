@@ -63,6 +63,29 @@ test('qimen tool uses chai-bu chart and renders palace fields', () => {
   assert.match(text, /八门：杜门/)
 })
 
+test('daliuren tool renders month general, four lessons and three transmissions', () => {
+  const output = structuredTools.daliuren.calculate({
+    topic: '测试事项',
+    date: '2026-05-14',
+    time: '22:03'
+  })
+  const plateSection = output.sections.find(section => section.title === '天地盘十二宫')
+  const siKeSection = output.sections.find(section => section.title === '四课')
+  const sanZhuanSection = output.sections.find(section => section.title === '三传')
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '大六壬四课三传')
+  assert.ok(output.badges.includes('月将 酉从魁'))
+  assert.ok(output.badges.includes('课型 重审课'))
+  assert.equal(plateSection.layout, 'palace-grid')
+  assert.equal(plateSection.cells.length, 12)
+  assert.equal(siKeSection.cells.length, 4)
+  assert.equal(sanZhuanSection.cells.length, 3)
+  assert.match(text, /月将：酉从魁/)
+  assert.match(text, /一课：上神卯/)
+  assert.match(text, /初传：传神丑/)
+})
+
 test('date selection clamps date range and formats rows', () => {
   const output = structuredTools.dateSelection.calculate({
     topic: '上线发布',

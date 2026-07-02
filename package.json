@@ -16,6 +16,7 @@
   "dependencies": {
     "@province-city-china/level": "^8.5.8",
     "@vercel/analytics": "^1.6.1",
+    "daliuren-lib": "^0.2.1",
     "iztro": "^2.5.8",
     "lunar-javascript": "^1.7.7",
     "next": "^14.2.35",

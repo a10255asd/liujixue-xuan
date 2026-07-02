@@ -9285,6 +9285,26 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.structured-palace-grid.liuren-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.structured-palace-grid.liuren-sike-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.structured-palace-grid.liuren-sike-grid .structured-palace-cell:nth-child(3n) {
+  border-right: 1px solid rgba(17, 20, 17, 0.08);
+}
+
+.structured-palace-grid.liuren-sike-grid .structured-palace-cell:nth-child(4n) {
+  border-right: 0;
+}
+
+.structured-palace-grid.liuren-sike-grid .structured-palace-cell:nth-last-child(-n + 4) {
+  border-bottom: 0;
+}
+
 .structured-palace-cell {
   min-width: 0;
   border-right: 1px solid rgba(17, 20, 17, 0.08);
@@ -9698,9 +9718,17 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .structured-palace-grid.liuren-grid,
+  .structured-palace-grid.liuren-sike-grid {
+    grid-template-columns: 1fr;
+  }
+
   .structured-palace-cell,
   .structured-palace-cell:nth-child(3n),
-  .structured-palace-cell:nth-last-child(-n + 3) {
+  .structured-palace-cell:nth-last-child(-n + 3),
+  .structured-palace-grid.liuren-sike-grid .structured-palace-cell:nth-child(3n),
+  .structured-palace-grid.liuren-sike-grid .structured-palace-cell:nth-child(4n),
+  .structured-palace-grid.liuren-sike-grid .structured-palace-cell:nth-last-child(-n + 4) {
     border-right: 0;
     border-bottom: 1px solid rgba(17, 20, 17, 0.08);
   }
