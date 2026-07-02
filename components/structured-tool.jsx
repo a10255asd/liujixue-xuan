@@ -24,6 +24,29 @@ const hydrateDefaults = (defaults, dynamic = false) => Object.fromEntries(Object
 }))
 
 function ResultSection({ section }) {
+  if (section.layout === 'palace-grid') {
+    return (
+      <section className='structured-result-section structured-matrix-section'>
+        <h3>{section.title}</h3>
+        <div className={`structured-palace-grid ${section.gridClass || ''}`}>
+          {section.cells.map(cell => (
+            <article className='structured-palace-cell' key={cell.title}>
+              <h4>{cell.title}</h4>
+              <dl>
+                {cell.items.map(item => (
+                  <div key={`${cell.title}-${item.label}`}>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className='structured-result-section'>
       <h3>{section.title}</h3>

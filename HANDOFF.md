@@ -16,7 +16,7 @@
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
   - `/tools/meihua` Meihua Yishu number/time charting fields.
   - `/tools/daily` daily time-hexagram record tool.
-  - `/tools/qimen` Qimen Dunjia first-version field overview.
+  - `/tools/qimen` Qimen Dunjia Chai-Bu method chart using `qimen-dunjia`.
   - `/tools/daliuren` Da Liu Ren first-version field overview.
   - `/tools/calendar` Huangli / Jieqi field lookup tool.
   - `/tools/date-selection` date-range Huangli selection overview.
@@ -60,7 +60,7 @@
   - New product loop page: `/tools/records`, backed by browser `localStorage` for favorites and saved records.
   - New content layer pages: `/classics` and `/knowledge`.
 - Added `lib/structured-tools.js` and `components/structured-tool.jsx` so lightweight tools share one input/result/copy/save/favorite pattern.
-- Structured tools currently output field overviews only. `qimen` and `daliuren` are explicitly first-version field overviews, not final professional judgement engines.
+- Structured tools currently output field overviews only. `qimen` now uses the `qimen-dunjia` Chai-Bu method library for chart fields; `daliuren` is still a first-version field overview, not a final professional judgement engine.
 - Updated `xuanTools` / `xuanToolSuites` to cover all 19 online entries once; sitemap now includes the new routes through `xuanTools`.
 - Added `tests/structured-tools.test.mjs` for structured tool catalogue, Meihua baseline, date-selection range clamp, and name five-grid calculations.
 - Mobile QA checked `/tools`, `/tools/meihua`, `/tools/qimen`, `/tools/daliuren`, `/tools/date-selection`, `/tools/birth-time`, `/tools/name`, `/tools/records`, `/classics`, and `/knowledge`; no page-level horizontal overflow was observed at 390px.
@@ -77,6 +77,11 @@
 - Added `tests/local-memory.test.mjs` for record/favorite merge behavior.
 - Mobile QA checked `/tools/records` and `/tools/bazi` at 390px after record enhancements; no page-level horizontal overflow was observed, and BaZi export actions include `保存记录`.
 - Mobile QA checked `/tools/calendar` and `/tools/daily` at 390px after direct-save enhancements; no page-level horizontal overflow was observed, action buttons stack cleanly, and `保存记录` changes to `已保存` after click.
+- Upgraded `/tools/qimen` from a local placeholder rotation into a `qimen-dunjia@2.1.0` based Chai-Bu method chart.
+- `/tools/qimen` now exports节气三元、阴阳遁局、旬首符首、值符值使、天盘地盘、八门九星八神、九宫综合盘 and分层盘面.
+- Added structured matrix rendering in `StructuredTool` for nine-palace charts, with compact mobile stacking at 390px.
+- Added a Qimen regression test; unit coverage is now 28 passing tests.
+- Mobile QA checked `/tools/qimen` at 390px after the Qimen upgrade; no page-level horizontal overflow was observed, nine palace cells render, simplified text is consistent, and `保存记录` changes to `已保存`.
 
 ## Source Boundaries
 
@@ -104,8 +109,7 @@ npm run build
 ## Next Recommended Work
 
 1. Deepen professional accuracy for second-batch tools:
-   - Replace the current `qimen` first-version overview with a verified library/table-driven full盘.
    - Replace the current `daliuren` first-version overview with verified四课三传/月将/贵人 rules.
-   - Add regression examples before changing either engine.
+   - Add regression examples before changing the Daliuren engine.
 2. Add AI analysis packages only with explicit boundaries and copy/export tests.
 3. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.

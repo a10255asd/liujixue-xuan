@@ -42,6 +42,27 @@ test('meihua number method returns core hexagram fields', () => {
   assert.match(formatStructuredResultText(output), /体卦：坤/)
 })
 
+test('qimen tool uses chai-bu chart and renders palace fields', () => {
+  const output = structuredTools.qimen.calculate({
+    topic: '测试事项',
+    date: '2026-05-14',
+    time: '22:03'
+  })
+  const palaceSection = output.sections.find(section => section.title === '九宫综合盘')
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '奇门遁甲拆补法排盘')
+  assert.ok(output.badges.includes('阳遁'))
+  assert.ok(output.badges.includes('1局'))
+  assert.ok(output.badges.includes('立夏 中元'))
+  assert.ok(output.badges.includes('值符 天心'))
+  assert.equal(palaceSection.layout, 'palace-grid')
+  assert.equal(palaceSection.cells.length, 9)
+  assert.match(palaceSection.rows[0].value, /八神勾陈/)
+  assert.match(text, /起局时间：2026051422/)
+  assert.match(text, /八门：杜门/)
+})
+
 test('date selection clamps date range and formats rows', () => {
   const output = structuredTools.dateSelection.calculate({
     topic: '上线发布',
