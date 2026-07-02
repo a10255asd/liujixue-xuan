@@ -28,6 +28,7 @@
   - `/tools/birth-time` birth-time correction comparison table.
   - `/tools/find-time` twelve-hour candidate chart table.
   - `/tools/records` local favorites and saved chart records.
+  - `/tools/ai-prompt` AI handoff prompt builder with explicit analysis boundaries.
   - `/classics` classics/source index.
   - `/knowledge` knowledge map / flow explanation page.
   - `/tools` standalone tool index.
@@ -87,6 +88,10 @@
 - Added Liuren matrix rendering using the shared `StructuredTool` palace-grid layout, with 12 + 4 + 3 cells stacking cleanly on mobile.
 - Added a Daliuren regression test; unit coverage is now 29 passing tests.
 - Mobile QA checked `/tools/daliuren` at 390px after the Liuren upgrade; no page-level horizontal overflow was observed, all 19 matrix cells render, and `保存记录` changes to `已保存`.
+- Added `/tools/ai-prompt` as the first AI handoff package. It accepts chart type, analysis goal, output format, user question, background context and pasted chart fields, then exports only a boundary-safe prompt.
+- `StructuredTool` now supports `output.copyText`, so tools can customize what the copy/save actions export without changing the visible result sections.
+- `/tools/ai-prompt` is grouped under `资料记录`; `xuanTools` / `xuanToolSuites` now cover all 20 online entries once.
+- Added an AI prompt regression test for boundary wording and copied chart fields; unit coverage is now 30 passing tests.
 
 ## Source Boundaries
 
@@ -113,6 +118,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add AI analysis packages only with explicit boundaries and copy/export tests.
+1. Add `合盘对照` only as field comparison and AI handoff material, not as relationship judgement. Include copy/export tests before UI polish.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
 3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.

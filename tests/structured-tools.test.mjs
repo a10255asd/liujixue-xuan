@@ -6,6 +6,7 @@ test('structured tool catalogue exposes callable tools', () => {
   const slugs = Object.keys(structuredTools)
 
   assert.deepEqual(slugs.sort(), [
+    'aiPrompt',
     'birthTime',
     'dailyFortune',
     'daliuren',
@@ -111,4 +112,23 @@ test('name tool uses manual strokes for five grids', () => {
   assert.match(text, /天格：16画/)
   assert.match(text, /人格：33画/)
   assert.match(text, /总格：39画/)
+})
+
+test('ai prompt tool exports boundary-safe prompt text', () => {
+  const output = structuredTools.aiPrompt.calculate({
+    chartType: 'liuyao',
+    mode: 'questions',
+    outputFormat: 'checklist',
+    question: '这件事是否值得继续推进？',
+    context: '只想做结构梳理',
+    chartText: '本卦：泽雷随\n动爻：二爻'
+  })
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, 'AI 解析提示词')
+  assert.ok(output.badges.includes('六爻纳甲排盘'))
+  assert.match(output.copyText, /不输出恐吓式/)
+  assert.match(output.copyText, /不要编造未提供/)
+  assert.match(output.copyText, /本卦：泽雷随/)
+  assert.match(text, /边界要求/)
 })

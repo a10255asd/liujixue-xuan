@@ -114,7 +114,7 @@ export function StructuredTool({ slug }) {
   const [saved, setSaved] = useState(false)
   const [favorited, setFavorited] = useState(false)
   const output = useMemo(() => tool.calculate(form), [form, tool])
-  const exportText = useMemo(() => formatStructuredResultText(output), [output])
+  const exportText = useMemo(() => output.copyText || formatStructuredResultText(output), [output])
 
   useEffect(() => {
     const favorites = readMemory(favoritesKey, [])
@@ -184,7 +184,7 @@ export function StructuredTool({ slug }) {
         <div className='structured-action-grid'>
           <button className='button primary' type='button' onClick={copy}>
             {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-            {copied ? '已复制' : '复制字段'}
+            {copied ? '已复制' : tool.copyLabel || '复制字段'}
           </button>
           <button className='button' type='button' onClick={saveRecord}>
             {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}

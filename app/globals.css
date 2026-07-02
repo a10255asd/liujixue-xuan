@@ -9268,6 +9268,7 @@ body {
   color: #111411;
   font-size: 14px;
   font-weight: 780;
+  white-space: pre-wrap;
 }
 
 .structured-matrix-section {
