@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { mergeMemoryFavorites, mergeMemoryRecords } from '../lib/local-memory.js'
+import { createToolHandoff, mergeMemoryFavorites, mergeMemoryRecords } from '../lib/local-memory.js'
 
 test('local memory records merge by id, keep local duplicate, and sort newest first', () => {
   const current = [
@@ -31,4 +31,26 @@ test('local memory favorites merge by href', () => {
   assert.equal(merged.length, 2)
   assert.equal(merged.find(item => item.href === '/tools/bazi').title, '八字')
   assert.equal(merged.find(item => item.href === '/tools/liuyao').title, '六爻')
+})
+
+test('tool handoff preserves target slot and source record text', () => {
+  const handoff = createToolHandoff({
+    targetHref: '/tools/compatibility',
+    targetSlug: 'compatibility',
+    slot: 'chartB',
+    record: {
+      id: 'record-1',
+      tool: '八字专业细盘',
+      href: '/tools/bazi',
+      title: '甲方八字',
+      text: '四柱：甲子 乙丑 丙寅 丁卯'
+    }
+  })
+
+  assert.equal(handoff.targetHref, '/tools/compatibility')
+  assert.equal(handoff.targetSlug, 'compatibility')
+  assert.equal(handoff.slot, 'chartB')
+  assert.equal(handoff.sourceTool, '八字专业细盘')
+  assert.equal(handoff.sourceTitle, '甲方八字')
+  assert.equal(handoff.text, '四柱：甲子 乙丑 丙寅 丁卯')
 })

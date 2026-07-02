@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, readMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
+import { favoritesKey, handoffKey, readMemory, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
@@ -118,9 +118,14 @@ export function StructuredTool({ slug }) {
 
   useEffect(() => {
     const favorites = readMemory(favoritesKey, [])
+    const handoff = readMemory(handoffKey, null)
+    const dynamicDefaults = hydrateDefaults(defaultInput, true)
+    const shouldApplyHandoff = tool.applyHandoff && handoff && (handoff.targetHref === tool.href || handoff.targetSlug === slug)
+
     setFavorited(favorites.some(item => item.href === tool.href))
-    setForm(hydrateDefaults(defaultInput, true))
-  }, [defaultInput, tool.href])
+    setForm(shouldApplyHandoff ? tool.applyHandoff(dynamicDefaults, handoff) : dynamicDefaults)
+    if (shouldApplyHandoff) window.setTimeout(() => removeMemory(handoffKey), 0)
+  }, [defaultInput, slug, tool])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))

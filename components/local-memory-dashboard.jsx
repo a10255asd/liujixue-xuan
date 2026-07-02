@@ -1,10 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { CheckCircle2, Copy, Download, Star, Trash2 } from '@/components/icons'
+import { ArrowRight, CheckCircle2, Copy, Download, Star, Trash2 } from '@/components/icons'
 import { copyText } from '@/lib/copy-text'
 import {
+  createToolHandoff,
   favoritesKey,
+  handoffKey,
   mergeMemoryFavorites,
   mergeMemoryRecords,
   readMemory,
@@ -71,6 +73,10 @@ export function LocalMemoryDashboard() {
     if (!ok) return
     setCopiedId(record.id)
     window.setTimeout(() => setCopiedId(''), 1800)
+  }
+
+  const sendRecordToTool = (record, targetHref, targetSlug, slot) => {
+    writeMemory(handoffKey, createToolHandoff({ record, slot, targetHref, targetSlug }))
   }
 
   const exportMemory = () => {
@@ -208,6 +214,18 @@ export function LocalMemoryDashboard() {
                     <Trash2 size={15} />
                     删除
                   </button>
+                </div>
+                <div className='memory-record-actions memory-record-handoff-actions'>
+                  <Link href='/tools/ai-prompt' onClick={() => sendRecordToTool(record, '/tools/ai-prompt', 'aiPrompt', 'chartText')}>
+                    <ArrowRight size={15} />
+                    送去 AI
+                  </Link>
+                  <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartA')}>
+                    合盘 A
+                  </Link>
+                  <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartB')}>
+                    合盘 B
+                  </Link>
                 </div>
                 <pre>{record.text}</pre>
               </article>

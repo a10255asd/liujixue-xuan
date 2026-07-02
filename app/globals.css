@@ -9583,6 +9583,16 @@ body {
   margin-top: 14px;
 }
 
+.memory-record-handoff-actions {
+  margin-top: 9px;
+}
+
+.memory-record-handoff-actions a {
+  border-color: rgba(17, 20, 17, 0.1);
+  background: rgba(255, 253, 248, 0.78);
+  color: #2f352f;
+}
+
 .memory-record-card pre {
   max-height: 260px;
   overflow: auto;

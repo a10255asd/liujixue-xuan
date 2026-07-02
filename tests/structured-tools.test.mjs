@@ -156,3 +156,24 @@ test('compatibility tool builds paired fields without relationship judgement', (
   assert.match(text, /字段并排摘要/)
   assert.doesNotMatch(output.copyText, /一定/)
 })
+
+test('structured tools apply saved record handoff into target fields', () => {
+  const aiForm = structuredTools.aiPrompt.applyHandoff(structuredTools.aiPrompt.defaultInput, {
+    sourceTool: '六爻纳甲排盘',
+    sourceTitle: '合作卦',
+    text: '本卦：泽雷随'
+  })
+  const compatibilityForm = structuredTools.compatibility.applyHandoff(structuredTools.compatibility.defaultInput, {
+    slot: 'chartB',
+    sourceTool: '紫微斗数命盘',
+    sourceTitle: '乙方命盘',
+    text: '命宫：子'
+  })
+
+  assert.equal(aiForm.chartType, 'liuyao')
+  assert.equal(aiForm.chartText, '本卦：泽雷随')
+  assert.match(aiForm.context, /合作卦/)
+  assert.equal(compatibilityForm.chartType, 'ziwei')
+  assert.equal(compatibilityForm.personB, '乙方命盘')
+  assert.equal(compatibilityForm.chartB, '命宫：子')
+})
