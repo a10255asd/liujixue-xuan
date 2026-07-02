@@ -8,6 +8,7 @@ test('structured tool catalogue exposes callable tools', () => {
   assert.deepEqual(slugs.sort(), [
     'aiPrompt',
     'birthTime',
+    'compatibility',
     'dailyFortune',
     'daliuren',
     'dateSelection',
@@ -131,4 +132,27 @@ test('ai prompt tool exports boundary-safe prompt text', () => {
   assert.match(output.copyText, /不要编造未提供/)
   assert.match(output.copyText, /本卦：泽雷随/)
   assert.match(text, /边界要求/)
+})
+
+test('compatibility tool builds paired fields without relationship judgement', () => {
+  const output = structuredTools.compatibility.calculate({
+    chartType: 'bazi',
+    focus: 'relation',
+    personA: '甲方',
+    personB: '乙方',
+    relation: '亲密关系',
+    question: '帮我整理两份盘的对照点。',
+    context: '只需要字段材料',
+    chartA: '四柱：甲子 乙丑 丙寅 丁卯\n日主：丙',
+    chartB: '四柱：戊辰 己巳 庚午 辛未\n日主：庚'
+  })
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '合盘对照')
+  assert.ok(output.badges.includes('八字合盘字段'))
+  assert.match(output.copyText, /不输出关系好坏/)
+  assert.match(output.copyText, /甲方 排盘字段/)
+  assert.match(output.copyText, /乙方 排盘字段/)
+  assert.match(text, /字段并排摘要/)
+  assert.doesNotMatch(output.copyText, /一定/)
 })

@@ -13,6 +13,7 @@
   - `/` homepage with tool matrix, daily inspiration block, knowledge blocks, and future membership/history placeholders.
   - `/tools/bazi` reusing the verified BaZi chart calculator.
   - `/tools/ziwei` reusing the verified Zi Wei Dou Shu calculator.
+  - `/tools/compatibility` paired chart field comparison and AI handoff material builder.
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
   - `/tools/meihua` Meihua Yishu number/time charting fields.
   - `/tools/daily` daily time-hexagram record tool.
@@ -92,6 +93,9 @@
 - `StructuredTool` now supports `output.copyText`, so tools can customize what the copy/save actions export without changing the visible result sections.
 - `/tools/ai-prompt` is grouped under `资料记录`; `xuanTools` / `xuanToolSuites` now cover all 20 online entries once.
 - Added an AI prompt regression test for boundary wording and copied chart fields; unit coverage is now 30 passing tests.
+- Added `/tools/compatibility` as `合盘对照`. It accepts two pasted BaZi/ZiWei/mixed chart texts, shows field completeness and side-by-side summaries, then exports a boundary-safe AI handoff prompt.
+- `合盘对照` is grouped under `出生盘排盘`; `xuanTools` / `xuanToolSuites` now cover all 21 online entries once.
+- Added a compatibility regression test that checks paired fields and relationship-judgement boundaries; unit coverage is now 31 passing tests.
 
 ## Source Boundaries
 
@@ -118,6 +122,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add `合盘对照` only as field comparison and AI handoff material, not as relationship judgement. Include copy/export tests before UI polish.
+1. Add record-to-tool shortcuts: let `/tools/records` feed saved chart text into `/tools/ai-prompt` or `/tools/compatibility` through query/localStorage handoff.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
 3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.
