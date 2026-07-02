@@ -1,8 +1,9 @@
 'use client'
 
-import { Download } from '@/components/icons'
+import { CheckCircle2, Download, Save } from '@/components/icons'
 import { TemplateCopyButton } from '@/components/template-copy-button'
 import { downloadChartImage } from '@/lib/chart-image-export'
+import { saveMemoryRecord } from '@/lib/local-memory'
 import { track } from '@vercel/analytics'
 import { useState } from 'react'
 
@@ -64,6 +65,33 @@ function ChartTextButton({ location, payload, text, textLabel = '下载 AI 文�
   )
 }
 
+function ChartSaveButton({ location, payload, text }) {
+  const [saved, setSaved] = useState(false)
+
+  const saveRecord = () => {
+    saveMemoryRecord({
+      tool: payload.title,
+      href: window.location.pathname,
+      title: payload.subtitle || payload.title,
+      text
+    })
+
+    track('chart_record_save', {
+      chart: payload.title,
+      location
+    })
+    setSaved(true)
+    window.setTimeout(() => setSaved(false), 1800)
+  }
+
+  return (
+    <button className='button chart-export-action-button' type='button' onClick={saveRecord}>
+      {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
+      {saved ? '已保存' : '保存记录'}
+    </button>
+  )
+}
+
 export function ChartExportActions({
   copiedLabel = '已复制解析包',
   copyLabel = '复制 AI 解析包',
@@ -88,6 +116,7 @@ export function ChartExportActions({
         text={copyText}
       />
       <ChartTextButton location={location} payload={payload} text={copyText} textLabel={textLabel} />
+      <ChartSaveButton location={location} payload={payload} text={copyText} />
       <ChartImageButton imageDownloader={imageDownloader} imageLabel={imageLabel} location={location} payload={payload} />
     </div>
   )

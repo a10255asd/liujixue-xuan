@@ -9309,6 +9309,28 @@ body {
   padding: 18px;
 }
 
+.memory-favorite-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  background: rgba(17, 20, 17, 0.025);
+  padding: 14px 18px;
+}
+
+.memory-favorite-strip a {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  border: 1px solid rgba(168, 101, 35, 0.2);
+  border-radius: 999px;
+  background: rgba(215, 192, 142, 0.14);
+  color: #8a541d;
+  font-size: 12px;
+  font-weight: 860;
+  padding: 0 11px;
+}
+
 .memory-tool-card {
   display: flex;
   min-height: 220px;
@@ -9381,6 +9403,48 @@ body {
   display: grid;
   gap: 12px;
   padding: 18px;
+}
+
+.memory-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px) repeat(3, auto);
+  gap: 10px;
+  align-items: end;
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  background: rgba(255, 253, 248, 0.72);
+  padding: 16px 18px;
+}
+
+.memory-filter-bar button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(13, 111, 97, 0.16);
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.07);
+  color: #0d6f61;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 860;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.memory-filter-bar button.active {
+  border-color: rgba(168, 101, 35, 0.3);
+  background: rgba(215, 192, 142, 0.18);
+  color: #8a541d;
+}
+
+.memory-import-status {
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  background: rgba(13, 111, 97, 0.08);
+  color: #0d6f61;
+  font-size: 13px;
+  font-weight: 820;
+  padding: 10px 18px;
 }
 
 .memory-record-card {
@@ -9522,9 +9586,20 @@ body {
 @media (max-width: 640px) {
   .structured-tool .chart-side-panel .chart-form-grid,
   .structured-action-grid,
+  .memory-favorite-strip,
+  .memory-filter-bar,
   .memory-tool-grid,
   .memory-record-list {
     padding: 14px;
+  }
+
+  .memory-filter-bar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .memory-filter-bar button {
+    width: 100%;
   }
 
   .structured-result-section dl > div {

@@ -2,12 +2,10 @@
 
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { copyText as writeClipboard } from '@/lib/copy-text'
+import { favoritesKey, readMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
-
-const recordsKey = 'jixue-xuan-tool-records'
-const favoritesKey = 'jixue-xuan-favorite-tools'
 
 const todayDate = () => {
   const date = new Date()
@@ -24,18 +22,6 @@ const hydrateDefaults = (defaults, dynamic = false) => Object.fromEntries(Object
   if (value === '__now') return [key, dynamic ? currentTime() : '09:00']
   return [key, value]
 }))
-
-const readJson = (key, fallback) => {
-  try {
-    return JSON.parse(window.localStorage.getItem(key) || JSON.stringify(fallback))
-  } catch {
-    return fallback
-  }
-}
-
-const writeJson = (key, value) => {
-  window.localStorage.setItem(key, JSON.stringify(value))
-}
 
 function ResultSection({ section }) {
   return (
@@ -108,7 +94,7 @@ export function StructuredTool({ slug }) {
   const exportText = useMemo(() => formatStructuredResultText(output), [output])
 
   useEffect(() => {
-    const favorites = readJson(favoritesKey, [])
+    const favorites = readMemory(favoritesKey, [])
     setFavorited(favorites.some(item => item.href === tool.href))
     setForm(hydrateDefaults(defaultInput, true))
   }, [defaultInput, tool.href])
@@ -134,28 +120,24 @@ export function StructuredTool({ slug }) {
   }
 
   const saveRecord = () => {
-    const records = readJson(recordsKey, [])
-    const record = {
-      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    saveMemoryRecord({
       tool: tool.title,
       href: tool.href,
       title: output.summary || output.title,
-      text: exportText,
-      createdAt: new Date().toISOString()
-    }
-    writeJson(recordsKey, [record, ...records].slice(0, 80))
+      text: exportText
+    })
     track('xuan_structured_tool_save', { tool: tool.title })
     setSaved(true)
     window.setTimeout(() => setSaved(false), 1800)
   }
 
   const toggleFavorite = () => {
-    const favorites = readJson(favoritesKey, [])
+    const favorites = readMemory(favoritesKey, [])
     const exists = favorites.some(item => item.href === tool.href)
     const next = exists
       ? favorites.filter(item => item.href !== tool.href)
       : [{ title: tool.title, href: tool.href, addedAt: new Date().toISOString() }, ...favorites]
-    writeJson(favoritesKey, next)
+    writeMemory(favoritesKey, next)
     setFavorited(!exists)
   }
 

@@ -1,25 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { CheckCircle2, Copy, Star, Trash2 } from '@/components/icons'
+import { CheckCircle2, Copy, Download, Star, Trash2 } from '@/components/icons'
 import { copyText } from '@/lib/copy-text'
+import {
+  favoritesKey,
+  mergeMemoryFavorites,
+  mergeMemoryRecords,
+  readMemory,
+  recordsKey,
+  writeMemory
+} from '@/lib/local-memory'
 import { xuanTools } from '@/lib/site'
-import { useEffect, useMemo, useState } from 'react'
-
-const recordsKey = 'jixue-xuan-tool-records'
-const favoritesKey = 'jixue-xuan-favorite-tools'
-
-const readJson = (key, fallback) => {
-  try {
-    return JSON.parse(window.localStorage.getItem(key) || JSON.stringify(fallback))
-  } catch {
-    return fallback
-  }
-}
-
-const writeJson = (key, value) => {
-  window.localStorage.setItem(key, JSON.stringify(value))
-}
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const formatTime = value => {
   if (!value) return '-'
@@ -32,13 +25,31 @@ export function LocalMemoryDashboard() {
   const [records, setRecords] = useState([])
   const [favorites, setFavorites] = useState([])
   const [copiedId, setCopiedId] = useState('')
+  const [query, setQuery] = useState('')
+  const [toolFilter, setToolFilter] = useState('all')
+  const [favoriteOnly, setFavoriteOnly] = useState(false)
+  const [importStatus, setImportStatus] = useState('')
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
-    setRecords(readJson(recordsKey, []))
-    setFavorites(readJson(favoritesKey, []))
+    setRecords(readMemory(recordsKey, []))
+    setFavorites(readMemory(favoritesKey, []))
   }, [])
 
   const favoriteHrefs = useMemo(() => new Set(favorites.map(item => item.href)), [favorites])
+  const favoriteTools = useMemo(() => xuanTools.filter(tool => favoriteHrefs.has(tool.href)), [favoriteHrefs])
+  const recordTools = useMemo(() => [...new Set(records.map(record => record.tool).filter(Boolean))], [records])
+  const filteredRecords = useMemo(() => {
+    const keyword = query.trim().toLowerCase()
+
+    return records.filter(record => {
+      const matchesTool = toolFilter === 'all' || record.tool === toolFilter
+      const matchesFavorite = !favoriteOnly || favoriteHrefs.has(record.href)
+      const text = `${record.tool} ${record.title} ${record.text}`.toLowerCase()
+      const matchesQuery = !keyword || text.includes(keyword)
+      return matchesTool && matchesFavorite && matchesQuery
+    })
+  }, [favoriteHrefs, favoriteOnly, query, records, toolFilter])
 
   const toggleFavorite = tool => {
     const exists = favoriteHrefs.has(tool.href)
@@ -46,13 +57,13 @@ export function LocalMemoryDashboard() {
       ? favorites.filter(item => item.href !== tool.href)
       : [{ title: tool.title, href: tool.href, addedAt: new Date().toISOString() }, ...favorites]
     setFavorites(next)
-    writeJson(favoritesKey, next)
+    writeMemory(favoritesKey, next)
   }
 
   const removeRecord = id => {
     const next = records.filter(record => record.id !== id)
     setRecords(next)
-    writeJson(recordsKey, next)
+    writeMemory(recordsKey, next)
   }
 
   const copyRecord = async record => {
@@ -60,6 +71,45 @@ export function LocalMemoryDashboard() {
     if (!ok) return
     setCopiedId(record.id)
     window.setTimeout(() => setCopiedId(''), 1800)
+  }
+
+  const exportMemory = () => {
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      records,
+      favorites
+    }
+    const url = `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(payload, null, 2))}`
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `jixue-xuan-records-${new Date().toISOString().slice(0, 10)}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const importMemory = async event => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    try {
+      const payload = JSON.parse(await file.text())
+      const importedRecords = Array.isArray(payload) ? payload : payload.records
+      const importedFavorites = Array.isArray(payload?.favorites) ? payload.favorites : []
+      const nextRecords = mergeMemoryRecords(records, Array.isArray(importedRecords) ? importedRecords : [])
+      const nextFavorites = mergeMemoryFavorites(favorites, importedFavorites)
+
+      setRecords(nextRecords)
+      setFavorites(nextFavorites)
+      writeMemory(recordsKey, nextRecords)
+      writeMemory(favoritesKey, nextFavorites)
+      setImportStatus(`已导入 ${nextRecords.length} 条记录 / ${nextFavorites.length} 个收藏`)
+    } catch {
+      setImportStatus('导入失败，请检查 JSON 文件')
+    } finally {
+      event.target.value = ''
+      window.setTimeout(() => setImportStatus(''), 2400)
+    }
   }
 
   return (
@@ -72,6 +122,13 @@ export function LocalMemoryDashboard() {
           </div>
           <strong>{favorites.length}</strong>
         </div>
+        {favoriteTools.length ? (
+          <div className='memory-favorite-strip'>
+            {favoriteTools.map(tool => (
+              <Link href={tool.href} key={tool.href}>{tool.title}</Link>
+            ))}
+          </div>
+        ) : null}
         <div className='memory-tool-grid'>
           {xuanTools.map(tool => (
             <article className='memory-tool-card' key={tool.href}>
@@ -100,9 +157,42 @@ export function LocalMemoryDashboard() {
           </div>
           <strong>{records.length}</strong>
         </div>
-        {records.length ? (
+        <div className='memory-filter-bar'>
+          <div className='chart-field'>
+            <label htmlFor='record-search'>搜索记录</label>
+            <input
+              className='chart-text-input'
+              id='record-search'
+              placeholder='搜索工具、标题或字段'
+              value={query}
+              onChange={event => setQuery(event.target.value)}
+            />
+          </div>
+          <div className='chart-field'>
+            <label htmlFor='record-tool-filter'>工具筛选</label>
+            <select id='record-tool-filter' value={toolFilter} onChange={event => setToolFilter(event.target.value)}>
+              <option value='all'>全部工具</option>
+              {recordTools.map(tool => <option key={tool} value={tool}>{tool}</option>)}
+            </select>
+          </div>
+          <button className={favoriteOnly ? 'active' : ''} type='button' onClick={() => setFavoriteOnly(current => !current)}>
+            <Star size={15} />
+            {favoriteOnly ? '已筛收藏' : '只看收藏'}
+          </button>
+          <button type='button' onClick={exportMemory}>
+            <Download size={15} />
+            导出 JSON
+          </button>
+          <button type='button' onClick={() => fileInputRef.current?.click()}>
+            <Copy size={15} />
+            导入 JSON
+          </button>
+          <input ref={fileInputRef} accept='application/json' hidden type='file' onChange={importMemory} />
+        </div>
+        {importStatus ? <div className='memory-import-status'>{importStatus}</div> : null}
+        {filteredRecords.length ? (
           <div className='memory-record-list'>
-            {records.map(record => (
+            {filteredRecords.map(record => (
               <article className='memory-record-card' key={record.id}>
                 <div>
                   <span>{record.tool} · {formatTime(record.createdAt)}</span>
@@ -125,8 +215,8 @@ export function LocalMemoryDashboard() {
           </div>
         ) : (
           <div className='memory-empty'>
-            <h3>还没有保存记录</h3>
-            <p>打开梅花、姓名、择日、奇门等新工具，点击保存记录后会出现在这里。</p>
+            <h3>{records.length ? '没有匹配记录' : '还没有保存记录'}</h3>
+            <p>{records.length ? '换个关键词、工具筛选或关闭只看收藏再试。' : '打开梅花、姓名、择日、奇门、八字、紫微或六爻，点击保存记录后会出现在这里。'}</p>
           </div>
         )}
       </section>
