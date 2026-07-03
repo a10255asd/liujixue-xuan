@@ -9155,6 +9155,88 @@ body {
   border-radius: 999px;
 }
 
+.structured-record-panel {
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid rgba(17, 20, 17, 0.08);
+  background: rgba(255, 253, 248, 0.66);
+  padding: 16px 18px 18px;
+}
+
+.structured-record-panel h3 {
+  margin: 6px 0 0;
+  font-size: 18px;
+}
+
+.structured-record-panel p {
+  margin: 0;
+  color: #687168;
+  font-size: 13px;
+  font-weight: 780;
+}
+
+.structured-record-list {
+  display: grid;
+  gap: 9px;
+}
+
+.structured-record-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.8);
+  padding: 12px;
+}
+
+.structured-record-card span,
+.structured-record-card strong,
+.structured-record-card p {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.structured-record-card span {
+  color: #687168;
+  font-size: 11px;
+  font-weight: 820;
+}
+
+.structured-record-card strong {
+  margin-top: 4px;
+  color: #111411;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.structured-record-card p {
+  margin: 6px 0 0;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.5;
+}
+
+.structured-record-slot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.structured-record-slot-actions button {
+  min-height: 32px;
+  border: 1px solid rgba(13, 111, 97, 0.16);
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.07);
+  color: #0d6f61;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 860;
+  padding: 0 11px;
+}
+
 .structured-hero-card {
   min-width: 0;
   overflow: hidden;

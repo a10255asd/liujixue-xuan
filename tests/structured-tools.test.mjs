@@ -177,3 +177,17 @@ test('structured tools apply saved record handoff into target fields', () => {
   assert.equal(compatibilityForm.personB, '乙方命盘')
   assert.equal(compatibilityForm.chartB, '命宫：子')
 })
+
+test('compatibility tool applies recent record into selected worksheet slot', () => {
+  const output = structuredTools.compatibility.applyRecordSlot(structuredTools.compatibility.defaultInput, {
+    tool: '八字专业细盘',
+    title: '甲方八字记录',
+    text: '四柱：甲子 乙丑 丙寅 丁卯'
+  }, structuredTools.compatibility.recordSlots[0])
+
+  assert.equal(structuredTools.compatibility.recordSlots.length, 2)
+  assert.equal(output.chartType, 'bazi')
+  assert.equal(output.personA, '甲方八字记录')
+  assert.equal(output.chartA, '四柱：甲子 乙丑 丙寅 丁卯')
+  assert.match(output.context, /甲方八字记录/)
+})

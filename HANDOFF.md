@@ -99,6 +99,8 @@
 - Added record-to-tool shortcuts in `/tools/records`: each saved record can be sent to `/tools/ai-prompt`, or inserted as `合盘 A` / `合盘 B` into `/tools/compatibility`.
 - Added localStorage handoff helpers in `lib/local-memory.js`; `StructuredTool` consumes and clears a pending handoff on page load.
 - Added tests for handoff payloads and tool-side handoff application; unit coverage is now 33 passing tests.
+- Added a lightweight worksheet inside `/tools/compatibility`: the left input panel now lists recent saved records and can fill them into `对象 A` or `对象 B` without returning to `/tools/records`.
+- Added `recordSlots` / `applyRecordSlot` support to shared `StructuredTool`, currently used by `合盘对照`; unit coverage is now 34 passing tests.
 
 ## Source Boundaries
 
@@ -125,6 +127,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add a lightweight comparison worksheet on `/tools/compatibility` so two records can be loaded in sequence without returning to `/tools/records`.
+1. Add a compact “recent handoff” indicator on tools that receive records, so users can see which saved record was inserted.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
 3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.

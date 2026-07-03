@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, handoffKey, readMemory, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
+import { favoritesKey, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
@@ -106,6 +106,46 @@ function Field({ field, form, updateForm }) {
   )
 }
 
+const previewRecordText = text => {
+  const lines = String(text || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean)
+  const chartIndex = lines.findIndex(line => line.includes('排盘字段'))
+  const previewLines = chartIndex >= 0 ? lines.slice(chartIndex + 1) : lines
+  return previewLines.slice(0, 2).join(' / ') || '暂无预览'
+}
+
+function RecordSlotPanel({ records, slots, insertRecord }) {
+  return (
+    <section className='structured-record-panel'>
+      <div>
+        <span className='chart-kicker'>记录工作台</span>
+        <h3>从记录填入</h3>
+      </div>
+      {records.length ? (
+        <div className='structured-record-list'>
+          {records.map(record => (
+            <article className='structured-record-card' key={record.id}>
+              <div>
+                <span>{record.tool}</span>
+                <strong>{record.title}</strong>
+                <p>{previewRecordText(record.text)}</p>
+              </div>
+              <div className='structured-record-slot-actions'>
+                {slots.map(slot => (
+                  <button key={`${record.id}-${slot.key}`} type='button' onClick={() => insertRecord(record, slot)}>
+                    {slot.label}
+                  </button>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p>暂无保存记录</p>
+      )}
+    </section>
+  )
+}
+
 export function StructuredTool({ slug }) {
   const tool = getStructuredTool(slug)
   const defaultInput = tool.defaultInput
@@ -113,8 +153,11 @@ export function StructuredTool({ slug }) {
   const [copied, setCopied] = useState(false)
   const [saved, setSaved] = useState(false)
   const [favorited, setFavorited] = useState(false)
+  const [records, setRecords] = useState([])
   const output = useMemo(() => tool.calculate(form), [form, tool])
   const exportText = useMemo(() => output.copyText || formatStructuredResultText(output), [output])
+  const recordSlots = tool.recordSlots || []
+  const recentRecords = useMemo(() => records.filter(record => record?.text).slice(0, 8), [records])
 
   useEffect(() => {
     const favorites = readMemory(favoritesKey, [])
@@ -123,9 +166,10 @@ export function StructuredTool({ slug }) {
     const shouldApplyHandoff = tool.applyHandoff && handoff && (handoff.targetHref === tool.href || handoff.targetSlug === slug)
 
     setFavorited(favorites.some(item => item.href === tool.href))
+    if (recordSlots.length) setRecords(readMemory(recordsKey, []))
     setForm(shouldApplyHandoff ? tool.applyHandoff(dynamicDefaults, handoff) : dynamicDefaults)
     if (shouldApplyHandoff) window.setTimeout(() => removeMemory(handoffKey), 0)
-  }, [defaultInput, slug, tool])
+  }, [defaultInput, recordSlots.length, slug, tool])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
@@ -169,6 +213,13 @@ export function StructuredTool({ slug }) {
     setFavorited(!exists)
   }
 
+  const insertRecord = (record, slot) => {
+    if (!tool.applyRecordSlot) return
+    setForm(current => tool.applyRecordSlot(current, record, slot))
+    setCopied(false)
+    setSaved(false)
+  }
+
   return (
     <div className='chart-tool structured-tool'>
       <section className='chart-side-panel'>
@@ -200,6 +251,7 @@ export function StructuredTool({ slug }) {
             {favorited ? '已收藏' : '收藏工具'}
           </button>
         </div>
+        {recordSlots.length ? <RecordSlotPanel records={recentRecords} slots={recordSlots} insertRecord={insertRecord} /> : null}
       </section>
 
       <section className='chart-result-panel'>
