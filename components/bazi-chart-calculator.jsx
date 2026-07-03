@@ -3,6 +3,7 @@
 import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
+import { aiAndCompatibilityTargets } from '@/components/tool-handoff-actions'
 import { baZiGenderOptions, baZiSectOptions, baZiYunSectOptions, calculateBaZiChart, defaultBaZiInput } from '@/lib/bazi-chart'
 import {
   getAreaOptions,
@@ -233,6 +234,7 @@ function BaZiFineTable({ copyText, exportPayload, result }) {
             copyLabel='复制细盘文本'
             copiedLabel='已复制细盘'
             copyText={copyText}
+            handoffTargets={aiAndCompatibilityTargets}
             imageDownloader={downloadBaZiFineChartImage}
             imageLabel='下载专业细盘'
             location='bazi-fine-chart'

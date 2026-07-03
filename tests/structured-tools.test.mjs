@@ -27,6 +27,22 @@ test('structured tool catalogue exposes callable tools', () => {
   }
 })
 
+test('structured chart tools expose direct AI handoff targets', () => {
+  const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'findTime', 'meihua', 'name', 'qimen']
+
+  for (const slug of directAiTools) {
+    assert.deepEqual(structuredTools[slug].handoffTargets, [{
+      label: '送去 AI',
+      slot: 'chartText',
+      targetHref: '/tools/ai-prompt',
+      targetSlug: 'aiPrompt'
+    }])
+  }
+
+  assert.equal(structuredTools.aiPrompt.handoffTargets, undefined)
+  assert.equal(structuredTools.compatibility.handoffTargets, undefined)
+})
+
 test('meihua number method returns core hexagram fields', () => {
   const output = structuredTools.meihua.calculate({
     topic: '测试事项',

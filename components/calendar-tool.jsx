@@ -1,6 +1,7 @@
 'use client'
 
 import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
+import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { saveMemoryRecord } from '@/lib/local-memory'
 import { Solar } from 'lunar-javascript'
 import { useMemo, useState } from 'react'
@@ -169,6 +170,17 @@ export function CalendarTool() {
             {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
             {saved ? '已保存' : '保存记录'}
           </button>
+          <ToolHandoffActions
+            buttonClassName='button'
+            className='direct-tool-handoff-actions'
+            location='calendar-tool'
+            record={{
+              tool: '黄历节气',
+              href: '/tools/calendar',
+              title: `${calendar.solar} · ${calendar.ganZhi.day}日`,
+              text: copyText
+            }}
+          />
         </div>
       </section>
 

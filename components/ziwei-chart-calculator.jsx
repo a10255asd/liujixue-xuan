@@ -3,6 +3,7 @@
 import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
+import { aiAndCompatibilityTargets } from '@/components/tool-handoff-actions'
 import { calculateZiWeiChart, defaultZiWeiInput, ziWeiGenderOptions, ziWeiSectOptions } from '@/lib/ziwei-chart'
 import {
   getAreaOptions,
@@ -207,6 +208,7 @@ function ZiWeiFineChart({ copyText, exportPayload, result }) {
             copyLabel='复制专业盘文本'
             copiedLabel='已复制专业盘'
             copyText={copyText}
+            handoffTargets={aiAndCompatibilityTargets}
             imageDownloader={downloadZiWeiFineChartImage}
             imageLabel='下载专业命盘'
             location='ziwei-fine-chart'

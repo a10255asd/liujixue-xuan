@@ -1,6 +1,7 @@
 'use client'
 
 import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
+import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { saveMemoryRecord } from '@/lib/local-memory'
 import { useMemo, useState } from 'react'
 
@@ -197,6 +198,17 @@ export function DailyHexagramTool() {
             {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
             {saved ? '已保存' : '保存记录'}
           </button>
+          <ToolHandoffActions
+            buttonClassName='button'
+            className='direct-tool-handoff-actions'
+            location='daily-hexagram-tool'
+            record={{
+              tool: '每日一卦',
+              href: '/tools/daily',
+              title: `${chart.topic} · ${chart.name}`,
+              text: copyText
+            }}
+          />
         </div>
       </section>
 

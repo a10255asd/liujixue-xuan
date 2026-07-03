@@ -2,6 +2,7 @@
 
 import { CheckCircle2, Download, Save } from '@/components/icons'
 import { TemplateCopyButton } from '@/components/template-copy-button'
+import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { downloadChartImage } from '@/lib/chart-image-export'
 import { saveMemoryRecord } from '@/lib/local-memory'
 import { track } from '@vercel/analytics'
@@ -97,6 +98,7 @@ export function ChartExportActions({
   copyLabel = '复制 AI 解析包',
   copyText,
   failedLabel = '复制受限',
+  handoffTargets,
   imageDownloader,
   imageLabel,
   location,
@@ -117,6 +119,16 @@ export function ChartExportActions({
       />
       <ChartTextButton location={location} payload={payload} text={copyText} textLabel={textLabel} />
       <ChartSaveButton location={location} payload={payload} text={copyText} />
+      <ToolHandoffActions
+        location={location}
+        record={{
+          tool: payload.title,
+          href: typeof window === 'undefined' ? '' : window.location.pathname,
+          title: payload.subtitle || payload.title,
+          text: copyText
+        }}
+        targets={handoffTargets}
+      />
       <ChartImageButton imageDownloader={imageDownloader} imageLabel={imageLabel} location={location} payload={payload} />
     </div>
   )

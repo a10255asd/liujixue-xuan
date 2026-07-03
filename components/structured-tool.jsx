@@ -1,6 +1,7 @@
 'use client'
 
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
+import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { copyText as writeClipboard } from '@/lib/copy-text'
 import { favoritesKey, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
@@ -297,6 +298,18 @@ export function StructuredTool({ slug }) {
             <Star size={16} />
             {favorited ? '已收藏' : '收藏工具'}
           </button>
+          <ToolHandoffActions
+            buttonClassName='button'
+            className='structured-direct-handoff-actions'
+            location={`${slug}-structured-tool`}
+            record={{
+              tool: tool.title,
+              href: tool.href,
+              title: output.summary || output.title,
+              text: exportText
+            }}
+            targets={tool.handoffTargets || []}
+          />
         </div>
         <AppliedRecordNotice items={appliedRecords} />
         {recordSlots.length ? <RecordSlotPanel records={recentRecords} slots={recordSlots} insertRecord={insertRecord} /> : null}

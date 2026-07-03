@@ -103,6 +103,11 @@
 - Added `recordSlots` / `applyRecordSlot` support to shared `StructuredTool`, currently used by `合盘对照`; unit coverage is now 34 passing tests.
 - Added a compact “最近填入” indicator to `StructuredTool` record receivers. It shows the target slot and source record after `/tools/records` handoff or in-page record insertion, and clears the affected slot indicator once that field is manually edited.
 - Mobile QA checked `/tools/compatibility` at 390px for record insertion indicators; `对象 A` / `对象 B` chips render without page overflow and manual edit removes only the edited slot.
+- Added direct tool handoff actions:
+  - BaZi and ZiWei professional export panels now show `送去 AI`, `合盘 A`, and `合盘 B`.
+  - LiuYao, Huangli, Daily Hexagram, and structured tools such as Meihua/Qimen/Daliuren/Name/Date Selection can go directly to `/tools/ai-prompt`.
+  - The target tool consumes the same localStorage handoff payload as `/tools/records`, so direct handoff and saved-record handoff share one flow.
+- Mobile QA checked direct handoff at 390px: `/tools/bazi` → `合盘 A` fills `/tools/compatibility`; `/tools/meihua` → `送去 AI` fills `/tools/ai-prompt`; both paths have no page-level horizontal overflow.
 
 ## Source Boundaries
 
@@ -129,6 +134,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add direct “送去 AI / 送去合盘” actions on eligible tool result panels so users can hand off a freshly generated chart without first saving and opening `/tools/records`.
+1. Add a small onboarding strip on `/tools/records` explaining the preferred loop: generate chart → direct handoff to AI/合盘 → save/export only when needed.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
 3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.
