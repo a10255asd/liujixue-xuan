@@ -16,6 +16,7 @@
   - `/tools/compatibility` paired chart field comparison and AI handoff material builder.
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
   - `/tools/meihua` Meihua Yishu number/time charting fields.
+  - `/tools/tarot` deterministic Tarot draw with 78-card deck, spreads, upright/reversed fields, and AI handoff.
   - `/tools/daily` daily time-hexagram record tool.
   - `/tools/qimen` Qimen Dunjia Chai-Bu method chart using `qimen-dunjia`.
   - `/tools/daliuren` Da Liu Ren four lessons / three transmissions chart using `daliuren-lib`.
@@ -118,7 +119,12 @@
 - Live smoke test pass:
   - Added `npm run smoke:live` for production route checks against `https://xuan.liujixue.cn` by default.
   - Override with `SMOKE_BASE_URL=http://localhost:3000 npm run smoke:live` for local checks or preview deployments.
-  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/records`, `/tools/ai-prompt`, and `/tools/compatibility`.
+  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/tarot`, `/tools/records`, `/tools/ai-prompt`, and `/tools/compatibility`.
+- Added `/tools/tarot` as a lightweight parity feature:
+  - Uses a complete 78-card Rider-Waite-style deck model with major/minor arcana names and keywords.
+  - Supports single-card, three-card, relationship, and two-choice spreads.
+  - Uses deterministic shuffling from question + spread + time + seed so records can be reproduced.
+  - Exports card positions, upright/reversed fields, keywords, and AI handoff text only; no direct prediction copy.
 
 ## Source Boundaries
 

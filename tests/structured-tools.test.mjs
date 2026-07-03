@@ -15,7 +15,8 @@ test('structured tool catalogue exposes callable tools', () => {
     'findTime',
     'meihua',
     'name',
-    'qimen'
+    'qimen',
+    'tarot'
   ].sort())
 
   for (const slug of slugs) {
@@ -28,7 +29,7 @@ test('structured tool catalogue exposes callable tools', () => {
 })
 
 test('structured chart tools expose direct AI handoff targets', () => {
-  const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'findTime', 'meihua', 'name', 'qimen']
+  const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'findTime', 'meihua', 'name', 'qimen', 'tarot']
 
   for (const slug of directAiTools) {
     assert.deepEqual(structuredTools[slug].handoffTargets, [{
@@ -129,6 +130,28 @@ test('name tool uses manual strokes for five grids', () => {
   assert.match(text, /天格：16画/)
   assert.match(text, /人格：33画/)
   assert.match(text, /总格：39画/)
+})
+
+test('tarot tool draws deterministic spread fields from a 78-card deck', () => {
+  const input = {
+    question: '这件事现在最该关注什么？',
+    spread: 'three',
+    date: '2026-07-03',
+    time: '20:30',
+    seed: 'jixue'
+  }
+  const first = structuredTools.tarot.calculate(input)
+  const second = structuredTools.tarot.calculate(input)
+  const text = formatStructuredResultText(first)
+  const spreadRows = first.sections.find(section => section.title === '牌阵结果').rows
+
+  assert.equal(first.title, '塔罗抽牌')
+  assert.deepEqual(first.badges, ['三张牌', '3张牌', '78张牌库'])
+  assert.equal(spreadRows.length, 3)
+  assert.deepEqual(first.sections, second.sections)
+  assert.match(text, /牌库：莱德韦特通用 78 张/)
+  assert.match(text, /正位|逆位/)
+  assert.doesNotMatch(text, /一定|必然/)
 })
 
 test('ai prompt tool exports boundary-safe prompt text', () => {

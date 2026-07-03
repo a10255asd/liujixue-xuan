@@ -6,6 +6,7 @@ const routes = [
   { path: "/tools/bazi", expects: ["八字"] },
   { path: "/tools/ziwei", expects: ["紫微"] },
   { path: "/tools/liuyao", expects: ["六爻"] },
+  { path: "/tools/tarot", expects: ["塔罗"] },
   { path: "/tools/records", expects: ["记录"] },
   { path: "/tools/ai-prompt", expects: ["AI"] },
   { path: "/tools/compatibility", expects: ["合盘"] },
