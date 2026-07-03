@@ -17,6 +17,7 @@
   - `/tools/liuyao` reusing the verified Liu Yao Na Jia chart calculator.
   - `/tools/meihua` Meihua Yishu number/time charting fields.
   - `/tools/tarot` deterministic Tarot draw with 78-card deck, spreads, upright/reversed fields, and AI handoff.
+  - `/tools/dream` dream journal material organizer with emotion, scene, symbol, context, and AI handoff prompt fields.
   - `/tools/daily` daily time-hexagram record tool.
   - `/tools/qimen` Qimen Dunjia Chai-Bu method chart using `qimen-dunjia`.
   - `/tools/daliuren` Da Liu Ren four lessons / three transmissions chart using `daliuren-lib`.
@@ -120,7 +121,7 @@
 - Live smoke test pass:
   - Added `npm run smoke:live` for production route checks against `https://xuan.liujixue.cn` by default.
   - Override with `SMOKE_BASE_URL=http://localhost:3000 npm run smoke:live` for local checks or preview deployments.
-  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/tarot`, `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility`.
+  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/tarot`, `/tools/dream`, `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility`.
 - Added `/tools/tarot` as a lightweight parity feature:
   - Uses a complete 78-card Rider-Waite-style deck model with major/minor arcana names and keywords.
   - Supports single-card, three-card, relationship, and two-choice spreads.
@@ -131,6 +132,10 @@
   - Direct handoff actions now include `合参`; the synthesis tool auto-routes incoming records by source tool into the closest input slot.
   - `/tools/records` record cards now expose `合参` alongside `送去 AI`, `合盘 A`, and `合盘 B`.
   - The output is a boundary-safe synthesis prompt and completeness summary only; it does not output final predictions.
+- Added `/tools/dream` as a lightweight dream journal / AI handoff feature:
+  - Captures title, date, wake time, focus, mood, intensity, scene, people, symbols, real-world context, and dream text.
+  - Exports a boundary-safe AI prompt for dream material sorting only, with no omen, prediction, or deterministic interpretation copy.
+  - The tool participates in favorites, records, AI handoff, and synthesis handoff through the shared structured tool layer.
 
 ## Source Boundaries
 

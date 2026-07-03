@@ -12,6 +12,7 @@ test('structured tool catalogue exposes callable tools', () => {
     'dailyFortune',
     'daliuren',
     'dateSelection',
+    'dream',
     'findTime',
     'meihua',
     'name',
@@ -30,7 +31,7 @@ test('structured tool catalogue exposes callable tools', () => {
 })
 
 test('structured chart tools expose direct AI handoff targets', () => {
-  const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'findTime', 'meihua', 'name', 'qimen', 'tarot']
+  const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'dream', 'findTime', 'meihua', 'name', 'qimen', 'tarot']
   const targets = [
     {
       label: '送去 AI',
@@ -163,6 +164,30 @@ test('tarot tool draws deterministic spread fields from a 78-card deck', () => {
   assert.match(text, /牌库：莱德韦特通用 78 张/)
   assert.match(text, /正位|逆位/)
   assert.doesNotMatch(text, /一定|必然/)
+})
+
+test('dream tool exports journal fields without omen judgement', () => {
+  const output = structuredTools.dream.calculate({
+    title: '反复出现的走廊',
+    date: '2026-07-04',
+    wakeTime: '06:40',
+    focus: 'emotion',
+    mood: '紧张但清醒',
+    intensity: '4',
+    scene: '一条很长的走廊，灯光很暗',
+    people: '一个熟悉但想不起名字的人',
+    symbols: '走廊 灯 门',
+    realContext: '最近在犹豫是否换项目方向',
+    dreamText: '我一直往前走，看到很多门，但没有打开。'
+  })
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '梦境记录整理')
+  assert.ok(output.badges.includes('情绪线索'))
+  assert.match(output.copyText, /不做吉凶、预兆、应期或结果保证/)
+  assert.match(output.copyText, /梦境全文/)
+  assert.match(text, /反复意象：走廊 \/ 灯 \/ 门/)
+  assert.doesNotMatch(output.copyText, /一定|必然/)
 })
 
 test('ai prompt tool exports boundary-safe prompt text', () => {
