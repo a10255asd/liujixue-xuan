@@ -120,6 +120,31 @@ export function LocalMemoryDashboard() {
 
   return (
     <div className='memory-dashboard'>
+      <section className='memory-guide-panel'>
+        <div className='memory-guide-copy'>
+          <span className='chart-kicker'>工作流</span>
+          <h2>排盘接力流程</h2>
+          <p>先生成排盘字段，直接送去 AI 或合盘；需要留档、复盘、迁移时，再保存到这里。</p>
+        </div>
+        <div className='memory-guide-steps'>
+          <Link className='memory-guide-step' href='/tools'>
+            <span>01</span>
+            <strong>生成排盘</strong>
+            <em>八字、紫微、六爻、梅花等工具</em>
+          </Link>
+          <Link className='memory-guide-step' href='/tools/ai-prompt'>
+            <span>02</span>
+            <strong>直接接力</strong>
+            <em>送去 AI，或把八字/紫微填入合盘</em>
+          </Link>
+          <a className='memory-guide-step' href='#record-list'>
+            <span>03</span>
+            <strong>再做留档</strong>
+            <em>复制、保存、筛选、JSON 导入导出</em>
+          </a>
+        </div>
+      </section>
+
       <section className='memory-panel'>
         <div className='memory-panel-head'>
           <div>
@@ -155,7 +180,7 @@ export function LocalMemoryDashboard() {
         </div>
       </section>
 
-      <section className='memory-panel'>
+      <section className='memory-panel' id='record-list'>
         <div className='memory-panel-head'>
           <div>
             <span className='chart-kicker'>Records</span>

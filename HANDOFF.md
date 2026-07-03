@@ -108,6 +108,8 @@
   - LiuYao, Huangli, Daily Hexagram, and structured tools such as Meihua/Qimen/Daliuren/Name/Date Selection can go directly to `/tools/ai-prompt`.
   - The target tool consumes the same localStorage handoff payload as `/tools/records`, so direct handoff and saved-record handoff share one flow.
 - Mobile QA checked direct handoff at 390px: `/tools/bazi` → `合盘 A` fills `/tools/compatibility`; `/tools/meihua` → `送去 AI` fills `/tools/ai-prompt`; both paths have no page-level horizontal overflow.
+- Added a compact workflow strip at the top of `/tools/records`: `生成排盘` → `直接接力` → `再做留档`, clarifying that records are for retention/export while most fresh charts can go straight to AI/合盘.
+- Mobile QA checked `/tools/records` at 390px after the workflow strip; the three steps stack vertically and no page-level horizontal overflow was observed.
 
 ## Source Boundaries
 
@@ -134,6 +136,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add a small onboarding strip on `/tools/records` explaining the preferred loop: generate chart → direct handoff to AI/合盘 → save/export only when needed.
+1. Do dependency hygiene separately: inspect `npm audit` and dependency freshness first, then only apply low-risk upgrades that do not alter chart outputs.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
-3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.
+3. Consider a small smoke-test script for key live routes (`/tools/bazi`, `/tools/records`, `/tools/ai-prompt`, `/tools/compatibility`) before deploys.
