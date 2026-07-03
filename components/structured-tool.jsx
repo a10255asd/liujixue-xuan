@@ -146,6 +146,45 @@ function RecordSlotPanel({ records, slots, insertRecord }) {
   )
 }
 
+const slotLabelFromTool = (tool, slots, slotKey) => {
+  const configuredSlot = slots.find(slot => slot.key === slotKey)
+  const field = tool.fields.find(item => item.key === slotKey)
+  const label = configuredSlot?.indicatorLabel || configuredSlot?.label || field?.label || '排盘字段'
+  return label.replace(/^填入\s*/, '对象 ')
+}
+
+const buildAppliedRecordNotice = (source, slotKey, slotLabel) => ({
+  id: `${slotKey || 'field'}-${source?.sourceId || source?.id || Date.now()}`,
+  slot: slotKey || '',
+  slotLabel,
+  sourceTool: source?.sourceTool || source?.tool || '记录',
+  sourceTitle: source?.sourceTitle || source?.title || '未命名记录'
+})
+
+const mergeAppliedRecordNotice = (current, next) => [
+  next,
+  ...current.filter(item => item.slot !== next.slot)
+].slice(0, 4)
+
+function AppliedRecordNotice({ items }) {
+  if (!items.length) return null
+
+  return (
+    <section className='structured-handoff-indicator' aria-label='最近填入记录'>
+      <span className='chart-kicker'>最近填入</span>
+      <div className='structured-handoff-chip-list'>
+        {items.map(item => (
+          <div className='structured-handoff-chip' key={item.id}>
+            <span>{item.slotLabel}</span>
+            <strong>{item.sourceTitle}</strong>
+            <em>{item.sourceTool}</em>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export function StructuredTool({ slug }) {
   const tool = getStructuredTool(slug)
   const defaultInput = tool.defaultInput
@@ -154,9 +193,10 @@ export function StructuredTool({ slug }) {
   const [saved, setSaved] = useState(false)
   const [favorited, setFavorited] = useState(false)
   const [records, setRecords] = useState([])
+  const [appliedRecords, setAppliedRecords] = useState([])
   const output = useMemo(() => tool.calculate(form), [form, tool])
   const exportText = useMemo(() => output.copyText || formatStructuredResultText(output), [output])
-  const recordSlots = tool.recordSlots || []
+  const recordSlots = useMemo(() => tool.recordSlots || [], [tool])
   const recentRecords = useMemo(() => records.filter(record => record?.text).slice(0, 8), [records])
 
   useEffect(() => {
@@ -168,17 +208,23 @@ export function StructuredTool({ slug }) {
     setFavorited(favorites.some(item => item.href === tool.href))
     if (recordSlots.length) setRecords(readMemory(recordsKey, []))
     setForm(shouldApplyHandoff ? tool.applyHandoff(dynamicDefaults, handoff) : dynamicDefaults)
+    setAppliedRecords(shouldApplyHandoff
+      ? [buildAppliedRecordNotice(handoff, handoff.slot, slotLabelFromTool(tool, recordSlots, handoff.slot))]
+      : []
+    )
     if (shouldApplyHandoff) window.setTimeout(() => removeMemory(handoffKey), 0)
-  }, [defaultInput, recordSlots.length, slug, tool])
+  }, [defaultInput, recordSlots, slug, tool])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
+    setAppliedRecords(current => current.filter(item => item.slot !== key))
     setCopied(false)
     setSaved(false)
   }
 
   const reset = () => {
     setForm(hydrateDefaults(defaultInput, true))
+    setAppliedRecords([])
     setCopied(false)
     setSaved(false)
   }
@@ -216,6 +262,7 @@ export function StructuredTool({ slug }) {
   const insertRecord = (record, slot) => {
     if (!tool.applyRecordSlot) return
     setForm(current => tool.applyRecordSlot(current, record, slot))
+    setAppliedRecords(current => mergeAppliedRecordNotice(current, buildAppliedRecordNotice(record, slot?.key, slotLabelFromTool(tool, recordSlots, slot?.key))))
     setCopied(false)
     setSaved(false)
   }
@@ -251,6 +298,7 @@ export function StructuredTool({ slug }) {
             {favorited ? '已收藏' : '收藏工具'}
           </button>
         </div>
+        <AppliedRecordNotice items={appliedRecords} />
         {recordSlots.length ? <RecordSlotPanel records={recentRecords} slots={recordSlots} insertRecord={insertRecord} /> : null}
       </section>
 

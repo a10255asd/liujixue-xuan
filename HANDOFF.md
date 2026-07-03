@@ -101,6 +101,8 @@
 - Added tests for handoff payloads and tool-side handoff application; unit coverage is now 33 passing tests.
 - Added a lightweight worksheet inside `/tools/compatibility`: the left input panel now lists recent saved records and can fill them into `对象 A` or `对象 B` without returning to `/tools/records`.
 - Added `recordSlots` / `applyRecordSlot` support to shared `StructuredTool`, currently used by `合盘对照`; unit coverage is now 34 passing tests.
+- Added a compact “最近填入” indicator to `StructuredTool` record receivers. It shows the target slot and source record after `/tools/records` handoff or in-page record insertion, and clears the affected slot indicator once that field is manually edited.
+- Mobile QA checked `/tools/compatibility` at 390px for record insertion indicators; `对象 A` / `对象 B` chips render without page overflow and manual edit removes only the edited slot.
 
 ## Source Boundaries
 
@@ -127,6 +129,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Add a compact “recent handoff” indicator on tools that receive records, so users can see which saved record was inserted.
+1. Add direct “送去 AI / 送去合盘” actions on eligible tool result panels so users can hand off a freshly generated chart without first saving and opening `/tools/records`.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
 3. Consider dependency hygiene separately: `daliuren-lib` currently requires subpath import because its package `main` points to a missing bundled entry.
