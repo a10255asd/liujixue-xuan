@@ -110,6 +110,11 @@
 - Mobile QA checked direct handoff at 390px: `/tools/bazi` → `合盘 A` fills `/tools/compatibility`; `/tools/meihua` → `送去 AI` fills `/tools/ai-prompt`; both paths have no page-level horizontal overflow.
 - Added a compact workflow strip at the top of `/tools/records`: `生成排盘` → `直接接力` → `再做留档`, clarifying that records are for retention/export while most fresh charts can go straight to AI/合盘.
 - Mobile QA checked `/tools/records` at 390px after the workflow strip; the three steps stack vertically and no page-level horizontal overflow was observed.
+- Dependency hygiene pass:
+  - Added `npm run audit:official` because the local `npmmirror` registry returns `NOT_IMPLEMENTED` for npm audit endpoints.
+  - `npm_config_registry=https://registry.npmjs.org npm audit --json` reports 5 vulnerabilities: Next.js/PostCSS runtime chain and eslint-config-next/@next/eslint-plugin-next/glob dev chain.
+  - npm's available fixes require semver-major upgrades (`next@15.5.20` and `eslint-config-next@16.2.10`); no low-risk patch/minor upgrade was applied.
+  - `npm outdated --json` currently lists major-only upgrades for Next/React/eslint/Vercel analytics, so chart-output-safe dependency changes were intentionally deferred.
 
 ## Source Boundaries
 
@@ -136,6 +141,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Do dependency hygiene separately: inspect `npm audit` and dependency freshness first, then only apply low-risk upgrades that do not alter chart outputs.
+1. Consider a small smoke-test script for key live routes (`/tools/bazi`, `/tools/records`, `/tools/ai-prompt`, `/tools/compatibility`) before deploys.
 2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
-3. Consider a small smoke-test script for key live routes (`/tools/bazi`, `/tools/records`, `/tools/ai-prompt`, `/tools/compatibility`) before deploys.
+3. Plan Next major upgrade separately with browser QA for BaZi/ZiWei/LiuYao and `npm run test:unit` baselines before and after.
