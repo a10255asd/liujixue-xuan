@@ -115,6 +115,10 @@
   - `npm_config_registry=https://registry.npmjs.org npm audit --json` reports 5 vulnerabilities: Next.js/PostCSS runtime chain and eslint-config-next/@next/eslint-plugin-next/glob dev chain.
   - npm's available fixes require semver-major upgrades (`next@15.5.20` and `eslint-config-next@16.2.10`); no low-risk patch/minor upgrade was applied.
   - `npm outdated --json` currently lists major-only upgrades for Next/React/eslint/Vercel analytics, so chart-output-safe dependency changes were intentionally deferred.
+- Live smoke test pass:
+  - Added `npm run smoke:live` for production route checks against `https://xuan.liujixue.cn` by default.
+  - Override with `SMOKE_BASE_URL=http://localhost:3000 npm run smoke:live` for local checks or preview deployments.
+  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/records`, `/tools/ai-prompt`, and `/tools/compatibility`.
 
 ## Source Boundaries
 
@@ -141,6 +145,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. Consider a small smoke-test script for key live routes (`/tools/bazi`, `/tools/records`, `/tools/ai-prompt`, `/tools/compatibility`) before deploys.
-2. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
-3. Plan Next major upgrade separately with browser QA for BaZi/ZiWei/LiuYao and `npm run test:unit` baselines before and after.
+1. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
+2. Plan Next major upgrade separately with browser QA for BaZi/ZiWei/LiuYao and `npm run test:unit` baselines before and after.
+3. Expand `npm run smoke:live` whenever a new production-critical page is added.
