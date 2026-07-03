@@ -2018,6 +2018,132 @@ input {
   line-height: 1.7;
 }
 
+.bazi-example-panel {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin-bottom: 16px;
+  border: 1px solid rgba(228, 222, 209, 0.88);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(245, 241, 232, 0.72)),
+    var(--chart-paper);
+  padding: 12px;
+}
+
+.bazi-example-head,
+.bazi-input-audit-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.bazi-example-head span,
+.bazi-input-audit-head span {
+  color: var(--chart-warm);
+  font-size: 11px;
+  font-weight: 840;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.bazi-example-head strong,
+.bazi-input-audit-head strong {
+  color: var(--chart-ink);
+  font-size: 13px;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.bazi-example-list {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bazi-example-button {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  border: 1px solid rgba(228, 222, 209, 0.88);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--chart-ink);
+  cursor: pointer;
+  padding: 10px;
+  text-align: left;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.bazi-example-button:hover {
+  border-color: rgba(13, 148, 136, 0.42);
+  background: rgba(231, 247, 243, 0.72);
+  transform: translateY(-1px);
+}
+
+.bazi-example-button strong {
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.bazi-example-button span {
+  color: var(--chart-muted);
+  font-size: 12px;
+  font-weight: 680;
+  line-height: 1.4;
+}
+
+.bazi-input-audit {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(231, 247, 243, 0.56), rgba(255, 253, 248, 0.86)),
+    var(--chart-paper);
+  padding: 12px;
+}
+
+.bazi-input-audit dl {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  min-width: 0;
+}
+
+.bazi-input-audit dl div {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+
+.bazi-input-audit dt,
+.bazi-input-audit dd {
+  margin: 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.bazi-input-audit dt {
+  color: var(--chart-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.bazi-input-audit dd {
+  color: var(--chart-ink);
+  font-size: 12px;
+  font-weight: 760;
+}
+
 .bazi-summary-card,
 .ziwei-summary-card,
 .chart-section-card,
@@ -2500,6 +2626,55 @@ input {
 
 .bazi-luck-card strong.water {
   color: #2563eb;
+}
+
+.bazi-workflow-card {
+  display: grid;
+  gap: 14px;
+}
+
+.bazi-workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+
+.bazi-workflow-steps article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+  min-height: 128px;
+  border: 1px solid rgba(228, 222, 209, 0.78);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.88), rgba(245, 241, 232, 0.62)),
+    var(--chart-paper);
+  padding: 13px;
+}
+
+.bazi-workflow-steps span {
+  color: var(--chart-warm);
+  font-size: 11px;
+  font-weight: 860;
+  line-height: 1;
+}
+
+.bazi-workflow-steps strong {
+  color: var(--chart-ink);
+  font-size: 16px;
+  font-weight: 860;
+  line-height: 1.25;
+}
+
+.bazi-workflow-steps p {
+  margin: 0;
+  color: var(--chart-muted);
+  font-size: 13px;
+  font-weight: 680;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .chart-section-card {
@@ -3584,6 +3759,7 @@ input {
   .chart-export-section-list,
   .chart-location-select-grid,
   .bazi-pillar-grid,
+  .bazi-workflow-steps,
   .chart-detail-list.compact,
   .ziwei-palace-grid,
   .term-explanation-grid,
@@ -3606,6 +3782,23 @@ input {
   .button {
     min-height: 44px;
     padding: 0 12px;
+  }
+
+  .bazi-example-head,
+  .bazi-input-audit-head,
+  .bazi-luck-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .bazi-example-head strong,
+  .bazi-input-audit-head strong {
+    text-align: left;
+  }
+
+  .bazi-input-audit dl div {
+    grid-template-columns: 1fr;
+    gap: 3px;
   }
 
   .header-inner {
@@ -7729,6 +7922,44 @@ body {
   padding: 18px;
 }
 
+.xuan-tool-workspace .bazi-example-panel {
+  margin: 18px 18px 0;
+  border-color: rgba(17, 20, 17, 0.1);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(215, 192, 142, 0.18), transparent 32%),
+    linear-gradient(180deg, rgba(255, 253, 246, 0.94), rgba(246, 242, 233, 0.86));
+}
+
+.xuan-tool-workspace .bazi-example-head strong,
+.xuan-tool-workspace .bazi-input-audit-head strong {
+  color: #111411;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .bazi-example-button {
+  border-color: rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 253, 246, 0.76);
+}
+
+.xuan-tool-workspace .bazi-example-button:hover {
+  border-color: rgba(13, 111, 97, 0.38);
+  background: rgba(223, 244, 238, 0.62);
+}
+
+.xuan-tool-workspace .bazi-input-audit {
+  border-color: rgba(13, 111, 97, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(223, 244, 238, 0.48), rgba(255, 253, 246, 0.88)),
+    #fffdf8;
+}
+
+.xuan-tool-workspace .bazi-input-audit dd {
+  color: #111411;
+  font-weight: 820;
+}
+
 .xuan-tool-workspace .chart-card,
 .xuan-tool-workspace .form-panel,
 .xuan-tool-workspace .chart-section-card,
@@ -9225,6 +9456,23 @@ body {
 .xuan-tool-workspace .bazi-luck-card strong {
   font-size: 26px;
   font-weight: 920;
+}
+
+.xuan-tool-workspace .bazi-workflow-steps article {
+  border-color: rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(247, 244, 237, 0.9));
+}
+
+.xuan-tool-workspace .bazi-workflow-steps strong {
+  color: #111411;
+  font-weight: 900;
+}
+
+.xuan-tool-workspace .bazi-workflow-steps p {
+  color: #687168;
+  font-weight: 760;
 }
 
 .xuan-tool-workspace .element-meter {

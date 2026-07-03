@@ -4,7 +4,7 @@ import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
 import { aiAndCompatibilityTargets } from '@/components/tool-handoff-actions'
-import { baZiGenderOptions, baZiSectOptions, baZiYunSectOptions, calculateBaZiChart, defaultBaZiInput } from '@/lib/bazi-chart'
+import { baZiExampleInputs, baZiGenderOptions, baZiSectOptions, baZiYunSectOptions, calculateBaZiChart, defaultBaZiInput } from '@/lib/bazi-chart'
 import {
   getAreaOptions,
   getBirthPlaceSelection,
@@ -59,6 +59,8 @@ const normalizeFormForChart = form => ({
     numberFields.map(field => [field.key, getChartValue(form, field)])
   )
 })
+
+const formatSignedMinutes = value => `${value > 0 ? '+' : ''}${value} 分钟`
 
 function NumberField({ field, value, onChange, onCommit }) {
   return (
@@ -131,6 +133,67 @@ function SegmentedControl({ label, value, options, onChange }) {
           </button>
         ))}
       </div>
+    </div>
+  )
+}
+
+function BaZiExamplePicker({ examples, onApply }) {
+  return (
+    <div className='bazi-example-panel'>
+      <div className='bazi-example-head'>
+        <span>快速试盘</span>
+        <strong>先用样例看完整输出</strong>
+      </div>
+      <div className='bazi-example-list'>
+        {examples.map(example => (
+          <button
+            className='bazi-example-button'
+            key={example.id}
+            type='button'
+            onClick={() => onApply(example)}>
+            <strong>{example.label}</strong>
+            <span>{example.description}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function BaZiInputAudit({ result }) {
+  const rows = [
+    {
+      label: '输入',
+      value: `${result.solarText} · ${result.input.gender}`
+    },
+    {
+      label: '出生地',
+      value: result.input.birthPlace || '未选择'
+    },
+    {
+      label: '排盘',
+      value: `${result.chartSolarText} · 真太阳时 ${formatSignedMinutes(result.timeAdjustment.offsetMinutes)}`
+    },
+    {
+      label: '起运',
+      value: result.yunStart?.text || '-'
+    }
+  ]
+
+  return (
+    <div className='bazi-input-audit'>
+      <div className='bazi-input-audit-head'>
+        <span>核对</span>
+        <strong>导出前先看这几项</strong>
+      </div>
+      <dl>
+        {rows.map(row => (
+          <div key={row.label}>
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }
@@ -310,6 +373,44 @@ function BaZiLuckPanel({ result }) {
   )
 }
 
+function BaZiWorkflowCard({ result }) {
+  const checkpoints = [
+    {
+      label: '核对输入',
+      value: `${result.input.birthPlace || '未选择'} · ${result.solarText}`
+    },
+    {
+      label: '确认四柱',
+      value: result.eightCharText
+    },
+    {
+      label: '导出交接',
+      value: '复制文本、保存记录或下载专业细盘图片'
+    }
+  ]
+
+  return (
+    <section className='chart-section-card bazi-workflow-card'>
+      <div className='chart-section-head'>
+        <div>
+          <span className='chart-kicker'>Workflow</span>
+          <h2>排盘后下一步</h2>
+        </div>
+        <span className='chart-source'>核对 / 导出 / 交接</span>
+      </div>
+      <div className='bazi-workflow-steps'>
+        {checkpoints.map((item, index) => (
+          <article key={item.label}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{item.label}</strong>
+            <p>{item.value}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function PillarToken({ pillar }) {
   return (
     <div className='bazi-pillar-token'>
@@ -449,6 +550,29 @@ export function BaZiChartCalculator() {
     applyBirthPlaceSelection(getBirthPlaceSelection(form.birthProvinceCode, form.birthCityCode, areaCode))
   }
 
+  const setResolvedForm = nextInput => {
+    const nextForm = {
+      ...defaultBaZiInput,
+      ...nextInput,
+      timeMode: nextInput.timeMode || 'trueSolar'
+    }
+
+    resolvedPlaceRef.current = nextForm.birthPlace
+    setLocationState({
+      status: 'success',
+      message: `真太阳时排盘 · 经度 ${nextForm.birthLongitude}° / 纬度 ${nextForm.birthLatitude}°`
+    })
+    setForm(nextForm)
+  }
+
+  const resetForm = () => {
+    setResolvedForm(defaultBaZiInput)
+  }
+
+  const applyExample = example => {
+    setResolvedForm(example.input)
+  }
+
   return (
     <div className='chart-tool bazi-chart-tool'>
       <aside className='chart-side-panel'>
@@ -457,10 +581,12 @@ export function BaZiChartCalculator() {
             <span className='chart-kicker'>BaZi Chart</span>
             <h2>出生信息</h2>
           </div>
-          <button className='chart-reset-button' type='button' onClick={() => setForm(defaultBaZiInput)} aria-label='恢复默认参数'>
+          <button className='chart-reset-button' type='button' onClick={resetForm} aria-label='恢复默认参数'>
             <RefreshCcw size={16} />
           </button>
         </div>
+
+        <BaZiExamplePicker examples={baZiExampleInputs} onApply={applyExample} />
 
         <div className='chart-form-grid'>
           {numberFields.map(field => (
@@ -485,6 +611,8 @@ export function BaZiChartCalculator() {
           <div className={`chart-location-status ${locationState.status}`}>
             {locationState.message}
           </div>
+
+          <BaZiInputAudit result={result} />
 
           <SegmentedControl
             label='性别'
@@ -550,6 +678,8 @@ export function BaZiChartCalculator() {
             <DetailRow label='胎息' value={`${result.taiXi} ${result.taiXiNaYin}`} />
           </dl>
         </section>
+
+        <BaZiWorkflowCard result={result} />
 
         <BaZiFineTable copyText={copyText} exportPayload={exportPayload} result={result} />
 

@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import {
   baZiChartSource,
+  baZiExampleInputs,
   calculateBaZiChart,
   defaultBaZiInput,
   normalizeBirthInput
@@ -232,4 +233,27 @@ test('bazi chart source version matches dependency declaration', () => {
   assert.equal(pkg.dependencies[baZiChartSource.engine], `^${baZiChartSource.version}`)
   assert.ok(!result.notes.join('\n').includes(baZiChartSource.engine))
   assert.equal(baZiChartSource.outputScope, '只输出排盘字段')
+})
+
+test('bazi example inputs produce reusable chart baselines', () => {
+  assert.equal(baZiExampleInputs.length, 2)
+
+  const results = baZiExampleInputs.map(example => calculateBaZiChart({
+    ...example.input,
+    currentYear: 2026
+  }))
+
+  assert.deepEqual(results.map(result => result.eightCharText), [
+    '丙子 乙未 戊午 壬子',
+    '戊寅 丁巳 壬申 丙午'
+  ])
+
+  for (const result of results) {
+    assert.equal(result.input.timeMode, 'trueSolar')
+    assert.equal(result.pillars.length, 4)
+    assert.ok(result.input.birthPlace)
+    assert.ok(result.chartSolarText)
+    assert.ok(result.yunStart.text.startsWith('出生后'))
+    assert.ok(result.pillars.some(pillar => pillar.shenSha.length > 0))
+  }
 })
