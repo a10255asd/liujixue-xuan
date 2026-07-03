@@ -136,6 +136,12 @@
   - Captures title, date, wake time, focus, mood, intensity, scene, people, symbols, real-world context, and dream text.
   - Exports a boundary-safe AI prompt for dream material sorting only, with no omen, prediction, or deterministic interpretation copy.
   - The tool participates in favorites, records, AI handoff, and synthesis handoff through the shared structured tool layer.
+- Product direction corrected after quality feedback:
+  - Stop treating tool count as the main goal. The site is now in quality-first mode.
+  - Added `xuanCoreTools`, `xuanSecondaryTools`, and `xuanPrimaryWorkflows` in `lib/site.js` so homepage and `/tools` can stay curated.
+  - Homepage now exposes only three primary workflows: `出生排盘`, `问事起卦`, and `记录接力`.
+  - `/tools` now shows core tools first and moves weaker/experimental/reference tools into a compact lab section.
+  - Footer links now show only core tools plus `全部工具`, instead of listing the entire catalogue.
 
 ## Source Boundaries
 
@@ -162,6 +168,6 @@ npm run build
 
 ## Next Recommended Work
 
-1. If more tools are added, route them through `/tools`, `xuanToolSuites`, unique `xuanTools.title` values, and structured tests first.
-2. Plan Next major upgrade separately with browser QA for BaZi/ZiWei/LiuYao and `npm run test:unit` baselines before and after.
-3. Expand `npm run smoke:live` whenever a new production-critical page is added.
+1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
+2. Next best work: polish one core workflow end-to-end, starting with `/tools/bazi` mobile input, export card, example data, and result readability.
+3. Plan Next major upgrade separately with browser QA for BaZi/ZiWei/LiuYao and `npm run test:unit` baselines before and after.

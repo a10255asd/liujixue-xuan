@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowUpRight, Blocks } from '@/components/icons'
-import { site, xuanTools, xuanToolSuites } from '@/lib/site'
+import { site, xuanCoreTools, xuanTools, xuanToolSuites } from '@/lib/site'
 
 export function XuanHeader() {
   return (
@@ -39,9 +39,10 @@ export function XuanFooter() {
           <p>{site.description}</p>
         </div>
         <div className='xuan-footer-links'>
-          {xuanTools.map(tool => (
+          {xuanCoreTools.map(tool => (
             <Link href={tool.href} key={tool.href}>{tool.title}</Link>
           ))}
+          <Link href='/tools'>全部工具</Link>
           <a href={site.mainSite}>
             返回 Jixue Lab
             <ArrowUpRight size={14} />

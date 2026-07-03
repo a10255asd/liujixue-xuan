@@ -1,12 +1,72 @@
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, CircleDot, Clock3 } from '@/components/icons'
-import { XuanToolSuiteGrid } from '@/components/xuan-tool-suite-grid'
-import { featureBlocks, knowledgeCards, scenarioCards, site, xuanComingTools, xuanTools } from '@/lib/site'
+import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2 } from '@/components/icons'
+import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools } from '@/lib/site'
 
-const dailyHexagram = {
-  time: '今日灵感',
-  title: '先排盘，再分析',
-  text: '不要把结论写在工具里。先把字段排准、口径写清、文本导出，后面的判断才有基础。'
+const qualityRules = [
+  {
+    title: '核心优先',
+    text: '首页只推出生排盘、问事起卦、记录接力三条主流程，弱工具不再抢注意力。'
+  },
+  {
+    title: '结果可复核',
+    text: '核心工具必须能导出字段、图片或提示词，方便保存、复查和交给其他 AI 接手。'
+  },
+  {
+    title: '不写假结论',
+    text: '站内只做排盘、材料整理和口径记录，不直接输出吉凶、应期或确定性判断。'
+  }
+]
+
+const toolsByHref = new Map(xuanTools.map(tool => [tool.href, tool]))
+
+function WorkflowCard({ workflow, index }) {
+  const supportingTools = workflow.supportingHrefs.map(href => toolsByHref.get(href)).filter(Boolean)
+
+  return (
+    <article className='xuan-primary-workflow-card'>
+      <div className='xuan-primary-workflow-head'>
+        <span>{workflow.eyebrow}</span>
+        <em>{String(index + 1).padStart(2, '0')}</em>
+      </div>
+      <h3>{workflow.title}</h3>
+      <p>{workflow.summary}</p>
+      <div className='xuan-workflow-checkpoints'>
+        {workflow.checkpoints.map(item => <span key={item}>{item}</span>)}
+      </div>
+      <div className='xuan-workflow-supporting'>
+        {supportingTools.map(tool => (
+          <Link href={tool.href} key={tool.href}>
+            {tool.title}
+            <ArrowUpRight size={13} />
+          </Link>
+        ))}
+      </div>
+      <Link className='xuan-suite-primary' href={workflow.href}>
+        {workflow.action}
+        <ArrowRight size={15} />
+      </Link>
+    </article>
+  )
+}
+
+function ToolCard({ tool, index, label = '打开工具' }) {
+  return (
+    <Link className='xuan-tool-card' href={tool.href}>
+      <div className='xuan-tool-card-top'>
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <em>{tool.status}</em>
+      </div>
+      <h3>{tool.title}</h3>
+      <p>{tool.summary}</p>
+      <div className='xuan-tool-tags'>
+        {tool.tags.map(tag => <em key={tag}>{tag}</em>)}
+      </div>
+      <strong>
+        {label}
+        <ArrowRight size={15} />
+      </strong>
+    </Link>
+  )
 }
 
 export default function HomePage() {
@@ -24,10 +84,10 @@ export default function HomePage() {
         <div className='xuan-container xuan-hero-inner'>
           <div className='xuan-hero-copy'>
             <span className='xuan-kicker'><Blocks size={16} /> 鸡血玄策</span>
-            <h1>排盘工作台</h1>
+            <h1>先把核心排盘做扎实</h1>
             <p>
-              <span>八字、紫微、六爻、梅花、奇门六壬工具站。</span>
-              <span>先排准字段，再导出文本和图片。</span>
+              <span>不再堆工具。先打磨八字、紫微、六爻、记录和 AI 接力。</span>
+              <span>其他工具收进实验区，作为材料补充，不抢主流程。</span>
             </p>
             <div className='xuan-hero-actions'>
               <Link className='button primary' href='/tools/bazi'>
@@ -35,15 +95,15 @@ export default function HomePage() {
                 <ArrowRight size={16} />
               </Link>
               <Link className='button' href='/tools/liuyao'>六爻排盘</Link>
-              <Link className='button' href='/tools/calendar'>黄历节气</Link>
+              <Link className='button' href='/tools/records'>记录接力</Link>
               <a className='button' href={site.mainSite}>回主站</a>
             </div>
           </div>
 
           <div className='xuan-hero-console'>
             <div className='xuan-console-head'>
-              <span>Chart Console</span>
-              <strong>Field Mode</strong>
+              <span>Focus Mode</span>
+              <strong>Quality First</strong>
             </div>
             <div className='xuan-console-main'>
               <div className='xuan-console-orbit' aria-hidden='true'>
@@ -53,21 +113,27 @@ export default function HomePage() {
                 <i />
               </div>
               <div className='xuan-console-copy'>
-                <span><Clock3 size={16} /> {dailyHexagram.time}</span>
-                <h2>{dailyHexagram.title}</h2>
-                <p>{dailyHexagram.text}</p>
+                <span>当前策略</span>
+                <h2>核心工具优先</h2>
+                <p>首页只露出主流程，工具页再提供完整入口。先让真正会用的人能顺畅完成一次排盘、保存和接力。</p>
               </div>
-              <div className='xuan-console-lines' aria-hidden='true'>
-                <i />
-                <i className='broken' />
-                <i />
-                <i className='broken' />
-                <i />
-                <i />
+              <div className='xuan-hero-focus-list'>
+                <div>
+                  <span>核心工具</span>
+                  <strong>{xuanCoreTools.length}</strong>
+                </div>
+                <div>
+                  <span>实验/资料</span>
+                  <strong>{xuanSecondaryTools.length}</strong>
+                </div>
+                <div>
+                  <span>主流程</span>
+                  <strong>{xuanPrimaryWorkflows.length}</strong>
+                </div>
               </div>
             </div>
             <div className='xuan-console-strip'>
-              {xuanTools.map(tool => (
+              {xuanCoreTools.map(tool => (
                 <Link href={tool.href} key={tool.href}>
                   <span>{tool.title}</span>
                   <ArrowUpRight size={14} />
@@ -78,68 +144,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className='xuan-section xuan-suite-section'>
+      <section className='xuan-section'>
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Use Cases</span>
-              <h2>先选场景，再进工具</h2>
+              <span className='xuan-kicker'>Primary Workflows</span>
+              <h2>只保留三条主路径</h2>
             </div>
-            <p>把出生盘、问事、日课和基础资料拆成四条路径，用户不需要先理解每个术语，也能找到入口。</p>
+            <p>用户进来不需要先理解二十多个术语，先按真实任务走：出生排盘、问事起卦、记录接力。</p>
           </div>
-          <XuanToolSuiteGrid actionLabel='进入这组工具' />
-        </div>
-      </section>
-
-      <section className='xuan-section' id='tools'>
-        <div className='xuan-container'>
-          <div className='xuan-section-head'>
-            <div>
-              <span className='xuan-kicker'>Tools</span>
-              <h2>玄学工具箱</h2>
-            </div>
-            <p>对标成熟玄学工具站的功能结构，先把出生盘、问事、奇门六壬、黄历择日、资料和记录做成稳定入口。</p>
-          </div>
-          <div className='xuan-tool-grid'>
-            {xuanTools.map((tool, index) => (
-              <Link className='xuan-tool-card' href={tool.href} key={tool.href}>
-                <div className='xuan-tool-card-top'>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <em>{tool.status}</em>
-                </div>
-                <h3>{tool.title}</h3>
-                <p>{tool.summary}</p>
-                <div className='xuan-tool-tags'>
-                  {tool.tags.map(tag => <em key={tag}>{tag}</em>)}
-                </div>
-                <strong>
-                  开始排盘
-                  <ArrowRight size={15} />
-                </strong>
-              </Link>
-            ))}
+          <div className='xuan-primary-workflow-grid'>
+            {xuanPrimaryWorkflows.map((workflow, index) => <WorkflowCard index={index} key={workflow.title} workflow={workflow} />)}
           </div>
         </div>
       </section>
 
       <section className='xuan-section compact'>
         <div className='xuan-container'>
-          <div className='xuan-scenario-grid'>
-            {scenarioCards.map(item => (
-              <article className='xuan-scenario-card' key={item.title}>
-                <span>{item.title}</span>
-                <p>{item.text}</p>
-              </article>
-            ))}
+          <div className='xuan-section-head'>
+            <div>
+              <span className='xuan-kicker'>Core Tools</span>
+              <h2>核心工具先打磨</h2>
+            </div>
+            <p>这些是站点主产品：排盘、对照、保存、AI 接力和合参。后续优化优先围绕它们展开。</p>
+          </div>
+          <div className='xuan-tool-grid xuan-core-tool-grid'>
+            {xuanCoreTools.map((tool, index) => <ToolCard index={index} key={tool.href} tool={tool} />)}
           </div>
         </div>
       </section>
 
       <section className='xuan-section compact'>
         <div className='xuan-container'>
-          <div className='xuan-feature-grid'>
-            {featureBlocks.map(item => (
-              <article className='xuan-feature-card' key={item.title}>
+          <div className='xuan-quality-grid'>
+            {qualityRules.map(item => (
+              <article className='xuan-quality-card' key={item.title}>
                 <CheckCircle2 size={18} />
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
@@ -149,60 +188,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className='xuan-section' id='knowledge'>
-        <div className='xuan-container'>
-          <div className='xuan-section-head'>
-            <div>
-              <span className='xuan-kicker'>Knowledge</span>
-              <h2>排盘口径说明</h2>
-            </div>
-            <p>新站先把工具边界说清楚，后续如果做 AI 解析，也要基于明确口径和可复现字段。</p>
-          </div>
-          <div className='xuan-knowledge-grid'>
-            {knowledgeCards.map(item => (
-              <article className='xuan-knowledge-card' key={item.title}>
-                <CircleDot size={18} />
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className='xuan-section compact'>
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Roadmap</span>
-              <h2>后续功能矩阵</h2>
+              <span className='xuan-kicker'>Lab</span>
+              <h2>实验工具先收起来</h2>
             </div>
-            <p>这些先作为站内规划露出，后续按优先级逐步做成可用工具，不让主站工具页越来越杂。</p>
+            <p>这些功能仍然保留，但不再作为首页重点。它们只作为资料、辅助或后续打磨候选。</p>
           </div>
-          <div className='xuan-coming-grid'>
-            {xuanComingTools.map(item => (
-              <article className='xuan-coming-card' key={item.title}>
-                <span>{item.status}</span>
-                <h3>{item.title}</h3>
-                <p>{item.summary}</p>
-              </article>
+          <div className='xuan-secondary-tool-list'>
+            {xuanSecondaryTools.map(tool => (
+              <Link className='xuan-secondary-tool-link' href={tool.href} key={tool.href}>
+                <span>{tool.title}</span>
+                <em>{tool.tags.slice(0, 2).join(' / ')}</em>
+                <ArrowUpRight size={14} />
+              </Link>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className='xuan-section compact'>
-        <div className='xuan-container'>
-          <div className='xuan-upgrade-panel'>
-            <div>
-              <span className='xuan-kicker'>Next</span>
-              <h2>下一步做成可长期使用的命理工具箱</h2>
-              <p>先稳定排盘、导出、历史记录和收藏，再逐步加入合盘和带边界的 AI 解读。</p>
-            </div>
-            <a className='button primary' href={site.mainSite}>
-              从主站进入
-              <ArrowUpRight size={16} />
-            </a>
           </div>
         </div>
       </section>
