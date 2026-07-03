@@ -245,6 +245,9 @@ export function LocalMemoryDashboard() {
                     <ArrowRight size={15} />
                     送去 AI
                   </Link>
+                  <Link href='/tools/synthesis' onClick={() => sendRecordToTool(record, '/tools/synthesis', 'synthesis', 'auto')}>
+                    合参
+                  </Link>
                   <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartA')}>
                     合盘 A
                   </Link>

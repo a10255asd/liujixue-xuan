@@ -9,6 +9,7 @@ const routes = [
   { path: "/tools/tarot", expects: ["塔罗"] },
   { path: "/tools/records", expects: ["记录"] },
   { path: "/tools/ai-prompt", expects: ["AI"] },
+  { path: "/tools/synthesis", expects: ["合参"] },
   { path: "/tools/compatibility", expects: ["合盘"] },
 ];
 

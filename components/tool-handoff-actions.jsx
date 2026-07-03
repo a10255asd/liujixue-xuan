@@ -11,6 +11,13 @@ export const aiPromptTarget = {
   targetSlug: 'aiPrompt'
 }
 
+export const synthesisTarget = {
+  label: '合参',
+  slot: 'auto',
+  targetHref: '/tools/synthesis',
+  targetSlug: 'synthesis'
+}
+
 export const compatibilityTargets = [
   {
     label: '合盘 A',
@@ -26,14 +33,14 @@ export const compatibilityTargets = [
   }
 ]
 
-export const aiAndCompatibilityTargets = [aiPromptTarget, ...compatibilityTargets]
+export const aiAndCompatibilityTargets = [aiPromptTarget, ...compatibilityTargets, synthesisTarget]
 
 export function ToolHandoffActions({
   buttonClassName = 'button chart-export-action-button',
   className = 'tool-handoff-actions',
   location,
   record,
-  targets = [aiPromptTarget]
+  targets = [aiPromptTarget, synthesisTarget]
 }) {
   const availableTargets = targets.filter(Boolean)
   if (!record?.text || !availableTargets.length) return null

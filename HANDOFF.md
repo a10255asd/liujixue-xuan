@@ -31,6 +31,7 @@
   - `/tools/find-time` twelve-hour candidate chart table.
   - `/tools/records` local favorites and saved chart records.
   - `/tools/ai-prompt` AI handoff prompt builder with explicit analysis boundaries.
+  - `/tools/synthesis` multi-tool synthesis workspace for birth charts, question charts, Tarot, calendar fields, records, and AI handoff.
   - `/classics` classics/source index.
   - `/knowledge` knowledge map / flow explanation page.
   - `/tools` standalone tool index.
@@ -119,12 +120,17 @@
 - Live smoke test pass:
   - Added `npm run smoke:live` for production route checks against `https://xuan.liujixue.cn` by default.
   - Override with `SMOKE_BASE_URL=http://localhost:3000 npm run smoke:live` for local checks or preview deployments.
-  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/tarot`, `/tools/records`, `/tools/ai-prompt`, and `/tools/compatibility`.
+  - Current route set covers `/`, `/tools`, `/tools/bazi`, `/tools/ziwei`, `/tools/liuyao`, `/tools/tarot`, `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility`.
 - Added `/tools/tarot` as a lightweight parity feature:
   - Uses a complete 78-card Rider-Waite-style deck model with major/minor arcana names and keywords.
   - Supports single-card, three-card, relationship, and two-choice spreads.
   - Uses deterministic shuffling from question + spread + time + seed so records can be reproduced.
   - Exports card positions, upright/reversed fields, keywords, and AI handoff text only; no direct prediction copy.
+- Added `/tools/synthesis` as a multi-tool合参 workspace:
+  - Accepts birth-chart fields, question-chart fields, Tarot fields, calendar/date fields, and extra notes.
+  - Direct handoff actions now include `合参`; the synthesis tool auto-routes incoming records by source tool into the closest input slot.
+  - `/tools/records` record cards now expose `合参` alongside `送去 AI`, `合盘 A`, and `合盘 B`.
+  - The output is a boundary-safe synthesis prompt and completeness summary only; it does not output final predictions.
 
 ## Source Boundaries
 

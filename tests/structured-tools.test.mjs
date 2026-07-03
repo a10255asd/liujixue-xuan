@@ -16,6 +16,7 @@ test('structured tool catalogue exposes callable tools', () => {
     'meihua',
     'name',
     'qimen',
+    'synthesis',
     'tarot'
   ].sort())
 
@@ -30,18 +31,28 @@ test('structured tool catalogue exposes callable tools', () => {
 
 test('structured chart tools expose direct AI handoff targets', () => {
   const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'findTime', 'meihua', 'name', 'qimen', 'tarot']
-
-  for (const slug of directAiTools) {
-    assert.deepEqual(structuredTools[slug].handoffTargets, [{
+  const targets = [
+    {
       label: '送去 AI',
       slot: 'chartText',
       targetHref: '/tools/ai-prompt',
       targetSlug: 'aiPrompt'
-    }])
+    },
+    {
+      label: '合参',
+      slot: 'auto',
+      targetHref: '/tools/synthesis',
+      targetSlug: 'synthesis'
+    }
+  ]
+
+  for (const slug of directAiTools) {
+    assert.deepEqual(structuredTools[slug].handoffTargets, targets)
   }
 
   assert.equal(structuredTools.aiPrompt.handoffTargets, undefined)
   assert.equal(structuredTools.compatibility.handoffTargets, undefined)
+  assert.equal(structuredTools.synthesis.handoffTargets, undefined)
 })
 
 test('meihua number method returns core hexagram fields', () => {
@@ -194,6 +205,40 @@ test('compatibility tool builds paired fields without relationship judgement', (
   assert.match(output.copyText, /乙方 排盘字段/)
   assert.match(text, /字段并排摘要/)
   assert.doesNotMatch(output.copyText, /一定/)
+})
+
+test('synthesis tool builds multi-source handoff prompt and auto-routes records', () => {
+  const output = structuredTools.synthesis.calculate({
+    topic: '合作事项',
+    focus: 'decision',
+    question: '请整理当前材料。',
+    context: '只需要结构化摘要',
+    birthChart: '八字：甲子 乙丑 丙寅 丁卯',
+    questionChart: '六爻：泽雷随',
+    tarotText: '塔罗：星星 正位',
+    calendarText: '',
+    notes: '线下沟通记录'
+  })
+  const text = formatStructuredResultText(output)
+  const fromTarot = structuredTools.synthesis.applyHandoff(structuredTools.synthesis.defaultInput, {
+    sourceTool: '塔罗抽牌',
+    sourceTitle: '三张牌',
+    text: '塔罗字段'
+  })
+  const fromCalendar = structuredTools.synthesis.applyRecordSlot(structuredTools.synthesis.defaultInput, {
+    tool: '黄历节气',
+    title: '日课',
+    text: '黄历字段'
+  }, structuredTools.synthesis.recordSlots[3])
+
+  assert.equal(output.title, '综合合参工作台')
+  assert.ok(output.badges.includes('决策参考'))
+  assert.match(output.copyText, /字段之间如果口径不同或互相矛盾/)
+  assert.match(text, /出生盘字段：1 行/)
+  assert.match(text, /日课\/择日字段：未填写/)
+  assert.equal(fromTarot.tarotText, '塔罗字段')
+  assert.equal(fromCalendar.calendarText, '黄历字段')
+  assert.doesNotMatch(output.copyText, /一定|必然/)
 })
 
 test('structured tools apply saved record handoff into target fields', () => {
