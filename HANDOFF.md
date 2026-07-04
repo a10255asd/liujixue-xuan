@@ -157,6 +157,11 @@
   - Generalized chart example/audit/workflow CSS classes so LiuYao and other core tools can reuse the pattern.
   - Added ZiWei sample baselines for `chineseDate`, true-solar chart time, `fiveElementsClass`, time branch and palace presence.
   - `npm run test:unit` now covers 42 passing tests.
+- LiuYao workflow polish completed after ZiWei:
+  - Added `liuYaoExampleInputs` in `lib/liuyao-chart.js` covering manual, three-number, and time-based起卦.
+  - `/tools/liuyao` now includes quick sample loading, an input audit block, and a three-step post-chart workflow block.
+  - Added LiuYao sample baselines for method coverage, 本卦/变卦, and moving-line output.
+  - `npm run test:unit` now covers 43 passing tests.
 
 ## Source Boundaries
 
@@ -184,5 +189,5 @@ npm run build
 ## Next Recommended Work
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
-2. BaZi and ZiWei now have the first quality-workflow pass. Next best work: polish `/tools/liuyao` with reusable examples, input audit, post-chart workflow, mobile QA, and sample baselines.
-3. After LiuYao, improve the utility loop around `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility` instead of adding more low-depth tools.
+2. BaZi, ZiWei, and LiuYao now have the first quality-workflow pass. Next best work: improve the utility loop around `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility`.
+3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

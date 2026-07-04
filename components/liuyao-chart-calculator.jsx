@@ -7,6 +7,7 @@ import {
   buildLiuYaoExportPayload,
   calculateLiuYaoChart,
   defaultLiuYaoInput,
+  liuYaoExampleInputs,
   liuYaoLineStateOptions,
   liuYaoMethodOptions
 } from '@/lib/liuyao-chart'
@@ -122,6 +123,67 @@ function MethodField({ value, onChange }) {
           </button>
         ))}
       </div>
+    </div>
+  )
+}
+
+function LiuYaoExamplePicker({ examples, onApply }) {
+  return (
+    <div className='chart-example-panel'>
+      <div className='chart-example-head'>
+        <span>快速试盘</span>
+        <strong>覆盖三种起卦方式</strong>
+      </div>
+      <div className='chart-example-list'>
+        {examples.map(example => (
+          <button
+            className='chart-example-button'
+            key={example.id}
+            type='button'
+            onClick={() => onApply(example)}>
+            <strong>{example.label}</strong>
+            <span>{example.description}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function LiuYaoInputAudit({ chart }) {
+  const rows = [
+    {
+      label: '事项',
+      value: chart.input.question
+    },
+    {
+      label: '起卦',
+      value: `${chart.dateText} · ${chart.input.methodLabel}`
+    },
+    {
+      label: '卦象',
+      value: `${chart.hexagram.name} → ${chart.changedHexagram.name}`
+    },
+    {
+      label: '月日',
+      value: `${chart.monthZhi}月 / ${chart.dayZhi}日 · 日空 ${chart.xunKong.day}`
+    }
+  ]
+
+  return (
+    <div className='chart-input-audit'>
+      <div className='chart-input-audit-head'>
+        <span>核对</span>
+        <strong>导出前先看这几项</strong>
+      </div>
+      <dl>
+        {rows.map(row => (
+          <div key={row.label}>
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }
@@ -302,6 +364,44 @@ function LiuYaoChartTable({ chart, copyText, exportPayload }) {
   )
 }
 
+function LiuYaoWorkflowCard({ chart }) {
+  const checkpoints = [
+    {
+      label: '核对事项',
+      value: `${chart.input.question} · ${chart.input.methodLabel}`
+    },
+    {
+      label: '确认卦象',
+      value: `${chart.hexagram.name} · ${chart.hexagram.palace}宫${chart.hexagram.palaceElement} · 动爻 ${chart.movingLines.length ? chart.movingLines.map(item => `${item}爻`).join('、') : '无'}`
+    },
+    {
+      label: '导出交接',
+      value: '复制排盘文本、保存记录、送去 AI 或合参'
+    }
+  ]
+
+  return (
+    <section className='chart-section-card chart-workflow-card'>
+      <div className='chart-section-head'>
+        <div>
+          <span className='chart-kicker'>Workflow</span>
+          <h2>排盘后下一步</h2>
+        </div>
+        <span className='chart-source'>核对 / 用神 / 交接</span>
+      </div>
+      <div className='chart-workflow-steps'>
+        {checkpoints.map((item, index) => (
+          <article key={item.label}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{item.label}</strong>
+            <p>{item.value}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export function LiuYaoChartCalculator() {
   const [form, setForm] = useState(defaultLiuYaoInput)
   const chartInput = useMemo(() => normalizeFormForChart(form), [form])
@@ -344,6 +444,23 @@ export function LiuYaoChartCalculator() {
     }))
   }
 
+  const setResolvedForm = nextInput => {
+    setForm({
+      ...defaultLiuYaoInput,
+      ...nextInput,
+      lines: [...(nextInput.lines || defaultLiuYaoInput.lines)],
+      numbers: [...(nextInput.numbers || defaultLiuYaoInput.numbers)]
+    })
+  }
+
+  const resetForm = () => {
+    setResolvedForm(defaultLiuYaoInput)
+  }
+
+  const applyExample = example => {
+    setResolvedForm(example.input)
+  }
+
   return (
     <div className='chart-tool liuyao-chart-tool'>
       <aside className='chart-side-panel'>
@@ -352,10 +469,12 @@ export function LiuYaoChartCalculator() {
             <span className='chart-kicker'>Liu Yao</span>
             <h2>起卦信息</h2>
           </div>
-          <button className='chart-reset-button' type='button' onClick={() => setForm(defaultLiuYaoInput)} aria-label='恢复默认排盘'>
+          <button className='chart-reset-button' type='button' onClick={resetForm} aria-label='恢复默认排盘'>
             <RefreshCcw size={16} />
           </button>
         </div>
+
+        <LiuYaoExamplePicker examples={liuYaoExampleInputs} onApply={applyExample} />
 
         <div className='chart-form-grid'>
           <QuestionField
@@ -410,6 +529,8 @@ export function LiuYaoChartCalculator() {
               </div>
             </div>
           )}
+
+          <LiuYaoInputAudit chart={chart} />
         </div>
       </aside>
 
@@ -447,6 +568,8 @@ export function LiuYaoChartCalculator() {
             <DetailRow label='辅助神煞' value={chart.auxiliaryStars.join('，') || '-'} />
           </dl>
         </section>
+
+        <LiuYaoWorkflowCard chart={chart} />
 
         <LiuYaoChartTable chart={chart} copyText={copyText} exportPayload={exportPayload} />
 

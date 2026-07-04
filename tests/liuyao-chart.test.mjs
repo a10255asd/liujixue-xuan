@@ -4,7 +4,8 @@ import {
   buildLiuYaoCopyText,
   buildLiuYaoExportPayload,
   calculateLiuYaoChart,
-  defaultLiuYaoInput
+  defaultLiuYaoInput,
+  liuYaoExampleInputs
 } from '../lib/liuyao-chart.js'
 
 test('liu yao chart matches the manual reference hexagram', () => {
@@ -109,4 +110,23 @@ test('liu yao time method uses lunar date and hour branch to derive line states'
   assert.equal(chart.methodDetail.lunarMonth, 3)
   assert.equal(chart.methodDetail.lunarDay, 28)
   assert.equal(chart.methodDetail.timeBranch, '亥')
+})
+
+test('liu yao example inputs cover manual number and time baselines', () => {
+  assert.equal(liuYaoExampleInputs.length, 3)
+
+  const charts = liuYaoExampleInputs.map(example => calculateLiuYaoChart(example.input))
+
+  assert.deepEqual(charts.map(chart => chart.input.method), ['manual', 'numbers', 'time'])
+  assert.deepEqual(charts.map(chart => chart.hexagram.name), ['泽雷随', '天地否', '水泽节'])
+  assert.deepEqual(charts.map(chart => chart.changedHexagram.name), ['水泽节', '泽地萃', '水雷屯'])
+  assert.deepEqual(charts.map(chart => chart.movingLines), [[2, 4], [6], [2]])
+
+  for (const chart of charts) {
+    assert.equal(chart.lines.length, 6)
+    assert.ok(chart.input.question)
+    assert.ok(chart.methodDetail.summary)
+    assert.ok(chart.jieQiText)
+    assert.ok(chart.lines.some(line => line.sixRelative && line.sixGod))
+  }
 })
