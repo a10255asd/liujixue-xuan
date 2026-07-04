@@ -179,6 +179,15 @@
   - `/tools/synthesis` and `/tools/compatibility` record pickers now display a recommended target slot for each saved record, with the suggested slot highlighted.
   - Direct handoff buttons can now show short helper copy in roomy structured-tool panels while staying compact in chart export toolbars.
   - Added regression coverage for record-to-slot suggestion routing; unit coverage is now 46 passing tests.
+- Browser/mobile handoff QA completed after the records routing pass:
+  - Mobile viewport 390px was used in the in-app browser against local dev.
+  - Saved one BaZi sample and one LiuYao sample through the actual UI.
+  - Found and fixed a storage edge case: when `localStorage` is unavailable, `lib/local-memory.js` now falls back to page-session memory instead of silently showing a false saved state.
+  - Verified `/tools/records` shows correct recommendation routing: BaZi -> 合参, LiuYao -> AI.
+  - Verified `立即接力` fills `/tools/synthesis` birth-chart fields and `/tools/ai-prompt` LiuYao question mode.
+  - Verified `/tools/compatibility` accepts birth-chart records into 对象 A and does not recommend LiuYao/question records for compatibility.
+  - No page-level horizontal overflow was observed at 390px across the tested records, synthesis, AI prompt, and compatibility flow.
+  - Added fallback-storage regression coverage; unit coverage is now 47 passing tests.
 
 ## Source Boundaries
 
@@ -206,11 +215,9 @@ npm run build
 ## Next Recommended Work
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
-2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass. Next best work: do browser/mobile QA across the full direct-handoff loop with seeded localStorage records:
-   - Save or seed one 八字/紫微 record and one 六爻/梅花 record.
-   - Verify `/tools/records` shows the correct `推荐下一步`.
-   - Verify `立即接力` fills `/tools/ai-prompt` or `/tools/synthesis` correctly.
-   - Verify `/tools/synthesis` highlights the correct slot: 出生盘字段 / 问事盘字段 / 塔罗字段 / 日课字段 / 补充材料.
-   - Verify `/tools/compatibility` only recommends birth-chart records for 合盘.
-   - Check mobile width 390px for no horizontal overflow and no cramped action buttons.
+2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
+   - Add record de-duplication or an overwrite prompt so repeated `保存记录` clicks do not create duplicate cards.
+   - Add clearer save feedback for fallback/session-only storage if desired.
+   - Consider a compact record picker filter in `/tools/synthesis` and `/tools/compatibility` once record volume grows.
+   - Then do a visual pass on the record card density; do not change chart logic without tests.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

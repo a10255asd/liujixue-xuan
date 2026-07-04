@@ -6,7 +6,12 @@ import {
   getMemoryRecordSlotSuggestion,
   getMemoryRecordWorkflow,
   mergeMemoryFavorites,
-  mergeMemoryRecords
+  mergeMemoryRecords,
+  readMemory,
+  recordsKey,
+  removeMemory,
+  saveMemoryRecord,
+  writeMemory
 } from '../lib/local-memory.js'
 
 test('local memory records merge by id, keep local duplicate, and sort newest first', () => {
@@ -38,6 +43,36 @@ test('local memory favorites merge by href', () => {
   assert.equal(merged.length, 2)
   assert.equal(merged.find(item => item.href === '/tools/bazi').title, '八字')
   assert.equal(merged.find(item => item.href === '/tools/liuyao').title, '六爻')
+})
+
+test('local memory falls back to page session storage when localStorage is unavailable', () => {
+  const previousWindow = globalThis.window
+  globalThis.window = {}
+
+  try {
+    assert.equal(writeMemory('fallback-key', [{ title: '临时记录' }]), true)
+    assert.deepEqual(readMemory('fallback-key', []), [{ title: '临时记录' }])
+
+    const record = saveMemoryRecord({
+      tool: '六爻纳甲排盘',
+      href: '/tools/liuyao',
+      title: '问事记录',
+      text: '本卦：泽雷随'
+    })
+    const records = readMemory(recordsKey, [])
+
+    assert.equal(record.tool, '六爻纳甲排盘')
+    assert.equal(records.length, 1)
+    assert.equal(records[0].text, '本卦：泽雷随')
+    assert.equal(removeMemory(recordsKey), true)
+    assert.deepEqual(readMemory(recordsKey, []), [])
+  } finally {
+    if (previousWindow === undefined) {
+      delete globalThis.window
+    } else {
+      globalThis.window = previousWindow
+    }
+  }
 })
 
 test('tool handoff preserves target slot and source record text', () => {
