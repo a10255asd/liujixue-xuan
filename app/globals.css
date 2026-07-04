@@ -10069,6 +10069,14 @@ body {
   padding: 12px;
 }
 
+.structured-field-help {
+  margin: 7px 0 0;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.55;
+}
+
 .memory-dashboard {
   display: grid;
   gap: 18px;

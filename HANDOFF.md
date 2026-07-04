@@ -167,6 +167,12 @@
   - `/tools/records` now shows each saved record as an action card with category, recommended next step, key-field preview, direct AI/合参/合盘 handoff, and collapsed full text.
   - Structured tool record pickers reuse the same preview logic, so `/tools/synthesis` and `/tools/compatibility` show more useful saved-record summaries.
   - Added regression tests for record preview priority and workflow routing.
+- AI / Synthesis / Compatibility workspace polish followed the Records pass:
+  - `StructuredTool` fields now support concise placeholders and helper copy for production handoff fields.
+  - `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility` now start result output with a `交接摘要` before exposing the full prompt.
+  - AI handoff now infers question-oriented mode for 六爻、梅花、奇门、六壬 style records, while birth-chart records stay structural.
+  - 合盘 and 合参 handoffs now accumulate record sources in context instead of overwriting the previous source when multiple records are inserted.
+  - Added regression coverage for material-status badges, handoff mode inference, and compatibility source accumulation.
 
 ## Source Boundaries
 
@@ -194,5 +200,5 @@ npm run build
 ## Next Recommended Work
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
-2. BaZi, ZiWei, LiuYao, and Records now have the first quality-workflow pass. Next best work: improve `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility` so their form defaults, record slot labels, and output summaries feel production-grade.
+2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass. Next best work: do browser/mobile QA across the full direct-handoff loop and then polish visual hierarchy only where the loop still feels clumsy.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

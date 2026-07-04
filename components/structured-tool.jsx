@@ -75,6 +75,7 @@ function Field({ field, form, updateForm }) {
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
+        {field.help ? <p className='structured-field-help'>{field.help}</p> : null}
       </div>
     )
   }
@@ -86,9 +87,11 @@ function Field({ field, form, updateForm }) {
         <textarea
           className='chart-text-input structured-textarea'
           id={field.key}
+          placeholder={field.placeholder || ''}
           value={form[field.key]}
           onChange={event => updateForm(field.key, event.target.value)}
         />
+        {field.help ? <p className='structured-field-help'>{field.help}</p> : null}
       </div>
     )
   }
@@ -99,10 +102,12 @@ function Field({ field, form, updateForm }) {
       <input
         className='chart-text-input'
         id={field.key}
+        placeholder={field.placeholder || ''}
         type={field.type || 'text'}
         value={form[field.key]}
         onChange={event => updateForm(field.key, event.target.value)}
       />
+      {field.help ? <p className='structured-field-help'>{field.help}</p> : null}
     </div>
   )
 }
@@ -149,7 +154,7 @@ const slotLabelFromTool = (tool, slots, slotKey) => {
   const configuredSlot = slots.find(slot => slot.key === slotKey)
   const field = tool.fields.find(item => item.key === slotKey)
   const label = configuredSlot?.indicatorLabel || configuredSlot?.label || field?.label || '排盘字段'
-  return label.replace(/^填入\s*/, '对象 ')
+  return label
 }
 
 const buildAppliedRecordNotice = (source, slotKey, slotLabel) => ({

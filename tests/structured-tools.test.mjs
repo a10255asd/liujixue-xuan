@@ -203,9 +203,11 @@ test('ai prompt tool exports boundary-safe prompt text', () => {
 
   assert.equal(output.title, 'AI 解析提示词')
   assert.ok(output.badges.includes('六爻纳甲排盘'))
+  assert.ok(output.badges.includes('2 行字段'))
   assert.match(output.copyText, /不输出恐吓式/)
   assert.match(output.copyText, /不要编造未提供/)
   assert.match(output.copyText, /本卦：泽雷随/)
+  assert.match(text, /交接摘要/)
   assert.match(text, /边界要求/)
 })
 
@@ -225,9 +227,11 @@ test('compatibility tool builds paired fields without relationship judgement', (
 
   assert.equal(output.title, '合盘对照')
   assert.ok(output.badges.includes('八字合盘字段'))
+  assert.ok(output.badges.includes('2\/2 份资料'))
   assert.match(output.copyText, /不输出关系好坏/)
   assert.match(output.copyText, /甲方 排盘字段/)
   assert.match(output.copyText, /乙方 排盘字段/)
+  assert.match(text, /交接摘要/)
   assert.match(text, /字段并排摘要/)
   assert.doesNotMatch(output.copyText, /一定/)
 })
@@ -258,7 +262,9 @@ test('synthesis tool builds multi-source handoff prompt and auto-routes records'
 
   assert.equal(output.title, '综合合参工作台')
   assert.ok(output.badges.includes('决策参考'))
+  assert.ok(output.badges.includes('可接力'))
   assert.match(output.copyText, /字段之间如果口径不同或互相矛盾/)
+  assert.match(text, /交接摘要/)
   assert.match(text, /出生盘字段：1 行/)
   assert.match(text, /日课\/择日字段：未填写/)
   assert.equal(fromTarot.tarotText, '塔罗字段')
@@ -280,6 +286,8 @@ test('structured tools apply saved record handoff into target fields', () => {
   })
 
   assert.equal(aiForm.chartType, 'liuyao')
+  assert.equal(aiForm.mode, 'questions')
+  assert.match(aiForm.question, /起卦字段/)
   assert.equal(aiForm.chartText, '本卦：泽雷随')
   assert.match(aiForm.context, /合作卦/)
   assert.equal(compatibilityForm.chartType, 'ziwei')
@@ -293,10 +301,18 @@ test('compatibility tool applies recent record into selected worksheet slot', ()
     title: '甲方八字记录',
     text: '四柱：甲子 乙丑 丙寅 丁卯'
   }, structuredTools.compatibility.recordSlots[0])
+  const second = structuredTools.compatibility.applyRecordSlot(output, {
+    tool: '紫微斗数命盘',
+    title: '乙方紫微记录',
+    text: '命宫：子'
+  }, structuredTools.compatibility.recordSlots[1])
 
   assert.equal(structuredTools.compatibility.recordSlots.length, 2)
   assert.equal(output.chartType, 'bazi')
   assert.equal(output.personA, '甲方八字记录')
   assert.equal(output.chartA, '四柱：甲子 乙丑 丙寅 丁卯')
   assert.match(output.context, /甲方八字记录/)
+  assert.equal(second.personB, '乙方紫微记录')
+  assert.match(second.context, /甲方八字记录/)
+  assert.match(second.context, /乙方紫微记录/)
 })
