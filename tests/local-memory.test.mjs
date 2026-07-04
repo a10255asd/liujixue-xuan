@@ -3,6 +3,7 @@ import test from 'node:test'
 import {
   createToolHandoff,
   getMemoryRecordPreview,
+  getMemoryRecordSlotSuggestion,
   getMemoryRecordWorkflow,
   mergeMemoryFavorites,
   mergeMemoryRecords
@@ -100,4 +101,29 @@ test('record workflow routes birth charts to synthesis and question charts to AI
   assert.equal(baziWorkflow.primaryAction, 'synthesis')
   assert.equal(liuyaoWorkflow.category, 'question')
   assert.equal(liuyaoWorkflow.primaryAction, 'aiPrompt')
+})
+
+test('record slot suggestion routes saved records into the right workspace field', () => {
+  const baziRecord = {
+    tool: '八字专业细盘',
+    title: '甲方八字',
+    text: '四柱：甲子 乙丑 丙寅 丁卯'
+  }
+  const liuyaoRecord = {
+    tool: '六爻排盘',
+    title: '合作卦',
+    text: '本卦：泽雷随\n动爻：二爻'
+  }
+  const tarotRecord = {
+    tool: '塔罗抽牌',
+    title: '三张牌',
+    text: '牌阵：三张牌\n抽牌：星星 正位'
+  }
+
+  assert.equal(getMemoryRecordSlotSuggestion(baziRecord, 'synthesis').slot, 'birthChart')
+  assert.equal(getMemoryRecordSlotSuggestion(liuyaoRecord, 'synthesis').slot, 'questionChart')
+  assert.equal(getMemoryRecordSlotSuggestion(tarotRecord, 'synthesis').slot, 'tarotText')
+  assert.equal(getMemoryRecordSlotSuggestion(baziRecord, 'compatibility').slot, 'chartA')
+  assert.equal(getMemoryRecordSlotSuggestion(liuyaoRecord, 'compatibility'), null)
+  assert.equal(getMemoryRecordSlotSuggestion(liuyaoRecord, 'aiPrompt').slot, 'chartText')
 })

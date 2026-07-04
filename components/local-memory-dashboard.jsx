@@ -7,6 +7,7 @@ import {
   createToolHandoff,
   favoritesKey,
   getMemoryRecordPreview,
+  getMemoryRecordSlotSuggestion,
   getMemoryRecordWorkflow,
   handoffKey,
   mergeMemoryFavorites,
@@ -17,6 +18,45 @@ import {
 } from '@/lib/local-memory'
 import { xuanTools } from '@/lib/site'
 import { useEffect, useMemo, useRef, useState } from 'react'
+
+const handoffActions = [
+  {
+    key: 'aiPrompt',
+    href: '/tools/ai-prompt',
+    slug: 'aiPrompt',
+    slot: 'chartText',
+    label: '送去 AI',
+    title: '生成 AI 接力材料',
+    summary: '整理字段完整度、待核验点和可继续追问的问题清单。'
+  },
+  {
+    key: 'synthesis',
+    href: '/tools/synthesis',
+    slug: 'synthesis',
+    slot: 'auto',
+    label: '合参',
+    title: '进入综合合参',
+    summary: '把多份记录按出生盘、问事盘、塔罗、日课和补充材料归位。'
+  },
+  {
+    key: 'compatibility',
+    href: '/tools/compatibility',
+    slug: 'compatibility',
+    slot: 'chartA',
+    label: '合盘 A',
+    title: '填入合盘对象 A',
+    summary: '适合八字、紫微这类出生盘，后续再补对象 B 做并排对照。'
+  },
+  {
+    key: 'compatibilityB',
+    href: '/tools/compatibility',
+    slug: 'compatibility',
+    slot: 'chartB',
+    label: '合盘 B',
+    title: '填入合盘对象 B',
+    summary: '当对象 A 已经存在时，把这份出生盘作为第二份材料。'
+  }
+]
 
 const formatTime = value => {
   if (!value) return '-'
@@ -228,6 +268,8 @@ export function LocalMemoryDashboard() {
             {filteredRecords.map(record => {
               const workflow = getMemoryRecordWorkflow(record)
               const preview = getMemoryRecordPreview(record, { maxLines: 5 })
+              const primaryAction = handoffActions.find(action => action.key === workflow.primaryAction) || handoffActions[0]
+              const slotSuggestion = getMemoryRecordSlotSuggestion(record, primaryAction.slug)
 
               return (
                 <article className='memory-record-card' key={record.id}>
@@ -242,6 +284,20 @@ export function LocalMemoryDashboard() {
                   <div className='memory-record-signal'>
                     <strong>{workflow.title}</strong>
                     <p>{workflow.summary}</p>
+                  </div>
+
+                  <div className='memory-record-next'>
+                    <div>
+                      <span>推荐下一步</span>
+                      <strong>{primaryAction.title}</strong>
+                      <p>{slotSuggestion ? `${primaryAction.summary} 建议槽位：${slotSuggestion.label}。` : primaryAction.summary}</p>
+                    </div>
+                    <Link
+                      href={primaryAction.href}
+                      onClick={() => sendRecordToTool(record, primaryAction.href, primaryAction.slug, primaryAction.slot)}>
+                      立即接力
+                      <ArrowRight size={15} />
+                    </Link>
                   </div>
 
                   <div className='memory-record-preview' aria-label='记录字段预览'>
@@ -262,28 +318,16 @@ export function LocalMemoryDashboard() {
                   </div>
 
                   <div className='memory-record-actions memory-record-handoff-actions'>
-                    <Link
-                      className={workflow.primaryAction === 'aiPrompt' ? 'recommended' : ''}
-                      href='/tools/ai-prompt'
-                      onClick={() => sendRecordToTool(record, '/tools/ai-prompt', 'aiPrompt', 'chartText')}>
-                      <ArrowRight size={15} />
-                      送去 AI
-                    </Link>
-                    <Link
-                      className={workflow.primaryAction === 'synthesis' ? 'recommended' : ''}
-                      href='/tools/synthesis'
-                      onClick={() => sendRecordToTool(record, '/tools/synthesis', 'synthesis', 'auto')}>
-                      合参
-                    </Link>
-                    <Link
-                      className={workflow.primaryAction === 'compatibility' ? 'recommended' : ''}
-                      href='/tools/compatibility'
-                      onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartA')}>
-                      合盘 A
-                    </Link>
-                    <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartB')}>
-                      合盘 B
-                    </Link>
+                    {handoffActions.map(action => (
+                      <Link
+                        className={action.key === workflow.primaryAction ? 'recommended' : ''}
+                        href={action.href}
+                        key={action.key}
+                        onClick={() => sendRecordToTool(record, action.href, action.slug, action.slot)}>
+                        {action.key === workflow.primaryAction ? <ArrowRight size={15} /> : null}
+                        {action.label}
+                      </Link>
+                    ))}
                   </div>
 
                   <details className='memory-record-detail'>

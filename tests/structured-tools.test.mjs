@@ -35,12 +35,14 @@ test('structured chart tools expose direct AI handoff targets', () => {
   const targets = [
     {
       label: '送去 AI',
+      hint: '整理字段和追问清单',
       slot: 'chartText',
       targetHref: '/tools/ai-prompt',
       targetSlug: 'aiPrompt'
     },
     {
       label: '合参',
+      hint: '多份材料归并整理',
       slot: 'auto',
       targetHref: '/tools/synthesis',
       targetSlug: 'synthesis'

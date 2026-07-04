@@ -6,6 +6,7 @@ import { track } from '@vercel/analytics'
 
 export const aiPromptTarget = {
   label: '送去 AI',
+  hint: '整理字段和追问清单',
   slot: 'chartText',
   targetHref: '/tools/ai-prompt',
   targetSlug: 'aiPrompt'
@@ -13,6 +14,7 @@ export const aiPromptTarget = {
 
 export const synthesisTarget = {
   label: '合参',
+  hint: '多份材料归并整理',
   slot: 'auto',
   targetHref: '/tools/synthesis',
   targetSlug: 'synthesis'
@@ -21,12 +23,14 @@ export const synthesisTarget = {
 export const compatibilityTargets = [
   {
     label: '合盘 A',
+    hint: '填入第一份出生盘',
     slot: 'chartA',
     targetHref: '/tools/compatibility',
     targetSlug: 'compatibility'
   },
   {
     label: '合盘 B',
+    hint: '填入第二份出生盘',
     slot: 'chartB',
     targetHref: '/tools/compatibility',
     targetSlug: 'compatibility'
@@ -40,6 +44,7 @@ export function ToolHandoffActions({
   className = 'tool-handoff-actions',
   location,
   record,
+  showHints = false,
   targets = [aiPromptTarget, synthesisTarget]
 }) {
   const availableTargets = targets.filter(Boolean)
@@ -65,7 +70,12 @@ export function ToolHandoffActions({
       {availableTargets.map(target => (
         <button className={buttonClassName} key={`${target.targetSlug}-${target.slot}`} type='button' onClick={() => send(target)}>
           <ArrowRight size={16} />
-          {target.label}
+          {showHints && target.hint ? (
+            <span className='tool-handoff-copy'>
+              <strong>{target.label}</strong>
+              <em>{target.hint}</em>
+            </span>
+          ) : target.label}
         </button>
       ))}
     </div>

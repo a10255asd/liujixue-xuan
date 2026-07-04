@@ -2315,6 +2315,34 @@ input {
   display: contents;
 }
 
+.tool-handoff-copy {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  text-align: left;
+}
+
+.tool-handoff-copy strong,
+.tool-handoff-copy em {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tool-handoff-copy strong {
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+.tool-handoff-copy em {
+  color: color-mix(in srgb, currentColor 72%, transparent);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.2;
+}
+
 .chart-export-action-button {
   border-color: rgba(13, 148, 136, 0.24);
   background: rgba(217, 244, 238, 0.4);
@@ -9811,7 +9839,8 @@ body {
 
 .structured-record-card span,
 .structured-record-card strong,
-.structured-record-card p {
+.structured-record-card p,
+.structured-record-card em {
   display: block;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -9838,6 +9867,15 @@ body {
   line-height: 1.5;
 }
 
+.structured-record-card em {
+  margin-top: 8px;
+  color: #8a541d;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 860;
+  line-height: 1.45;
+}
+
 .structured-record-slot-actions {
   display: flex;
   flex-wrap: wrap;
@@ -9854,6 +9892,12 @@ body {
   font-size: 12px;
   font-weight: 860;
   padding: 0 11px;
+}
+
+.structured-record-slot-actions button.recommended {
+  border-color: rgba(13, 111, 97, 0.3);
+  background: #0d6f61;
+  color: #fffdf6;
 }
 
 .structured-hero-card {
@@ -10422,6 +10466,65 @@ body {
   line-height: 1.65;
 }
 
+.memory-record-next {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+  border: 1px solid rgba(168, 101, 35, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(215, 192, 142, 0.13)),
+    rgba(255, 253, 248, 0.9);
+  padding: 12px;
+}
+
+.memory-record-next span {
+  display: block;
+  color: #8a541d;
+  font-size: 11px;
+  font-weight: 920;
+}
+
+.memory-record-next strong,
+.memory-record-next p {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.memory-record-next strong {
+  display: block;
+  margin-top: 3px;
+  color: #111411;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.memory-record-next p {
+  margin: 5px 0 0;
+  color: #5e675f;
+  font-size: 12px;
+  font-weight: 740;
+  line-height: 1.55;
+}
+
+.memory-record-next a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(13, 111, 97, 0.26);
+  border-radius: 999px;
+  background: #0d6f61;
+  color: #fffdf6;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
 .memory-record-preview {
   display: grid;
   gap: 0;
@@ -10593,6 +10696,15 @@ body {
 
   .memory-record-top {
     display: grid;
+  }
+
+  .memory-record-next {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .memory-record-next a {
+    width: 100%;
   }
 }
 

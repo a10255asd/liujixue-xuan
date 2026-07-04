@@ -3,7 +3,7 @@
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, getMemoryRecordPreview, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
+import { favoritesKey, getMemoryRecordPreview, getMemoryRecordSlotSuggestion, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
@@ -117,7 +117,7 @@ const previewRecordText = text => {
   return preview.lines.join(' / ') || '暂无预览'
 }
 
-function RecordSlotPanel({ records, slots, insertRecord }) {
+function RecordSlotPanel({ records, slots, insertRecord, targetSlug }) {
   return (
     <section className='structured-record-panel'>
       <div>
@@ -126,22 +126,31 @@ function RecordSlotPanel({ records, slots, insertRecord }) {
       </div>
       {records.length ? (
         <div className='structured-record-list'>
-          {records.map(record => (
-            <article className='structured-record-card' key={record.id}>
-              <div>
-                <span>{record.tool}</span>
-                <strong>{record.title}</strong>
-                <p>{previewRecordText(record.text)}</p>
-              </div>
-              <div className='structured-record-slot-actions'>
-                {slots.map(slot => (
-                  <button key={`${record.id}-${slot.key}`} type='button' onClick={() => insertRecord(record, slot)}>
-                    {slot.label}
-                  </button>
-                ))}
-              </div>
-            </article>
-          ))}
+          {records.map(record => {
+            const suggestion = getMemoryRecordSlotSuggestion(record, targetSlug)
+
+            return (
+              <article className='structured-record-card' key={record.id}>
+                <div>
+                  <span>{record.tool}</span>
+                  <strong>{record.title}</strong>
+                  <p>{previewRecordText(record.text)}</p>
+                  {suggestion ? <em>建议填入：{suggestion.label} · {suggestion.reason}</em> : null}
+                </div>
+                <div className='structured-record-slot-actions'>
+                  {slots.map(slot => (
+                    <button
+                      className={suggestion?.slot === slot.key ? 'recommended' : ''}
+                      key={`${record.id}-${slot.key}`}
+                      type='button'
+                      onClick={() => insertRecord(record, slot)}>
+                      {suggestion?.slot === slot.key ? '推荐：' : ''}{slot.label}
+                    </button>
+                  ))}
+                </div>
+              </article>
+            )
+          })}
         </div>
       ) : (
         <p>暂无保存记录</p>
@@ -311,11 +320,12 @@ export function StructuredTool({ slug }) {
               title: output.summary || output.title,
               text: exportText
             }}
+            showHints
             targets={tool.handoffTargets || []}
           />
         </div>
         <AppliedRecordNotice items={appliedRecords} />
-        {recordSlots.length ? <RecordSlotPanel records={recentRecords} slots={recordSlots} insertRecord={insertRecord} /> : null}
+        {recordSlots.length ? <RecordSlotPanel records={recentRecords} slots={recordSlots} insertRecord={insertRecord} targetSlug={slug} /> : null}
       </section>
 
       <section className='chart-result-panel'>

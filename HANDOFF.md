@@ -173,6 +173,12 @@
   - AI handoff now infers question-oriented mode for 六爻、梅花、奇门、六壬 style records, while birth-chart records stay structural.
   - 合盘 and 合参 handoffs now accumulate record sources in context instead of overwriting the previous source when multiple records are inserted.
   - Added regression coverage for material-status badges, handoff mode inference, and compatibility source accumulation.
+- Records-to-workspace handoff polish followed the AI workspace pass:
+  - Added `getMemoryRecordSlotSuggestion` in `lib/local-memory.js` so record cards and structured workspaces share one routing rule.
+  - `/tools/records` now shows a dedicated `推荐下一步` block before the secondary actions; it explains whether the record should go to AI, 合参, or 合盘 A/B.
+  - `/tools/synthesis` and `/tools/compatibility` record pickers now display a recommended target slot for each saved record, with the suggested slot highlighted.
+  - Direct handoff buttons can now show short helper copy in roomy structured-tool panels while staying compact in chart export toolbars.
+  - Added regression coverage for record-to-slot suggestion routing; unit coverage is now 46 passing tests.
 
 ## Source Boundaries
 
@@ -200,5 +206,11 @@ npm run build
 ## Next Recommended Work
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
-2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass. Next best work: do browser/mobile QA across the full direct-handoff loop and then polish visual hierarchy only where the loop still feels clumsy.
+2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass. Next best work: do browser/mobile QA across the full direct-handoff loop with seeded localStorage records:
+   - Save or seed one 八字/紫微 record and one 六爻/梅花 record.
+   - Verify `/tools/records` shows the correct `推荐下一步`.
+   - Verify `立即接力` fills `/tools/ai-prompt` or `/tools/synthesis` correctly.
+   - Verify `/tools/synthesis` highlights the correct slot: 出生盘字段 / 问事盘字段 / 塔罗字段 / 日课字段 / 补充材料.
+   - Verify `/tools/compatibility` only recommends birth-chart records for 合盘.
+   - Check mobile width 390px for no horizontal overflow and no cramped action buttons.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.
