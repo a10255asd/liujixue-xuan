@@ -143,6 +143,21 @@
   - `/tools` now shows core tools first and moves weaker/experimental/reference tools into a compact lab section.
   - Footer links now show only core tools plus `全部工具`, instead of listing the entire catalogue.
 
+## 2026-07-04 Quality Pass
+
+- Continued the quality-first correction. Do not resume adding new tools until the core workflows feel useful and stable.
+- BaZi workflow polish completed in commit `bc0d3c8`:
+  - Added `baZiExampleInputs` in `lib/bazi-chart.js` with two reusable sample charts.
+  - `/tools/bazi` now includes quick sample loading, an input audit block, and a three-step post-chart workflow block.
+  - Added unit baselines for the BaZi samples; unit coverage increased to 41 tests at that point.
+  - Verified desktop/mobile layout locally and deployed to `https://xuan.liujixue.cn`.
+- ZiWei workflow polish completed after the BaZi pass:
+  - Added `ziWeiExampleInputs` in `lib/ziwei-chart.js` using the same two sample birth datasets.
+  - `/tools/ziwei` now includes quick sample loading, an input audit block, and a three-step post-chart workflow block.
+  - Generalized chart example/audit/workflow CSS classes so LiuYao and other core tools can reuse the pattern.
+  - Added ZiWei sample baselines for `chineseDate`, true-solar chart time, `fiveElementsClass`, time branch and palace presence.
+  - `npm run test:unit` now covers 42 passing tests.
+
 ## Source Boundaries
 
 - Reference site reviewed: `https://suanlemeai.cn/`.
@@ -169,5 +184,5 @@ npm run build
 ## Next Recommended Work
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
-2. Next best work: polish one core workflow end-to-end, starting with `/tools/bazi` mobile input, export card, example data, and result readability.
-3. Plan Next major upgrade separately with browser QA for BaZi/ZiWei/LiuYao and `npm run test:unit` baselines before and after.
+2. BaZi and ZiWei now have the first quality-workflow pass. Next best work: polish `/tools/liuyao` with reusable examples, input audit, post-chart workflow, mobile QA, and sample baselines.
+3. After LiuYao, improve the utility loop around `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility` instead of adding more low-depth tools.

@@ -4,7 +4,7 @@ import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
 import { aiAndCompatibilityTargets } from '@/components/tool-handoff-actions'
-import { calculateZiWeiChart, defaultZiWeiInput, ziWeiGenderOptions, ziWeiSectOptions } from '@/lib/ziwei-chart'
+import { calculateZiWeiChart, defaultZiWeiInput, ziWeiExampleInputs, ziWeiGenderOptions, ziWeiSectOptions } from '@/lib/ziwei-chart'
 import {
   getAreaOptions,
   getBirthPlaceSelection,
@@ -65,6 +65,8 @@ const normalizeFormForChart = form => ({
     numberFields.map(field => [field.key, getChartValue(form, field)])
   )
 })
+
+const formatSignedMinutes = value => `${value > 0 ? '+' : ''}${value} 分钟`
 
 function NumberField({ field, value, onChange, onCommit }) {
   return (
@@ -137,6 +139,67 @@ function SegmentedControl({ label, value, options, onChange }) {
           </button>
         ))}
       </div>
+    </div>
+  )
+}
+
+function ZiWeiExamplePicker({ examples, onApply }) {
+  return (
+    <div className='chart-example-panel'>
+      <div className='chart-example-head'>
+        <span>快速试盘</span>
+        <strong>先用样例看完整命盘</strong>
+      </div>
+      <div className='chart-example-list'>
+        {examples.map(example => (
+          <button
+            className='chart-example-button'
+            key={example.id}
+            type='button'
+            onClick={() => onApply(example)}>
+            <strong>{example.label}</strong>
+            <span>{example.description}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ZiWeiInputAudit({ result }) {
+  const rows = [
+    {
+      label: '输入',
+      value: `${result.solarText} · ${result.input.gender}`
+    },
+    {
+      label: '出生地',
+      value: result.input.birthPlace || '未选择'
+    },
+    {
+      label: '排盘',
+      value: `${result.chartSolarText} · 真太阳时 ${formatSignedMinutes(result.timeAdjustment.offsetMinutes)}`
+    },
+    {
+      label: '命盘',
+      value: `${result.fiveElementsClass} · ${result.time} · 命主 ${result.soul}`
+    }
+  ]
+
+  return (
+    <div className='chart-input-audit'>
+      <div className='chart-input-audit-head'>
+        <span>核对</span>
+        <strong>导出前先看这几项</strong>
+      </div>
+      <dl>
+        {rows.map(row => (
+          <div key={row.label}>
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }
@@ -240,6 +303,46 @@ function ZiWeiFineChart({ copyText, exportPayload, result }) {
             </dl>
           </div>
         </div>
+      </div>
+    </section>
+  )
+}
+
+function ZiWeiWorkflowCard({ result }) {
+  const mingPosition = `${result.mingPalace?.heavenlyStem || ''}${result.mingPalace?.earthlyBranch || ''}` || '未取'
+  const bodyPosition = `${result.bodyPalace?.heavenlyStem || ''}${result.bodyPalace?.earthlyBranch || ''}` || '未取'
+  const checkpoints = [
+    {
+      label: '核对输入',
+      value: `${result.input.birthPlace || '未选择'} · ${result.solarText}`
+    },
+    {
+      label: '确认命盘',
+      value: `${result.fiveElementsClass} · 命宫 ${mingPosition} · 身宫 ${bodyPosition}`
+    },
+    {
+      label: '导出交接',
+      value: '复制专业盘文本、保存记录或下载专业命盘图片'
+    }
+  ]
+
+  return (
+    <section className='chart-section-card chart-workflow-card'>
+      <div className='chart-section-head'>
+        <div>
+          <span className='chart-kicker'>Workflow</span>
+          <h2>排盘后下一步</h2>
+        </div>
+        <span className='chart-source'>核对 / 导出 / 交接</span>
+      </div>
+      <div className='chart-workflow-steps'>
+        {checkpoints.map((item, index) => (
+          <article key={item.label}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{item.label}</strong>
+            <p>{item.value}</p>
+          </article>
+        ))}
       </div>
     </section>
   )
@@ -359,13 +462,27 @@ export function ZiWeiChartCalculator() {
     applyBirthPlaceSelection(getBirthPlaceSelection(form.birthProvinceCode, form.birthCityCode, areaCode))
   }
 
-  const resetForm = () => {
-    resolvedPlaceRef.current = defaultZiWeiInput.birthPlace
+  const setResolvedForm = nextInput => {
+    const nextForm = {
+      ...defaultZiWeiInput,
+      ...nextInput,
+      timeMode: nextInput.timeMode || 'trueSolar'
+    }
+
+    resolvedPlaceRef.current = nextForm.birthPlace
     setLocationState({
       status: 'success',
-      message: `真太阳时排盘 · 经度 ${defaultZiWeiInput.birthLongitude}° / 纬度 ${defaultZiWeiInput.birthLatitude}°`
+      message: `真太阳时排盘 · 经度 ${nextForm.birthLongitude}° / 纬度 ${nextForm.birthLatitude}°`
     })
-    setForm(defaultZiWeiInput)
+    setForm(nextForm)
+  }
+
+  const resetForm = () => {
+    setResolvedForm(defaultZiWeiInput)
+  }
+
+  const applyExample = example => {
+    setResolvedForm(example.input)
   }
 
   return (
@@ -380,6 +497,8 @@ export function ZiWeiChartCalculator() {
             <RefreshCcw size={16} />
           </button>
         </div>
+
+        <ZiWeiExamplePicker examples={ziWeiExampleInputs} onApply={applyExample} />
 
         <div className='chart-form-grid'>
           {numberFields.map(field => (
@@ -404,6 +523,8 @@ export function ZiWeiChartCalculator() {
           <div className={`chart-location-status ${locationState.status}`}>
             {locationState.message}
           </div>
+
+          <ZiWeiInputAudit result={result} />
 
           <SegmentedControl
             label='性别'
@@ -475,6 +596,8 @@ export function ZiWeiChartCalculator() {
             <DetailRow label='身宫地支' value={result.earthlyBranchOfBodyPalace} />
           </dl>
         </section>
+
+        <ZiWeiWorkflowCard result={result} />
 
         <ZiWeiFineChart copyText={copyText} exportPayload={exportPayload} result={result} />
 

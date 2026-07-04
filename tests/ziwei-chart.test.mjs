@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { calculateZiWeiChart, ziWeiChartSource } from '../lib/ziwei-chart.js'
+import { calculateZiWeiChart, ziWeiChartSource, ziWeiExampleInputs } from '../lib/ziwei-chart.js'
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 
@@ -83,4 +83,36 @@ test('ziwei chart source version matches dependency declaration', () => {
   assert.equal(pkg.dependencies[ziWeiChartSource.engine], `^${ziWeiChartSource.version}`)
   assert.ok(!result.notes.join('\n').includes(ziWeiChartSource.engine))
   assert.equal(ziWeiChartSource.outputScope, '只输出排盘字段')
+})
+
+test('ziwei example inputs produce reusable chart baselines', () => {
+  assert.equal(ziWeiExampleInputs.length, 2)
+
+  const results = ziWeiExampleInputs.map(example => calculateZiWeiChart(example.input))
+
+  assert.deepEqual(results.map(result => result.chineseDate), [
+    '丙子 乙未 戊午 壬子',
+    '戊寅 丁巳 壬申 丙午'
+  ])
+  assert.deepEqual(results.map(result => result.chartSolarText), [
+    '1996-07-19 23:48:48',
+    '1998-05-25 11:56:00'
+  ])
+  assert.deepEqual(results.map(result => result.fiveElementsClass), [
+    '金四局',
+    '水二局'
+  ])
+  assert.deepEqual(results.map(result => result.time), [
+    '早子时',
+    '午时'
+  ])
+
+  for (const result of results) {
+    assert.equal(result.input.timeMode, 'trueSolar')
+    assert.equal(result.palaces.length, 12)
+    assert.ok(result.input.birthPlace)
+    assert.ok(result.mingPalace)
+    assert.ok(result.bodyPalace)
+    assert.ok(result.palaces.some(palace => palace.majorStars.length > 0))
+  }
 })
