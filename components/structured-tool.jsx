@@ -3,7 +3,7 @@
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
+import { favoritesKey, getMemoryRecordPreview, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
@@ -108,10 +108,8 @@ function Field({ field, form, updateForm }) {
 }
 
 const previewRecordText = text => {
-  const lines = String(text || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean)
-  const chartIndex = lines.findIndex(line => line.includes('排盘字段'))
-  const previewLines = chartIndex >= 0 ? lines.slice(chartIndex + 1) : lines
-  return previewLines.slice(0, 2).join(' / ') || '暂无预览'
+  const preview = getMemoryRecordPreview({ text }, { maxLines: 2 })
+  return preview.lines.join(' / ') || '暂无预览'
 }
 
 function RecordSlotPanel({ records, slots, insertRecord }) {

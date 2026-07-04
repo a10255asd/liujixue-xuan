@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { createToolHandoff, mergeMemoryFavorites, mergeMemoryRecords } from '../lib/local-memory.js'
+import {
+  createToolHandoff,
+  getMemoryRecordPreview,
+  getMemoryRecordWorkflow,
+  mergeMemoryFavorites,
+  mergeMemoryRecords
+} from '../lib/local-memory.js'
 
 test('local memory records merge by id, keep local duplicate, and sort newest first', () => {
   const current = [
@@ -53,4 +59,45 @@ test('tool handoff preserves target slot and source record text', () => {
   assert.equal(handoff.sourceTool, '八字专业细盘')
   assert.equal(handoff.sourceTitle, '甲方八字')
   assert.equal(handoff.text, '四柱：甲子 乙丑 丙寅 丁卯')
+})
+
+test('record preview prioritizes useful chart fields over boundary notes', () => {
+  const preview = getMemoryRecordPreview({
+    text: [
+      '八字专业细盘',
+      '',
+      '输入：1996-07-19 23:30（公历/阳历），性别：男',
+      '出生地：黑龙江省 黑河市 五大连池市',
+      '四柱：丙子 乙未 戊午 壬子',
+      '日主：戊',
+      '来源与边界',
+      '- 只输出排盘字段，不输出吉凶、建议或人生判断。'
+    ].join('\n')
+  }, { maxLines: 3 })
+
+  assert.deepEqual(preview.lines, [
+    '输入：1996-07-19 23:30（公历/阳历），性别：男',
+    '出生地：黑龙江省 黑河市 五大连池市',
+    '四柱：丙子 乙未 戊午 壬子'
+  ])
+  assert.equal(preview.totalLines, 7)
+  assert.equal(preview.hiddenLines, 4)
+})
+
+test('record workflow routes birth charts to synthesis and question charts to AI first', () => {
+  const baziWorkflow = getMemoryRecordWorkflow({
+    tool: '八字专业细盘',
+    title: '甲方八字',
+    text: '四柱：甲子 乙丑 丙寅 丁卯'
+  })
+  const liuyaoWorkflow = getMemoryRecordWorkflow({
+    tool: '六爻排盘',
+    title: '事项排盘',
+    text: '本卦：泽雷随\n变卦：水泽节\n世应：世爻4，应爻1'
+  })
+
+  assert.equal(baziWorkflow.category, 'birth')
+  assert.equal(baziWorkflow.primaryAction, 'synthesis')
+  assert.equal(liuyaoWorkflow.category, 'question')
+  assert.equal(liuyaoWorkflow.primaryAction, 'aiPrompt')
 })

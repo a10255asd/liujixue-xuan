@@ -162,6 +162,11 @@
   - `/tools/liuyao` now includes quick sample loading, an input audit block, and a three-step post-chart workflow block.
   - Added LiuYao sample baselines for method coverage, 本卦/变卦, and moving-line output.
   - `npm run test:unit` now covers 43 passing tests.
+- Records utility loop polish is now underway after the three core chart pages:
+  - Added record preview and workflow inference helpers in `lib/local-memory.js`.
+  - `/tools/records` now shows each saved record as an action card with category, recommended next step, key-field preview, direct AI/合参/合盘 handoff, and collapsed full text.
+  - Structured tool record pickers reuse the same preview logic, so `/tools/synthesis` and `/tools/compatibility` show more useful saved-record summaries.
+  - Added regression tests for record preview priority and workflow routing.
 
 ## Source Boundaries
 
@@ -189,5 +194,5 @@ npm run build
 ## Next Recommended Work
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
-2. BaZi, ZiWei, and LiuYao now have the first quality-workflow pass. Next best work: improve the utility loop around `/tools/records`, `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility`.
+2. BaZi, ZiWei, LiuYao, and Records now have the first quality-workflow pass. Next best work: improve `/tools/ai-prompt`, `/tools/synthesis`, and `/tools/compatibility` so their form defaults, record slot labels, and output summaries feel production-grade.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

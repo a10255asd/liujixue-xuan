@@ -6,6 +6,8 @@ import { copyText } from '@/lib/copy-text'
 import {
   createToolHandoff,
   favoritesKey,
+  getMemoryRecordPreview,
+  getMemoryRecordWorkflow,
   handoffKey,
   mergeMemoryFavorites,
   mergeMemoryRecords,
@@ -223,41 +225,74 @@ export function LocalMemoryDashboard() {
         {importStatus ? <div className='memory-import-status'>{importStatus}</div> : null}
         {filteredRecords.length ? (
           <div className='memory-record-list'>
-            {filteredRecords.map(record => (
-              <article className='memory-record-card' key={record.id}>
-                <div>
-                  <span>{record.tool} · {formatTime(record.createdAt)}</span>
-                  <h3>{record.title}</h3>
-                </div>
-                <div className='memory-record-actions'>
-                  <button type='button' onClick={() => copyRecord(record)}>
-                    {copiedId === record.id ? <CheckCircle2 size={15} /> : <Copy size={15} />}
-                    {copiedId === record.id ? '已复制' : '复制'}
-                  </button>
-                  <Link href={record.href}>打开工具</Link>
-                  <button type='button' onClick={() => removeRecord(record.id)}>
-                    <Trash2 size={15} />
-                    删除
-                  </button>
-                </div>
-                <div className='memory-record-actions memory-record-handoff-actions'>
-                  <Link href='/tools/ai-prompt' onClick={() => sendRecordToTool(record, '/tools/ai-prompt', 'aiPrompt', 'chartText')}>
-                    <ArrowRight size={15} />
-                    送去 AI
-                  </Link>
-                  <Link href='/tools/synthesis' onClick={() => sendRecordToTool(record, '/tools/synthesis', 'synthesis', 'auto')}>
-                    合参
-                  </Link>
-                  <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartA')}>
-                    合盘 A
-                  </Link>
-                  <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartB')}>
-                    合盘 B
-                  </Link>
-                </div>
-                <pre>{record.text}</pre>
-              </article>
-            ))}
+            {filteredRecords.map(record => {
+              const workflow = getMemoryRecordWorkflow(record)
+              const preview = getMemoryRecordPreview(record, { maxLines: 5 })
+
+              return (
+                <article className='memory-record-card' key={record.id}>
+                  <div className='memory-record-top'>
+                    <div>
+                      <span>{record.tool} · {formatTime(record.createdAt)}</span>
+                      <h3>{record.title}</h3>
+                    </div>
+                    <em>{workflow.categoryLabel}</em>
+                  </div>
+
+                  <div className='memory-record-signal'>
+                    <strong>{workflow.title}</strong>
+                    <p>{workflow.summary}</p>
+                  </div>
+
+                  <div className='memory-record-preview' aria-label='记录字段预览'>
+                    {preview.lines.length ? preview.lines.map((line, index) => <p key={`${record.id}-${index}`}>{line}</p>) : <p>暂无可预览字段</p>}
+                    {preview.hiddenLines > 0 ? <span>还有 {preview.hiddenLines} 行完整字段，可展开查看</span> : null}
+                  </div>
+
+                  <div className='memory-record-actions'>
+                    <button type='button' onClick={() => copyRecord(record)}>
+                      {copiedId === record.id ? <CheckCircle2 size={15} /> : <Copy size={15} />}
+                      {copiedId === record.id ? '已复制' : '复制'}
+                    </button>
+                    <Link href={record.href}>打开工具</Link>
+                    <button type='button' onClick={() => removeRecord(record.id)}>
+                      <Trash2 size={15} />
+                      删除
+                    </button>
+                  </div>
+
+                  <div className='memory-record-actions memory-record-handoff-actions'>
+                    <Link
+                      className={workflow.primaryAction === 'aiPrompt' ? 'recommended' : ''}
+                      href='/tools/ai-prompt'
+                      onClick={() => sendRecordToTool(record, '/tools/ai-prompt', 'aiPrompt', 'chartText')}>
+                      <ArrowRight size={15} />
+                      送去 AI
+                    </Link>
+                    <Link
+                      className={workflow.primaryAction === 'synthesis' ? 'recommended' : ''}
+                      href='/tools/synthesis'
+                      onClick={() => sendRecordToTool(record, '/tools/synthesis', 'synthesis', 'auto')}>
+                      合参
+                    </Link>
+                    <Link
+                      className={workflow.primaryAction === 'compatibility' ? 'recommended' : ''}
+                      href='/tools/compatibility'
+                      onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartA')}>
+                      合盘 A
+                    </Link>
+                    <Link href='/tools/compatibility' onClick={() => sendRecordToTool(record, '/tools/compatibility', 'compatibility', 'chartB')}>
+                      合盘 B
+                    </Link>
+                  </div>
+
+                  <details className='memory-record-detail'>
+                    <summary>完整字段</summary>
+                    <pre>{record.text}</pre>
+                  </details>
+                </article>
+              )
+            })}
           </div>
         ) : (
           <div className='memory-empty'>

@@ -10355,22 +10355,97 @@ body {
   padding: 16px;
 }
 
-.memory-record-card > div:first-child {
+.memory-record-top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
 }
 
-.memory-record-card span {
+.memory-record-top span {
   color: #687168;
   font-size: 12px;
   font-weight: 780;
 }
 
+.memory-record-top em {
+  display: inline-flex;
+  min-height: 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  border: 1px solid rgba(168, 101, 35, 0.18);
+  border-radius: 999px;
+  background: rgba(215, 192, 142, 0.13);
+  color: #8a541d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+  padding: 0 10px;
+}
+
 .memory-record-card h3 {
   margin: 7px 0 0;
   font-size: 20px;
+}
+
+.memory-record-signal {
+  display: grid;
+  gap: 5px;
+  margin-top: 14px;
+  border: 1px solid rgba(13, 111, 97, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(13, 111, 97, 0.09), rgba(215, 192, 142, 0.08)),
+    rgba(255, 253, 248, 0.92);
+  padding: 12px;
+}
+
+.memory-record-signal strong {
+  color: #0d6f61;
+  font-size: 14px;
+  font-weight: 920;
+}
+
+.memory-record-signal p {
+  margin: 0;
+  color: #5e675f;
+  font-size: 13px;
+  font-weight: 720;
+  line-height: 1.65;
+}
+
+.memory-record-preview {
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  margin-top: 12px;
+  border: 1px solid rgba(17, 20, 17, 0.08);
+  border-radius: 8px;
+  background: rgba(17, 20, 17, 0.025);
+}
+
+.memory-record-preview p {
+  margin: 0;
+  border-bottom: 1px solid rgba(17, 20, 17, 0.065);
+  color: #2f352f;
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.65;
+  padding: 8px 11px;
+  overflow-wrap: anywhere;
+}
+
+.memory-record-preview p:last-of-type {
+  border-bottom: 0;
+}
+
+.memory-record-preview span {
+  display: block;
+  border-top: 1px solid rgba(17, 20, 17, 0.06);
+  color: #687168;
+  font-size: 12px;
+  font-weight: 760;
+  padding: 8px 11px;
 }
 
 .memory-record-actions {
@@ -10387,10 +10462,28 @@ body {
   color: #2f352f;
 }
 
-.memory-record-card pre {
+.memory-record-handoff-actions a.recommended {
+  border-color: rgba(13, 111, 97, 0.28);
+  background: #0d6f61;
+  color: #fffdf6;
+}
+
+.memory-record-detail {
+  margin-top: 12px;
+}
+
+.memory-record-detail summary {
+  width: fit-content;
+  cursor: pointer;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 860;
+}
+
+.memory-record-detail pre {
   max-height: 260px;
   overflow: auto;
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   border: 1px solid rgba(17, 20, 17, 0.08);
   border-radius: 8px;
   background: rgba(17, 20, 17, 0.035);
@@ -10490,7 +10583,7 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .memory-record-card > div:first-child {
+  .memory-record-top {
     display: grid;
   }
 }
