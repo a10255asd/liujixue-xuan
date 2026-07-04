@@ -67,28 +67,29 @@ function ChartTextButton({ location, payload, text, textLabel = '下载 AI 文�
 }
 
 function ChartSaveButton({ location, payload, text }) {
-  const [saved, setSaved] = useState(false)
+  const [saveStatus, setSaveStatus] = useState('')
 
   const saveRecord = () => {
-    saveMemoryRecord({
+    const record = saveMemoryRecord({
       tool: payload.title,
       href: window.location.pathname,
       title: payload.subtitle || payload.title,
       text
     })
 
+    if (!record) return
     track('chart_record_save', {
       chart: payload.title,
       location
     })
-    setSaved(true)
-    window.setTimeout(() => setSaved(false), 1800)
+    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
+    window.setTimeout(() => setSaveStatus(''), 1800)
   }
 
   return (
     <button className='button chart-export-action-button' type='button' onClick={saveRecord}>
-      {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
-      {saved ? '已保存' : '保存记录'}
+      {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
+      {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
     </button>
   )
 }

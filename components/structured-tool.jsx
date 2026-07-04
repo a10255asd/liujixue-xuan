@@ -203,7 +203,7 @@ export function StructuredTool({ slug }) {
   const defaultInput = tool.defaultInput
   const [form, setForm] = useState(() => hydrateDefaults(defaultInput))
   const [copied, setCopied] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [saveStatus, setSaveStatus] = useState('')
   const [favorited, setFavorited] = useState(false)
   const [records, setRecords] = useState([])
   const [appliedRecords, setAppliedRecords] = useState([])
@@ -232,14 +232,14 @@ export function StructuredTool({ slug }) {
     setForm(current => ({ ...current, [key]: value }))
     setAppliedRecords(current => current.filter(item => item.slot !== key))
     setCopied(false)
-    setSaved(false)
+    setSaveStatus('')
   }
 
   const reset = () => {
     setForm(hydrateDefaults(defaultInput, true))
     setAppliedRecords([])
     setCopied(false)
-    setSaved(false)
+    setSaveStatus('')
   }
 
   const copy = async () => {
@@ -251,15 +251,16 @@ export function StructuredTool({ slug }) {
   }
 
   const saveRecord = () => {
-    saveMemoryRecord({
+    const record = saveMemoryRecord({
       tool: tool.title,
       href: tool.href,
       title: output.summary || output.title,
       text: exportText
     })
+    if (!record) return
     track('xuan_structured_tool_save', { tool: tool.title })
-    setSaved(true)
-    window.setTimeout(() => setSaved(false), 1800)
+    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
+    window.setTimeout(() => setSaveStatus(''), 1800)
   }
 
   const toggleFavorite = () => {
@@ -277,7 +278,7 @@ export function StructuredTool({ slug }) {
     setForm(current => tool.applyRecordSlot(current, record, slot))
     setAppliedRecords(current => mergeAppliedRecordNotice(current, buildAppliedRecordNotice(record, slot?.key, slotLabelFromTool(tool, recordSlots, slot?.key))))
     setCopied(false)
-    setSaved(false)
+    setSaveStatus('')
   }
 
   return (
@@ -303,8 +304,8 @@ export function StructuredTool({ slug }) {
             {copied ? '已复制' : tool.copyLabel || '复制字段'}
           </button>
           <button className='button' type='button' onClick={saveRecord}>
-            {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saved ? '已保存' : '保存记录'}
+            {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
           </button>
           <button className='button' type='button' onClick={toggleFavorite}>
             <Star size={16} />

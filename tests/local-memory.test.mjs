@@ -75,6 +75,76 @@ test('local memory falls back to page session storage when localStorage is unava
   }
 })
 
+test('saving the same record updates the existing memory card instead of duplicating it', () => {
+  const previousWindow = globalThis.window
+  globalThis.window = {}
+
+  try {
+    const input = {
+      tool: '八字专业细盘',
+      href: '/tools/bazi',
+      title: '甲方八字',
+      text: '四柱：甲子 乙丑 丙寅 丁卯'
+    }
+    const first = saveMemoryRecord(input)
+    const second = saveMemoryRecord(input)
+    const changed = saveMemoryRecord({ ...input, text: '四柱：戊辰 己巳 庚午 辛未' })
+    const other = saveMemoryRecord({ ...input, title: '乙方八字', text: '四柱：壬申 癸酉 甲戌 乙亥' })
+    const records = readMemory(recordsKey, [])
+
+    assert.equal(first.saveMode, 'created')
+    assert.equal(second.saveMode, 'updated')
+    assert.equal(first.id, second.id)
+    assert.equal(changed.saveMode, 'updated')
+    assert.equal(changed.id, first.id)
+    assert.equal(other.saveMode, 'created')
+    assert.equal(records.length, 2)
+    assert.equal(records[0].title, '乙方八字')
+    assert.equal(records[1].text, '四柱：戊辰 己巳 庚午 辛未')
+  } finally {
+    if (previousWindow === undefined) {
+      delete globalThis.window
+    } else {
+      globalThis.window = previousWindow
+    }
+  }
+})
+
+test('saving a record collapses older duplicate cards with the same fingerprint', () => {
+  const previousWindow = globalThis.window
+  globalThis.window = {}
+
+  try {
+    const duplicate = {
+      tool: '八字专业细盘',
+      href: '/tools/bazi',
+      title: '甲方八字',
+      text: '四柱：甲子 乙丑 丙寅 丁卯'
+    }
+
+    writeMemory(recordsKey, [
+      { id: 'dup-1', ...duplicate, createdAt: '2026-07-01T00:00:00.000Z' },
+      { id: 'other', tool: '六爻', href: '/tools/liuyao', title: '问事', text: '本卦：泽雷随', createdAt: '2026-07-02T00:00:00.000Z' },
+      { id: 'dup-2', ...duplicate, createdAt: '2026-07-03T00:00:00.000Z' }
+    ])
+
+    const saved = saveMemoryRecord(duplicate)
+    const records = readMemory(recordsKey, [])
+
+    assert.equal(saved.saveMode, 'updated')
+    assert.equal(saved.id, 'dup-1')
+    assert.equal(records.length, 2)
+    assert.equal(records.filter(record => record.title === duplicate.title).length, 1)
+    assert.equal(records.find(record => record.id === 'other').text, '本卦：泽雷随')
+  } finally {
+    if (previousWindow === undefined) {
+      delete globalThis.window
+    } else {
+      globalThis.window = previousWindow
+    }
+  }
+})
+
 test('tool handoff preserves target slot and source record text', () => {
   const handoff = createToolHandoff({
     targetHref: '/tools/compatibility',

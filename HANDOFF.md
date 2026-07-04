@@ -188,6 +188,13 @@
   - Verified `/tools/compatibility` accepts birth-chart records into 对象 A and does not recommend LiuYao/question records for compatibility.
   - No page-level horizontal overflow was observed at 390px across the tested records, synthesis, AI prompt, and compatibility flow.
   - Added fallback-storage regression coverage; unit coverage is now 47 passing tests.
+- Record de-duplication polish completed after browser QA:
+  - `saveMemoryRecord` now uses a stable record fingerprint based on tool, href, and title.
+  - Re-saving the same named record updates the existing card instead of adding duplicates.
+  - Historical duplicate cards with the same fingerprint are collapsed the next time that record is saved.
+  - Save buttons now distinguish `已保存` from `已更新` across chart export panels, structured tools, calendar, and daily hexagram.
+  - Mobile browser QA at 390px verified duplicate BaZi saves show `已更新`, collapse existing duplicate 1996 cards to one, and do not create horizontal overflow.
+  - Added regression coverage for repeated saves and historical duplicate collapse; unit coverage is now 49 passing tests.
 
 ## Source Boundaries
 
@@ -216,8 +223,7 @@ npm run build
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
-   - Add record de-duplication or an overwrite prompt so repeated `保存记录` clicks do not create duplicate cards.
-   - Add clearer save feedback for fallback/session-only storage if desired.
-   - Consider a compact record picker filter in `/tools/synthesis` and `/tools/compatibility` once record volume grows.
+   - Add a compact record picker filter in `/tools/synthesis` and `/tools/compatibility` now that records can accumulate without accidental duplicates.
+   - Consider clearer save feedback for fallback/session-only storage if desired.
    - Then do a visual pass on the record card density; do not change chart logic without tests.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

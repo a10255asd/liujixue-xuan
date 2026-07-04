@@ -107,20 +107,20 @@ export function CalendarTool() {
     time: currentTime()
   })
   const [copied, setCopied] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [saveStatus, setSaveStatus] = useState('')
   const calendar = useMemo(() => buildCalendar(form), [form])
   const copyText = useMemo(() => buildCopyText(calendar), [calendar])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
     setCopied(false)
-    setSaved(false)
+    setSaveStatus('')
   }
 
   const resetNow = () => {
     setForm({ date: todayDate(), time: currentTime() })
     setCopied(false)
-    setSaved(false)
+    setSaveStatus('')
   }
 
   const copy = async () => {
@@ -129,14 +129,15 @@ export function CalendarTool() {
   }
 
   const save = () => {
-    saveMemoryRecord({
+    const record = saveMemoryRecord({
       tool: '黄历节气',
       href: '/tools/calendar',
       title: `${calendar.solar} · ${calendar.ganZhi.day}日`,
       text: copyText
     })
-    setSaved(true)
-    window.setTimeout(() => setSaved(false), 1800)
+    if (!record) return
+    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
+    window.setTimeout(() => setSaveStatus(''), 1800)
   }
 
   return (
@@ -167,8 +168,8 @@ export function CalendarTool() {
             {copied ? '已复制日课字段' : '复制日课字段'}
           </button>
           <button className='button' type='button' onClick={save}>
-            {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saved ? '已保存' : '保存记录'}
+            {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
           </button>
           <ToolHandoffActions
             buttonClassName='button'

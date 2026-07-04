@@ -124,14 +124,14 @@ export function DailyHexagramTool() {
     topic: '今天适合推进什么？'
   })
   const [copied, setCopied] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const [saveStatus, setSaveStatus] = useState('')
   const chart = useMemo(() => buildHexagram(form), [form])
   const copyText = useMemo(() => buildCopyText(chart), [chart])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
     setCopied(false)
-    setSaved(false)
+    setSaveStatus('')
   }
 
   const copy = async () => {
@@ -140,14 +140,15 @@ export function DailyHexagramTool() {
   }
 
   const save = () => {
-    saveMemoryRecord({
+    const record = saveMemoryRecord({
       tool: '每日一卦',
       href: '/tools/daily',
       title: `${chart.topic} · ${chart.name}`,
       text: copyText
     })
-    setSaved(true)
-    window.setTimeout(() => setSaved(false), 1800)
+    if (!record) return
+    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
+    window.setTimeout(() => setSaveStatus(''), 1800)
   }
 
   return (
@@ -164,7 +165,7 @@ export function DailyHexagramTool() {
             onClick={() => {
               setForm({ date: todayDate(), time: currentTime(), topic: form.topic })
               setCopied(false)
-              setSaved(false)
+              setSaveStatus('')
             }}>
             <RefreshCcw size={18} />
           </button>
@@ -195,8 +196,8 @@ export function DailyHexagramTool() {
             {copied ? '已复制起卦记录' : '复制起卦记录'}
           </button>
           <button className='button' type='button' onClick={save}>
-            {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saved ? '已保存' : '保存记录'}
+            {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
           </button>
           <ToolHandoffActions
             buttonClassName='button'
