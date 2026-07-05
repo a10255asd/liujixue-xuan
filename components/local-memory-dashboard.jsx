@@ -9,6 +9,7 @@ import {
   getMemoryRecordPreview,
   getMemoryRecordSlotSuggestion,
   getMemoryRecordWorkflow,
+  getMemoryStorageStatus,
   handoffKey,
   mergeMemoryFavorites,
   mergeMemoryRecords,
@@ -73,11 +74,13 @@ export function LocalMemoryDashboard() {
   const [toolFilter, setToolFilter] = useState('all')
   const [favoriteOnly, setFavoriteOnly] = useState(false)
   const [importStatus, setImportStatus] = useState('')
+  const [storageStatus, setStorageStatus] = useState(null)
   const fileInputRef = useRef(null)
 
   useEffect(() => {
     setRecords(readMemory(recordsKey, []))
     setFavorites(readMemory(favoritesKey, []))
+    setStorageStatus(getMemoryStorageStatus())
   }, [])
 
   const favoriteHrefs = useMemo(() => new Set(favorites.map(item => item.href)), [favorites])
@@ -102,12 +105,14 @@ export function LocalMemoryDashboard() {
       : [{ title: tool.title, href: tool.href, addedAt: new Date().toISOString() }, ...favorites]
     setFavorites(next)
     writeMemory(favoritesKey, next)
+    setStorageStatus(getMemoryStorageStatus())
   }
 
   const removeRecord = id => {
     const next = records.filter(record => record.id !== id)
     setRecords(next)
     writeMemory(recordsKey, next)
+    setStorageStatus(getMemoryStorageStatus())
   }
 
   const copyRecord = async record => {
@@ -151,6 +156,7 @@ export function LocalMemoryDashboard() {
       setFavorites(nextFavorites)
       writeMemory(recordsKey, nextRecords)
       writeMemory(favoritesKey, nextFavorites)
+      setStorageStatus(getMemoryStorageStatus())
       setImportStatus(`已导入 ${nextRecords.length} 条记录 / ${nextFavorites.length} 个收藏`)
     } catch {
       setImportStatus('导入失败，请检查 JSON 文件')
@@ -262,6 +268,15 @@ export function LocalMemoryDashboard() {
           </button>
           <input ref={fileInputRef} accept='application/json' hidden type='file' onChange={importMemory} />
         </div>
+        {storageStatus ? (
+          <div className={`memory-storage-status ${storageStatus.mode}`}>
+            <CheckCircle2 size={16} />
+            <div>
+              <strong>{storageStatus.label}</strong>
+              <p>{storageStatus.description}</p>
+            </div>
+          </div>
+        ) : null}
         {importStatus ? <div className='memory-import-status'>{importStatus}</div> : null}
         {filteredRecords.length ? (
           <div className='memory-record-list'>

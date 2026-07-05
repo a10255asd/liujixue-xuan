@@ -4,7 +4,7 @@ import { CheckCircle2, Download, Save } from '@/components/icons'
 import { TemplateCopyButton } from '@/components/template-copy-button'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { downloadChartImage } from '@/lib/chart-image-export'
-import { saveMemoryRecord } from '@/lib/local-memory'
+import { getMemorySaveFeedback, saveMemoryRecord } from '@/lib/local-memory'
 import { track } from '@vercel/analytics'
 import { useState } from 'react'
 
@@ -67,7 +67,7 @@ function ChartTextButton({ location, payload, text, textLabel = '下载 AI 文�
 }
 
 function ChartSaveButton({ location, payload, text }) {
-  const [saveStatus, setSaveStatus] = useState('')
+  const [saveFeedback, setSaveFeedback] = useState(null)
 
   const saveRecord = () => {
     const record = saveMemoryRecord({
@@ -77,19 +77,20 @@ function ChartSaveButton({ location, payload, text }) {
       text
     })
 
+    const feedback = getMemorySaveFeedback(record)
+    setSaveFeedback(feedback)
     if (!record) return
     track('chart_record_save', {
       chart: payload.title,
       location
     })
-    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
-    window.setTimeout(() => setSaveStatus(''), 1800)
+    window.setTimeout(() => setSaveFeedback(null), 2200)
   }
 
   return (
     <button className='button chart-export-action-button' type='button' onClick={saveRecord}>
-      {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
-      {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
+      {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
+      {saveFeedback?.label || '保存记录'}
     </button>
   )
 }

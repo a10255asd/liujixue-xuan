@@ -6,6 +6,8 @@ import {
   getMemoryRecordPreview,
   getMemoryRecordSlotSuggestion,
   getMemoryRecordWorkflow,
+  getMemorySaveFeedback,
+  getMemoryStorageStatus,
   mergeMemoryFavorites,
   mergeMemoryRecords,
   readMemory,
@@ -51,6 +53,7 @@ test('local memory falls back to page session storage when localStorage is unava
   globalThis.window = {}
 
   try {
+    assert.equal(getMemoryStorageStatus().mode, 'session')
     assert.equal(writeMemory('fallback-key', [{ title: '临时记录' }]), true)
     assert.deepEqual(readMemory('fallback-key', []), [{ title: '临时记录' }])
 
@@ -63,10 +66,50 @@ test('local memory falls back to page session storage when localStorage is unava
     const records = readMemory(recordsKey, [])
 
     assert.equal(record.tool, '六爻纳甲排盘')
+    assert.equal(record.storageMode, 'session')
+    assert.equal(getMemorySaveFeedback(record).label, '临时保存')
+    assert.match(getMemorySaveFeedback(record).description, /导出 JSON/)
     assert.equal(records.length, 1)
     assert.equal(records[0].text, '本卦：泽雷随')
     assert.equal(removeMemory(recordsKey), true)
     assert.deepEqual(readMemory(recordsKey, []), [])
+  } finally {
+    if (previousWindow === undefined) {
+      delete globalThis.window
+    } else {
+      globalThis.window = previousWindow
+    }
+  }
+})
+
+test('local memory reports persistent browser storage when localStorage works', () => {
+  const previousWindow = globalThis.window
+  const store = new Map()
+  globalThis.window = {
+    localStorage: {
+      getItem: key => store.get(key) || null,
+      removeItem: key => store.delete(key),
+      setItem: (key, value) => store.set(key, String(value))
+    }
+  }
+
+  try {
+    assert.equal(getMemoryStorageStatus().mode, 'local')
+
+    const input = {
+      tool: '八字专业细盘',
+      href: '/tools/bazi',
+      title: '甲方八字',
+      text: '四柱：甲子 乙丑 丙寅 丁卯'
+    }
+    const first = saveMemoryRecord(input)
+    const second = saveMemoryRecord(input)
+
+    assert.equal(first.storageMode, 'local')
+    assert.equal(second.storageMode, 'local')
+    assert.equal(getMemorySaveFeedback(first).label, '已保存')
+    assert.equal(getMemorySaveFeedback(second).label, '已更新')
+    assert.match(getMemoryStorageStatus().description, /当前浏览器/)
   } finally {
     if (previousWindow === undefined) {
       delete globalThis.window

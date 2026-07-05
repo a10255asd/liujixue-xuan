@@ -10476,6 +10476,49 @@ body {
   color: #8a541d;
 }
 
+.memory-storage-status {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(17, 20, 17, 0.08);
+  background: rgba(13, 111, 97, 0.08);
+  color: #1f332f;
+  padding: 12px 18px;
+}
+
+.memory-storage-status svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #0d6f61;
+}
+
+.memory-storage-status strong {
+  display: block;
+  color: #0d6f61;
+  font-size: 13px;
+  font-weight: 880;
+}
+
+.memory-storage-status p {
+  margin: 4px 0 0;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1.55;
+}
+
+.memory-storage-status.session,
+.memory-storage-status.unavailable {
+  background: rgba(168, 101, 35, 0.08);
+}
+
+.memory-storage-status.session svg,
+.memory-storage-status.session strong,
+.memory-storage-status.unavailable svg,
+.memory-storage-status.unavailable strong {
+  color: #9a5e20;
+}
+
 .memory-import-status {
   border-bottom: 1px solid rgba(17, 20, 17, 0.08);
   background: rgba(13, 111, 97, 0.08);

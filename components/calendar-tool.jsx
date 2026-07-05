@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
-import { saveMemoryRecord } from '@/lib/local-memory'
+import { getMemorySaveFeedback, saveMemoryRecord } from '@/lib/local-memory'
 import { Solar } from 'lunar-javascript'
 import { useMemo, useState } from 'react'
 
@@ -107,20 +107,20 @@ export function CalendarTool() {
     time: currentTime()
   })
   const [copied, setCopied] = useState(false)
-  const [saveStatus, setSaveStatus] = useState('')
+  const [saveFeedback, setSaveFeedback] = useState(null)
   const calendar = useMemo(() => buildCalendar(form), [form])
   const copyText = useMemo(() => buildCopyText(calendar), [calendar])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
     setCopied(false)
-    setSaveStatus('')
+    setSaveFeedback(null)
   }
 
   const resetNow = () => {
     setForm({ date: todayDate(), time: currentTime() })
     setCopied(false)
-    setSaveStatus('')
+    setSaveFeedback(null)
   }
 
   const copy = async () => {
@@ -135,9 +135,10 @@ export function CalendarTool() {
       title: `${calendar.solar} · ${calendar.ganZhi.day}日`,
       text: copyText
     })
+    const feedback = getMemorySaveFeedback(record)
+    setSaveFeedback(feedback)
     if (!record) return
-    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
-    window.setTimeout(() => setSaveStatus(''), 1800)
+    window.setTimeout(() => setSaveFeedback(null), 2200)
   }
 
   return (
@@ -168,8 +169,8 @@ export function CalendarTool() {
             {copied ? '已复制日课字段' : '复制日课字段'}
           </button>
           <button className='button' type='button' onClick={save}>
-            {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
+            {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saveFeedback?.label || '保存记录'}
           </button>
           <ToolHandoffActions
             buttonClassName='button'

@@ -3,7 +3,7 @@
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, filterMemoryRecordsForTarget, getMemoryRecordPreview, getMemoryRecordSlotSuggestion, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
+import { favoritesKey, filterMemoryRecordsForTarget, getMemoryRecordPreview, getMemoryRecordSlotSuggestion, getMemorySaveFeedback, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
@@ -268,7 +268,7 @@ export function StructuredTool({ slug }) {
   const defaultInput = tool.defaultInput
   const [form, setForm] = useState(() => hydrateDefaults(defaultInput))
   const [copied, setCopied] = useState(false)
-  const [saveStatus, setSaveStatus] = useState('')
+  const [saveFeedback, setSaveFeedback] = useState(null)
   const [favorited, setFavorited] = useState(false)
   const [records, setRecords] = useState([])
   const [appliedRecords, setAppliedRecords] = useState([])
@@ -297,14 +297,14 @@ export function StructuredTool({ slug }) {
     setForm(current => ({ ...current, [key]: value }))
     setAppliedRecords(current => current.filter(item => item.slot !== key))
     setCopied(false)
-    setSaveStatus('')
+    setSaveFeedback(null)
   }
 
   const reset = () => {
     setForm(hydrateDefaults(defaultInput, true))
     setAppliedRecords([])
     setCopied(false)
-    setSaveStatus('')
+    setSaveFeedback(null)
   }
 
   const copy = async () => {
@@ -322,10 +322,11 @@ export function StructuredTool({ slug }) {
       title: output.summary || output.title,
       text: exportText
     })
+    const feedback = getMemorySaveFeedback(record)
+    setSaveFeedback(feedback)
     if (!record) return
     track('xuan_structured_tool_save', { tool: tool.title })
-    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
-    window.setTimeout(() => setSaveStatus(''), 1800)
+    window.setTimeout(() => setSaveFeedback(null), 2200)
   }
 
   const toggleFavorite = () => {
@@ -343,7 +344,7 @@ export function StructuredTool({ slug }) {
     setForm(current => tool.applyRecordSlot(current, record, slot))
     setAppliedRecords(current => mergeAppliedRecordNotice(current, buildAppliedRecordNotice(record, slot?.key, slotLabelFromTool(tool, recordSlots, slot?.key))))
     setCopied(false)
-    setSaveStatus('')
+    setSaveFeedback(null)
   }
 
   return (
@@ -369,8 +370,8 @@ export function StructuredTool({ slug }) {
             {copied ? '已复制' : tool.copyLabel || '复制字段'}
           </button>
           <button className='button' type='button' onClick={saveRecord}>
-            {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
+            {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saveFeedback?.label || '保存记录'}
           </button>
           <button className='button' type='button' onClick={toggleFavorite}>
             <Star size={16} />

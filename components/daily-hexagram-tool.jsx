@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
-import { saveMemoryRecord } from '@/lib/local-memory'
+import { getMemorySaveFeedback, saveMemoryRecord } from '@/lib/local-memory'
 import { useMemo, useState } from 'react'
 
 const trigramOrder = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤']
@@ -124,14 +124,14 @@ export function DailyHexagramTool() {
     topic: '今天适合推进什么？'
   })
   const [copied, setCopied] = useState(false)
-  const [saveStatus, setSaveStatus] = useState('')
+  const [saveFeedback, setSaveFeedback] = useState(null)
   const chart = useMemo(() => buildHexagram(form), [form])
   const copyText = useMemo(() => buildCopyText(chart), [chart])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
     setCopied(false)
-    setSaveStatus('')
+    setSaveFeedback(null)
   }
 
   const copy = async () => {
@@ -146,9 +146,10 @@ export function DailyHexagramTool() {
       title: `${chart.topic} · ${chart.name}`,
       text: copyText
     })
+    const feedback = getMemorySaveFeedback(record)
+    setSaveFeedback(feedback)
     if (!record) return
-    setSaveStatus(record.saveMode === 'updated' ? 'updated' : 'created')
-    window.setTimeout(() => setSaveStatus(''), 1800)
+    window.setTimeout(() => setSaveFeedback(null), 2200)
   }
 
   return (
@@ -165,7 +166,7 @@ export function DailyHexagramTool() {
             onClick={() => {
               setForm({ date: todayDate(), time: currentTime(), topic: form.topic })
               setCopied(false)
-              setSaveStatus('')
+              setSaveFeedback(null)
             }}>
             <RefreshCcw size={18} />
           </button>
@@ -196,8 +197,8 @@ export function DailyHexagramTool() {
             {copied ? '已复制起卦记录' : '复制起卦记录'}
           </button>
           <button className='button' type='button' onClick={save}>
-            {saveStatus ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveStatus === 'updated' ? '已更新' : saveStatus === 'created' ? '已保存' : '保存记录'}
+            {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
+            {saveFeedback?.label || '保存记录'}
           </button>
           <ToolHandoffActions
             buttonClassName='button'

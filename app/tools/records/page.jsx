@@ -10,7 +10,7 @@ export default function RecordsPage() {
   return (
     <ToolPageFrame
       title='收藏与记录'
-      description={'本地保存收藏工具和排盘记录。\n后续如需登录会员，可以迁移到服务端。'}>
+      description={'本地保存收藏工具和排盘记录。\n重要记录可以导出 JSON，方便备份、迁移和继续整理。'}>
       <LocalMemoryDashboard />
     </ToolPageFrame>
   )

@@ -240,6 +240,14 @@
   - The visible result now includes a `八字合盘核验清单` / `紫微合盘核验清单` / `混合资料合盘核验清单` section before the side-by-side summary.
   - Added regression coverage for compatibility profiles and boundary wording; unit coverage is now 54 passing tests.
   - Mobile browser QA at 390px verified `/tools/compatibility`: profile section renders, filled A/B sample fields update line counts, and no page-level horizontal overflow was observed.
+- Records storage feedback pass completed after compatibility prompt quality:
+  - `saveMemoryRecord` now returns `storageMode`, distinguishing persistent `localStorage` saves from page-session fallback saves.
+  - Added `getMemoryStorageStatus` and `getMemorySaveFeedback` in `lib/local-memory.js` so tools share the same saved/updated/temporary/failure labels.
+  - Chart export panels, structured tools, Huangli, and Daily Hexagram save buttons now show `已保存`, `已更新`, `临时保存`, or `临时更新` based on actual storage mode.
+  - `/tools/records` now shows a visible storage status strip explaining whether records are saved in the current browser or only the current page session; it also reminds users to export JSON for important records.
+  - Cleaned remaining public planning copy around records/coming features: no `会员`, `第三批`, `规划中`, or service-migration wording remains in public app/component/site copy.
+  - Added regression coverage for persistent storage vs session fallback feedback; unit coverage is now 55 passing tests.
+  - Mobile browser QA at 390px verified `/tools/records`: storage status renders, JSON backup copy is visible, internal planning copy is absent, and no page-level horizontal overflow was observed.
 
 ## Source Boundaries
 
@@ -269,7 +277,7 @@ npm run build
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
-   - Consider clearer save feedback for fallback/session-only storage if desired.
-   - Improve `/tools/records` next: make save/update/session-fallback feedback clearer and add a short visible storage-status signal only if it helps users trust whether records persisted.
-   - Then do another visual pass only if real mobile QA shows scanning problems; avoid cosmetic churn without a workflow reason.
+   - Do another focused visual pass only where real mobile QA shows scanning problems; avoid cosmetic churn without a workflow reason.
+   - Consider making `/tools/bazi`, `/tools/ziwei`, and `/tools/liuyao` export panels visually consistent with the newer Records / AI / Synthesis handoff flow.
+   - Consider a small homepage polish pass only if it improves user entry clarity, not to expose internal roadmap language.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.
