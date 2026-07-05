@@ -276,11 +276,52 @@ test('compatibility tool builds paired fields without relationship judgement', (
   assert.ok(output.badges.includes('八字合盘字段'))
   assert.ok(output.badges.includes('2\/2 份资料'))
   assert.match(output.copyText, /不输出关系好坏/)
+  assert.match(output.copyText, /八字合盘核验清单/)
+  assert.match(output.copyText, /对象 A 和对象 B 先分别核验出生时间/)
+  assert.match(output.copyText, /四柱对四柱、十神对十神、五行结构对五行结构/)
+  assert.match(output.copyText, /先分别核验对象 A 和对象 B 的资料来源/)
   assert.match(output.copyText, /甲方 排盘字段/)
   assert.match(output.copyText, /乙方 排盘字段/)
   assert.match(text, /交接摘要/)
+  assert.match(text, /八字合盘核验清单/)
   assert.match(text, /字段并排摘要/)
   assert.doesNotMatch(output.copyText, /一定/)
+})
+
+test('compatibility profiles keep ZiWei and mixed chart comparison scoped', () => {
+  const ziwei = structuredTools.compatibility.calculate({
+    chartType: 'ziwei',
+    focus: 'verify',
+    personA: 'A',
+    personB: 'B',
+    relation: '合作',
+    question: '只做字段核验。',
+    context: '不要输出结论',
+    chartA: '命宫：子\n身宫：午\n四化：禄权科忌',
+    chartB: '命宫：丑\n身宫：未\n四化：禄权科忌'
+  })
+  const mixed = structuredTools.compatibility.calculate({
+    chartType: 'mixed',
+    focus: 'relation',
+    personA: 'A',
+    personB: 'B',
+    relation: '亲密关系',
+    question: '整理不同体系材料。',
+    context: '只看材料',
+    chartA: '八字：甲子 乙丑 丙寅 丁卯',
+    chartB: '紫微：命宫 子'
+  })
+  const text = `${formatStructuredResultText(ziwei)}\n${formatStructuredResultText(mixed)}`
+
+  assert.match(ziwei.copyText, /紫微合盘核验清单/)
+  assert.match(ziwei.copyText, /命宫、身宫、五行局、命主、身主、十二宫/)
+  assert.match(ziwei.copyText, /只把同类宫位和同类星曜字段并排/)
+  assert.match(mixed.copyText, /混合资料合盘核验清单/)
+  assert.match(mixed.copyText, /八字和紫微只能并列摘要/)
+  assert.match(mixed.copyText, /不同体系指向不一致时，只记录差异和待核验字段/)
+  assert.match(text, /紫微合盘核验清单/)
+  assert.match(text, /混合资料合盘核验清单/)
+  assert.doesNotMatch(`${ziwei.copyText}\n${mixed.copyText}`, /一定|必然|保证复合|保证发财/)
 })
 
 test('synthesis tool builds multi-source handoff prompt and auto-routes records', () => {

@@ -231,6 +231,15 @@
   - Removed internal product-stage wording from the homepage and `/tools`, including phrases like `核心工具先打磨`, `实验工具先收起来`, `质量阶段`, and `当前策略`.
   - Public pages should describe user-facing value only: common paths, charting tools, records, AI handoff, and reference materials.
   - Future UI copy should not expose internal prioritization, backlog status, or implementation strategy.
+- Compatibility prompt quality pass completed after public copy cleanup:
+  - `/tools/compatibility` now has dedicated review profiles for `八字合盘字段`, `紫微合盘字段`, `混合排盘字段`, and generic field comparison.
+  - The copied compatibility prompt now requires object A and object B to be audited independently before any side-by-side comparison.
+  - BaZi comparison instructions cover birth/time口径、四柱、日主、十神、藏干、纳音、空亡、神煞 and大运/流年 fields.
+  - ZiWei comparison instructions cover命宫、身宫、五行局、命主、身主、十二宫、主辅星、四化、宫干 and大限/流年 fields.
+  - Mixed-material instructions explicitly keep BaZi and ZiWei as parallel summaries instead of treating them as equivalent fields.
+  - The visible result now includes a `八字合盘核验清单` / `紫微合盘核验清单` / `混合资料合盘核验清单` section before the side-by-side summary.
+  - Added regression coverage for compatibility profiles and boundary wording; unit coverage is now 54 passing tests.
+  - Mobile browser QA at 390px verified `/tools/compatibility`: profile section renders, filled A/B sample fields update line counts, and no page-level horizontal overflow was observed.
 
 ## Source Boundaries
 
@@ -261,6 +270,6 @@ npm run build
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
    - Consider clearer save feedback for fallback/session-only storage if desired.
-   - Improve `/tools/compatibility` next: add per-person/per-system review instructions so 合盘 A/B stays a field comparison workflow, not a relationship verdict workflow.
+   - Improve `/tools/records` next: make save/update/session-fallback feedback clearer and add a short visible storage-status signal only if it helps users trust whether records persisted.
    - Then do another visual pass only if real mobile QA shows scanning problems; avoid cosmetic churn without a workflow reason.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.
