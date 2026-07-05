@@ -281,21 +281,16 @@ export function LocalMemoryDashboard() {
                     <em>{workflow.categoryLabel}</em>
                   </div>
 
-                  <div className='memory-record-signal'>
-                    <strong>{workflow.title}</strong>
-                    <p>{workflow.summary}</p>
-                  </div>
-
                   <div className='memory-record-next'>
                     <div>
-                      <span>推荐下一步</span>
+                      <span>{workflow.title}</span>
                       <strong>{primaryAction.title}</strong>
-                      <p>{slotSuggestion ? `${primaryAction.summary} 建议槽位：${slotSuggestion.label}。` : primaryAction.summary}</p>
+                      <p>{slotSuggestion ? `建议槽位：${slotSuggestion.label}` : workflow.summary}</p>
                     </div>
                     <Link
                       href={primaryAction.href}
                       onClick={() => sendRecordToTool(record, primaryAction.href, primaryAction.slug, primaryAction.slot)}>
-                      立即接力
+                      {primaryAction.label}
                       <ArrowRight size={15} />
                     </Link>
                   </div>
@@ -317,18 +312,21 @@ export function LocalMemoryDashboard() {
                     </button>
                   </div>
 
-                  <div className='memory-record-actions memory-record-handoff-actions'>
-                    {handoffActions.map(action => (
-                      <Link
-                        className={action.key === workflow.primaryAction ? 'recommended' : ''}
-                        href={action.href}
-                        key={action.key}
-                        onClick={() => sendRecordToTool(record, action.href, action.slug, action.slot)}>
-                        {action.key === workflow.primaryAction ? <ArrowRight size={15} /> : null}
-                        {action.label}
-                      </Link>
-                    ))}
-                  </div>
+                  <details className='memory-record-more-actions'>
+                    <summary>更多接力</summary>
+                    <div className='memory-record-actions memory-record-handoff-actions'>
+                      {handoffActions.map(action => (
+                        <Link
+                          className={action.key === workflow.primaryAction ? 'recommended' : ''}
+                          href={action.href}
+                          key={action.key}
+                          onClick={() => sendRecordToTool(record, action.href, action.slug, action.slot)}>
+                          {action.key === workflow.primaryAction ? <ArrowRight size={15} /> : null}
+                          {action.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </details>
 
                   <details className='memory-record-detail'>
                     <summary>完整字段</summary>

@@ -9868,7 +9868,7 @@ body {
 
 .structured-record-card {
   display: grid;
-  gap: 10px;
+  gap: 9px;
   min-width: 0;
   border: 1px solid rgba(17, 20, 17, 0.08);
   border-radius: 8px;
@@ -9876,7 +9876,6 @@ body {
   padding: 12px;
 }
 
-.structured-record-card span,
 .structured-record-card strong,
 .structured-record-card p,
 .structured-record-card em {
@@ -9885,10 +9884,22 @@ body {
   overflow-wrap: anywhere;
 }
 
+.structured-record-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
 .structured-record-card span {
   color: #687168;
   font-size: 11px;
   font-weight: 820;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .structured-record-card strong {
@@ -9907,12 +9918,17 @@ body {
 }
 
 .structured-record-card em {
-  margin-top: 8px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(168, 101, 35, 0.18);
+  border-radius: 999px;
+  background: rgba(215, 192, 142, 0.13);
   color: #8a541d;
   font-size: 11px;
   font-style: normal;
-  font-weight: 860;
-  line-height: 1.45;
+  font-weight: 900;
+  line-height: 1;
+  padding: 5px 7px;
+  white-space: nowrap;
 }
 
 .structured-record-slot-actions {
@@ -9937,6 +9953,36 @@ body {
   border-color: rgba(13, 111, 97, 0.3);
   background: #0d6f61;
   color: #fffdf6;
+}
+
+.structured-record-more-slots {
+  position: relative;
+}
+
+.structured-record-more-slots summary {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.78);
+  color: #2f352f;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 860;
+  list-style: none;
+  padding: 0 11px;
+}
+
+.structured-record-more-slots summary::-webkit-details-marker {
+  display: none;
+}
+
+.structured-record-more-slots div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
 }
 
 .structured-hero-card {
@@ -10479,49 +10525,23 @@ body {
   font-size: 20px;
 }
 
-.memory-record-signal {
-  display: grid;
-  gap: 5px;
-  margin-top: 14px;
-  border: 1px solid rgba(13, 111, 97, 0.12);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(13, 111, 97, 0.09), rgba(215, 192, 142, 0.08)),
-    rgba(255, 253, 248, 0.92);
-  padding: 12px;
-}
-
-.memory-record-signal strong {
-  color: #0d6f61;
-  font-size: 14px;
-  font-weight: 920;
-}
-
-.memory-record-signal p {
-  margin: 0;
-  color: #5e675f;
-  font-size: 13px;
-  font-weight: 720;
-  line-height: 1.65;
-}
-
 .memory-record-next {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
-  margin-top: 12px;
-  border: 1px solid rgba(168, 101, 35, 0.14);
+  margin-top: 14px;
+  border: 1px solid rgba(13, 111, 97, 0.12);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(215, 192, 142, 0.13)),
-    rgba(255, 253, 248, 0.9);
+    linear-gradient(135deg, rgba(13, 111, 97, 0.08), rgba(215, 192, 142, 0.08)),
+    rgba(255, 253, 248, 0.92);
   padding: 12px;
 }
 
 .memory-record-next span {
   display: block;
-  color: #8a541d;
+  color: #0d6f61;
   font-size: 11px;
   font-weight: 920;
 }
@@ -10536,7 +10556,7 @@ body {
   display: block;
   margin-top: 3px;
   color: #111411;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.25;
 }
 
@@ -10602,8 +10622,20 @@ body {
   margin-top: 14px;
 }
 
+.memory-record-more-actions {
+  margin-top: 10px;
+}
+
+.memory-record-more-actions summary {
+  width: fit-content;
+  cursor: pointer;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 860;
+}
+
 .memory-record-handoff-actions {
-  margin-top: 9px;
+  margin-top: 8px;
 }
 
 .memory-record-handoff-actions a {

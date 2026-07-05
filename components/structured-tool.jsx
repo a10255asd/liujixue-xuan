@@ -128,6 +128,8 @@ const recordFilterOptions = [
   { value: 'other', label: '其他' }
 ]
 
+const compactSlotLabel = slot => String(slot?.label || '').replace(/^作为/, '').trim() || '字段'
+
 function RecordSlotPanel({ records, slots, insertRecord, targetSlug }) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState(targetSlug === 'compatibility' ? 'recommended' : 'all')
@@ -169,26 +171,44 @@ function RecordSlotPanel({ records, slots, insertRecord, targetSlug }) {
             <div className='structured-record-list'>
               {visibleRecords.map(record => {
                 const suggestion = getMemoryRecordSlotSuggestion(record, targetSlug)
+                const primarySlot = slots.find(slot => slot.key === suggestion?.slot) || slots[0]
+                const otherSlots = slots.filter(slot => slot.key !== primarySlot?.key)
 
                 return (
                   <article className='structured-record-card' key={record.id}>
                     <div>
-                      <span>{record.tool}</span>
+                      <div className='structured-record-card-head'>
+                        <span>{record.tool}</span>
+                        {suggestion ? <em>{suggestion.label}</em> : null}
+                      </div>
                       <strong>{record.title}</strong>
                       <p>{previewRecordText(record.text)}</p>
-                      {suggestion ? <em>建议填入：{suggestion.label} · {suggestion.reason}</em> : null}
                     </div>
-                    <div className='structured-record-slot-actions'>
-                      {slots.map(slot => (
+                    {primarySlot ? (
+                      <div className='structured-record-slot-actions'>
                         <button
-                          className={suggestion?.slot === slot.key ? 'recommended' : ''}
-                          key={`${record.id}-${slot.key}`}
+                          className='recommended'
                           type='button'
-                          onClick={() => insertRecord(record, slot)}>
-                          {suggestion?.slot === slot.key ? '推荐：' : ''}{slot.label}
+                          onClick={() => insertRecord(record, primarySlot)}>
+                          填入{compactSlotLabel(primarySlot)}
                         </button>
-                      ))}
-                    </div>
+                        {otherSlots.length ? (
+                          <details className='structured-record-more-slots'>
+                            <summary>其他位置</summary>
+                            <div>
+                              {otherSlots.map(slot => (
+                                <button
+                                  key={`${record.id}-${slot.key}`}
+                                  type='button'
+                                  onClick={() => insertRecord(record, slot)}>
+                                  {compactSlotLabel(slot)}
+                                </button>
+                              ))}
+                            </div>
+                          </details>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </article>
                 )
               })}

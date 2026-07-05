@@ -205,6 +205,12 @@
   - `/tools/synthesis` defaults to `全部`, but can filter to `出生盘`, `问事盘`, `塔罗`, `日课`, `梦境`, or `其他`, and can search title/tool/text fields.
   - Mobile browser QA at 390px verified `/tools/synthesis` question filtering, `1996` search filtering, `/tools/compatibility` default recommended filtering, and no page-level horizontal overflow.
   - Added regression coverage for target recommendation, category, and query filtering; unit coverage is now 50 passing tests.
+- Records/workspace density polish completed after the picker filter:
+  - `/tools/records` record cards now collapse secondary handoff actions behind `更多接力`; each card keeps one obvious primary action (`送去 AI`, `合参`, or `合盘 A/B`) instead of showing every possible route at once.
+  - The old separate recommendation explanation block was removed from record cards; the primary action strip now combines workflow category, next action, and suggested slot in one compact area.
+  - `/tools/synthesis` and `/tools/compatibility` embedded record cards now show only a short recommended-slot chip plus one primary fill button. Alternate slots live under `其他位置`.
+  - Fill-button copy was tightened from `填入作为对象 A` style labels to `填入对象 A`, `填入出生盘`, `填入问事盘`.
+  - Mobile browser QA at 390px verified `/tools/records`, `/tools/synthesis`, and `/tools/compatibility`: primary actions render, secondary actions expand, compatibility still excludes LiuYao by default, and no page-level horizontal overflow was observed.
 
 ## Source Boundaries
 
@@ -233,7 +239,7 @@ npm run build
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
-   - Do a visual density pass on `/tools/records`, `/tools/synthesis`, and `/tools/compatibility`: reduce repeated helper copy inside record cards, tighten action button rows, and keep mobile cards scannable.
+   - Improve the actual AI handoff templates for BaZi / ZiWei / LiuYao review workflows; keep them boundary-safe and covered by tests.
    - Consider clearer save feedback for fallback/session-only storage if desired.
-   - Then improve the actual AI handoff templates for BaZi / ZiWei / LiuYao review workflows; keep them boundary-safe and covered by tests.
+   - Then do another visual pass only if real mobile QA shows scanning problems; avoid cosmetic churn without a workflow reason.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.
