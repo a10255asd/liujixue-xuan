@@ -227,6 +227,10 @@
   - The visible synthesis result now includes a `分材料核验清单` section, so users can see the handoff quality before copying the prompt.
   - Added regression coverage for synthesis material profiles and boundary-safe wording; unit coverage is now 53 passing tests.
   - Mobile browser QA at 390px verified `/tools/synthesis`: all five material profiles render, filled sample materials switch to `已提供`, and no page-level horizontal overflow was observed.
+- Public copy cleanup completed after user feedback:
+  - Removed internal product-stage wording from the homepage and `/tools`, including phrases like `核心工具先打磨`, `实验工具先收起来`, `质量阶段`, and `当前策略`.
+  - Public pages should describe user-facing value only: common paths, charting tools, records, AI handoff, and reference materials.
+  - Future UI copy should not expose internal prioritization, backlog status, or implementation strategy.
 
 ## Source Boundaries
 
@@ -237,6 +241,7 @@
 ## Important Rules
 
 - Keep the site focused on charting fields first.
+- Do not expose internal planning language on public pages. Avoid copy such as `先打磨`, `实验区`, `质量阶段`, `弱工具`, `后续优化`, or `内部策略`; use user-facing descriptions instead.
 - Do not add auspicious/inauspicious judgments, scare copy, medical/financial advice, or deterministic life predictions.
 - If AI interpretation is added later, require an explicit analysis boundary, user-provided question context, and a separate regression/acceptance plan.
 - If a future AI changes chart logic, preserve or expand the existing tests first.

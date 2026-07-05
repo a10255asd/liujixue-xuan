@@ -4,15 +4,15 @@ import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTool
 
 const qualityRules = [
   {
-    title: '核心优先',
-    text: '首页只推出生排盘、问事起卦、记录接力三条主流程，弱工具不再抢注意力。'
+    title: '按用途进入',
+    text: '从出生排盘、问事起卦、记录接力三条路径开始，更快找到合适入口。'
   },
   {
-    title: '结果可复核',
-    text: '核心工具必须能导出字段、图片或提示词，方便保存、复查和交给其他 AI 接手。'
+    title: '结果可带走',
+    text: '排盘字段、图片和提示词都可以保存，方便复查、整理和继续提问。'
   },
   {
-    title: '不写假结论',
+    title: '只做材料',
     text: '站内只做排盘、材料整理和口径记录，不直接输出吉凶、应期或确定性判断。'
   }
 ]
@@ -84,10 +84,10 @@ export default function HomePage() {
         <div className='xuan-container xuan-hero-inner'>
           <div className='xuan-hero-copy'>
             <span className='xuan-kicker'><Blocks size={16} /> 鸡血玄策</span>
-            <h1>先把核心排盘做扎实</h1>
+            <h1>排盘、记录和 AI 接力工具</h1>
             <p>
-              <span>不再堆工具。先打磨八字、紫微、六爻、记录和 AI 接力。</span>
-              <span>其他工具收进实验区，作为材料补充，不抢主流程。</span>
+              <span>从八字、紫微、六爻开始生成可复核的排盘字段。</span>
+              <span>把结果保存到记录中心，再整理成适合继续提问的 AI 提示词。</span>
             </p>
             <div className='xuan-hero-actions'>
               <Link className='button primary' href='/tools/bazi'>
@@ -102,8 +102,8 @@ export default function HomePage() {
 
           <div className='xuan-hero-console'>
             <div className='xuan-console-head'>
-              <span>Focus Mode</span>
-              <strong>Quality First</strong>
+              <span>Tool Desk</span>
+              <strong>Ready</strong>
             </div>
             <div className='xuan-console-main'>
               <div className='xuan-console-orbit' aria-hidden='true'>
@@ -113,17 +113,17 @@ export default function HomePage() {
                 <i />
               </div>
               <div className='xuan-console-copy'>
-                <span>当前策略</span>
-                <h2>核心工具优先</h2>
-                <p>首页只露出主流程，工具页再提供完整入口。先让真正会用的人能顺畅完成一次排盘、保存和接力。</p>
+                <span>使用路径</span>
+                <h2>先选场景，再开工具</h2>
+                <p>按出生排盘、问事起卦、记录接力进入。工具页保留完整入口，方便继续补充材料。</p>
               </div>
               <div className='xuan-hero-focus-list'>
                 <div>
-                  <span>核心工具</span>
+                  <span>常用工具</span>
                   <strong>{xuanCoreTools.length}</strong>
                 </div>
                 <div>
-                  <span>实验/资料</span>
+                  <span>资料工具</span>
                   <strong>{xuanSecondaryTools.length}</strong>
                 </div>
                 <div>
@@ -148,10 +148,10 @@ export default function HomePage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Primary Workflows</span>
-              <h2>只保留三条主路径</h2>
+              <span className='xuan-kicker'>Use Cases</span>
+              <h2>三条常用路径</h2>
             </div>
-            <p>用户进来不需要先理解二十多个术语，先按真实任务走：出生排盘、问事起卦、记录接力。</p>
+            <p>不用先理解所有术语，按当前要处理的事情进入：出生排盘、问事起卦、记录接力。</p>
           </div>
           <div className='xuan-primary-workflow-grid'>
             {xuanPrimaryWorkflows.map((workflow, index) => <WorkflowCard index={index} key={workflow.title} workflow={workflow} />)}
@@ -163,10 +163,10 @@ export default function HomePage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Core Tools</span>
-              <h2>核心工具先打磨</h2>
+              <span className='xuan-kicker'>Main Tools</span>
+              <h2>常用排盘与接力工具</h2>
             </div>
-            <p>这些是站点主产品：排盘、对照、保存、AI 接力和合参。后续优化优先围绕它们展开。</p>
+            <p>完成排盘、对照、保存、AI 提示词和多材料合参，适合一次性整理出可继续使用的材料。</p>
           </div>
           <div className='xuan-tool-grid xuan-core-tool-grid'>
             {xuanCoreTools.map((tool, index) => <ToolCard index={index} key={tool.href} tool={tool} />)}
@@ -192,10 +192,10 @@ export default function HomePage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Lab</span>
-              <h2>实验工具先收起来</h2>
+              <span className='xuan-kicker'>References</span>
+              <h2>辅助资料工具</h2>
             </div>
-            <p>这些功能仍然保留，但不再作为首页重点。它们只作为资料、辅助或后续打磨候选。</p>
+            <p>这些入口适合补充日课、时辰、五行、卦象、塔罗和其他材料，配合主路径一起使用。</p>
           </div>
           <div className='xuan-secondary-tool-list'>
             {xuanSecondaryTools.map(tool => (

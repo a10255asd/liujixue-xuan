@@ -4,7 +4,7 @@ import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools } from '@
 
 export const metadata = {
   title: '玄学工具箱',
-  description: '鸡血玄策核心工具总览，优先展示八字、紫微、六爻、记录、AI 接力和综合合参。'
+  description: '鸡血玄策工具总览，包含八字、紫微、六爻、记录、AI 接力、综合合参和辅助资料工具。'
 }
 
 function ToolCard({ tool, index }) {
@@ -34,13 +34,13 @@ export default function ToolsIndexPage() {
         <div className='xuan-container xuan-tool-index-inner'>
           <div>
             <span className='xuan-kicker'><Blocks size={16} /> Tools</span>
-            <h1>核心工具优先</h1>
-            <p>不再把所有功能平铺给用户。先完成排盘、保存、AI 接力和合参，再从实验区挑真正值得打磨的工具。</p>
+            <h1>玄学工具箱</h1>
+            <p>按用途选择入口：先完成排盘、保存、AI 接力和合参，需要时再补充日课、时辰、五行和卦象资料。</p>
           </div>
           <div className='xuan-tool-index-panel'>
-            <span>Core</span>
+            <span>Tools</span>
             <strong>{xuanCoreTools.length}</strong>
-            <em>优先打磨</em>
+            <em>常用入口</em>
           </div>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function ToolsIndexPage() {
               <span className='xuan-kicker'>Workflows</span>
               <h2>按任务进入</h2>
             </div>
-            <p>如果不知道该开哪个工具，先选任务路径。工具箱的重点是完成一次可复核的流程，而不是展示很多按钮。</p>
+            <p>如果不知道该开哪个工具，先选任务路径。每条路径都会带你完成排盘、保存和后续接力。</p>
           </div>
           <div className='xuan-workflow-strip'>
             {xuanPrimaryWorkflows.map(workflow => (
@@ -71,10 +71,10 @@ export default function ToolsIndexPage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Core</span>
-              <h2>核心工具</h2>
+              <span className='xuan-kicker'>Main Tools</span>
+              <h2>常用工具</h2>
             </div>
-            <p>这些入口承担站点主要价值，后续 UI、输入体验、导出质量和移动端体验优先围绕它们优化。</p>
+            <p>常用入口覆盖出生排盘、问事排盘、合盘对照、记录中心、AI 提示词和综合合参。</p>
           </div>
           <div className='xuan-tool-grid xuan-core-tool-grid'>
             {xuanCoreTools.map((tool, index) => <ToolCard index={index} key={tool.href} tool={tool} />)}
@@ -86,10 +86,10 @@ export default function ToolsIndexPage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Lab</span>
-              <h2>实验和资料工具</h2>
+              <span className='xuan-kicker'>References</span>
+              <h2>辅助资料工具</h2>
             </div>
-            <p>这些工具先作为辅助材料存在，不再和核心排盘入口同级展示。后续只把真实高频、有质量空间的工具提升到核心区。</p>
+            <p>这些工具用于补充日课、时辰、五行、卦象、塔罗和其他材料，可以和常用工具一起整理。</p>
           </div>
           <div className='xuan-secondary-tool-list'>
             {xuanSecondaryTools.map(tool => (
@@ -109,7 +109,7 @@ export default function ToolsIndexPage() {
             <div>
               <span className='xuan-kicker'><CircleDot size={15} /> Main Site</span>
               <h2>主站负责展示，玄学站负责工具</h2>
-              <p>玄学站现在切到质量阶段：收缩入口、打磨主流程，再逐步决定哪些实验工具值得继续做深。</p>
+              <p>主站展示项目和服务，玄学站提供排盘、记录、提示词和资料整理入口。</p>
             </div>
             <a className='button primary' href={site.mainSite}>
               返回主站
