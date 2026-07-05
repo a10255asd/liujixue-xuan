@@ -211,6 +211,15 @@
   - `/tools/synthesis` and `/tools/compatibility` embedded record cards now show only a short recommended-slot chip plus one primary fill button. Alternate slots live under `其他位置`.
   - Fill-button copy was tightened from `填入作为对象 A` style labels to `填入对象 A`, `填入出生盘`, `填入问事盘`.
   - Mobile browser QA at 390px verified `/tools/records`, `/tools/synthesis`, and `/tools/compatibility`: primary actions render, secondary actions expand, compatibility still excludes LiuYao by default, and no page-level horizontal overflow was observed.
+- AI handoff template quality pass completed after the record workflow density pass:
+  - `/tools/ai-prompt` now has dedicated review profiles for `八字专业细盘`, `紫微斗数命盘`, and `六爻纳甲排盘`.
+  - BaZi prompts now explicitly ask AI to verify calendar/lunar input, birthplace, true-solar/standard-time口径, four pillars, day master, ten gods, hidden stems, na-yin, shen-sha, luck cycles, late-zi and jieqi month boundaries.
+  - ZiWei prompts now explicitly ask AI to verify命宫、身宫、五行局、命主、身主、十二宫、主星辅星、煞曜、四化、宫干、大限/流年、闰月和晚子时口径.
+  - LiuYao prompts now explicitly ask AI to verify事项、起卦方式、起卦时间、干支、月建、日辰、旬空、本卦、变卦、动爻、世应、六亲、六神、纳甲、伏神/飞神等字段.
+  - Direct handoff into `/tools/ai-prompt` now infers `字段核验` mode for BaZi and ZiWei records, while LiuYao/question records still default to `补充提问清单`.
+  - The prompt still forbids deterministic judgments, auspicious/inauspicious conclusions, medical/legal/investment advice, and result guarantees.
+  - Added regression coverage for BaZi/ZiWei/LiuYao profile checklists and handoff mode inference; unit coverage is now 52 passing tests.
+  - Mobile browser QA at 390px verified `/tools/ai-prompt`: default BaZi profile renders, switching to LiuYao shows the LiuYao checklist, and no page-level horizontal overflow was observed.
 
 ## Source Boundaries
 
@@ -239,7 +248,7 @@ npm run build
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
-   - Improve the actual AI handoff templates for BaZi / ZiWei / LiuYao review workflows; keep them boundary-safe and covered by tests.
    - Consider clearer save feedback for fallback/session-only storage if desired.
+   - Improve `/tools/synthesis` prompt quality next: add per-material review instructions for birth charts, question charts, Tarot, calendar fields, and notes without turning it into final judgement.
    - Then do another visual pass only if real mobile QA shows scanning problems; avoid cosmetic churn without a workflow reason.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

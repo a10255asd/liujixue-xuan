@@ -208,9 +208,54 @@ test('ai prompt tool exports boundary-safe prompt text', () => {
   assert.ok(output.badges.includes('2 行字段'))
   assert.match(output.copyText, /不输出恐吓式/)
   assert.match(output.copyText, /不要编造未提供/)
+  assert.match(output.copyText, /六爻字段核验/)
+  assert.match(output.copyText, /月建、日辰、旬空/)
+  assert.match(output.copyText, /世爻、应爻/)
+  assert.match(output.copyText, /用神候选和缺失背景问题/)
   assert.match(output.copyText, /本卦：泽雷随/)
   assert.match(text, /交接摘要/)
+  assert.match(text, /六爻字段核验/)
   assert.match(text, /边界要求/)
+})
+
+test('ai prompt profiles expose BaZi ZiWei and LiuYao review checklists', () => {
+  const bazi = structuredTools.aiPrompt.calculate({
+    chartType: 'bazi',
+    mode: 'verify',
+    outputFormat: 'checklist',
+    question: '核验这份八字字段。',
+    context: '只做字段核验',
+    chartText: '四柱：丙子 乙未 戊午 壬子\n日主：戊'
+  })
+  const ziwei = structuredTools.aiPrompt.calculate({
+    chartType: 'ziwei',
+    mode: 'verify',
+    outputFormat: 'checklist',
+    question: '核验这份紫微命盘字段。',
+    context: '只做字段核验',
+    chartText: '命宫：子\n身宫：午\n四化：禄权科忌'
+  })
+  const liuyao = structuredTools.aiPrompt.calculate({
+    chartType: 'liuyao',
+    mode: 'questions',
+    outputFormat: 'checklist',
+    question: '核验这份六爻字段。',
+    context: '只做字段核验',
+    chartText: '本卦：泽雷随\n变卦：水泽节\n世应：四爻为世'
+  })
+
+  assert.match(bazi.copyText, /八字字段核验/)
+  assert.match(bazi.copyText, /真太阳时或标准时口径/)
+  assert.match(bazi.copyText, /四柱、十神、五行、大运流年分层摘要/)
+  assert.match(formatStructuredResultText(bazi), /八字字段核验/)
+  assert.match(ziwei.copyText, /紫微字段核验/)
+  assert.match(ziwei.copyText, /命宫、身宫、五行局/)
+  assert.match(ziwei.copyText, /十二宫字段完整度/)
+  assert.match(formatStructuredResultText(ziwei), /紫微字段核验/)
+  assert.match(liuyao.copyText, /六爻字段核验/)
+  assert.match(liuyao.copyText, /本卦、变卦、动爻/)
+  assert.match(liuyao.copyText, /起卦信息完整度表/)
+  assert.doesNotMatch(`${bazi.copyText}\n${ziwei.copyText}\n${liuyao.copyText}`, /一定|必然|保证复合|保证发财/)
 })
 
 test('compatibility tool builds paired fields without relationship judgement', () => {
@@ -295,6 +340,28 @@ test('structured tools apply saved record handoff into target fields', () => {
   assert.equal(compatibilityForm.chartType, 'ziwei')
   assert.equal(compatibilityForm.personB, '乙方命盘')
   assert.equal(compatibilityForm.chartB, '命宫：子')
+})
+
+test('AI handoff infers review mode for BaZi and ZiWei records', () => {
+  const baziForm = structuredTools.aiPrompt.applyHandoff(structuredTools.aiPrompt.defaultInput, {
+    sourceTool: '八字专业细盘',
+    sourceTitle: '甲方八字',
+    text: '四柱：丙子 乙未 戊午 壬子\n日主：戊\n大运：戊戌'
+  })
+  const ziweiForm = structuredTools.aiPrompt.applyHandoff(structuredTools.aiPrompt.defaultInput, {
+    sourceTool: '紫微斗数命盘',
+    sourceTitle: '乙方紫微',
+    text: '命宫：子\n身宫：午\n四化：禄权科忌'
+  })
+
+  assert.equal(baziForm.chartType, 'bazi')
+  assert.equal(baziForm.mode, 'verify')
+  assert.match(baziForm.question, /八字字段核验清单/)
+  assert.match(baziForm.question, /四柱、十神、大运流年/)
+  assert.equal(ziweiForm.chartType, 'ziwei')
+  assert.equal(ziweiForm.mode, 'verify')
+  assert.match(ziweiForm.question, /紫微字段核验清单/)
+  assert.match(ziweiForm.question, /命宫、身宫、十二宫/)
 })
 
 test('compatibility tool applies recent record into selected worksheet slot', () => {
