@@ -311,12 +311,43 @@ test('synthesis tool builds multi-source handoff prompt and auto-routes records'
   assert.ok(output.badges.includes('决策参考'))
   assert.ok(output.badges.includes('可接力'))
   assert.match(output.copyText, /字段之间如果口径不同或互相矛盾/)
+  assert.match(output.copyText, /出生盘材料核验/)
+  assert.match(output.copyText, /问事盘材料核验/)
+  assert.match(output.copyText, /塔罗材料核验/)
+  assert.match(output.copyText, /日课\/择日材料核验/)
+  assert.match(output.copyText, /补充材料整理/)
+  assert.match(output.copyText, /先按材料类型单独核验完整度、口径和缺失项/)
+  assert.match(output.copyText, /不把塔罗、梦境、日课或补充材料写成出生盘\/问事盘结论/)
   assert.match(text, /交接摘要/)
+  assert.match(text, /分材料核验清单/)
   assert.match(text, /出生盘字段：1 行/)
   assert.match(text, /日课\/择日字段：未填写/)
   assert.equal(fromTarot.tarotText, '塔罗字段')
   assert.equal(fromCalendar.calendarText, '黄历字段')
   assert.doesNotMatch(output.copyText, /一定|必然/)
+})
+
+test('synthesis prompt keeps per-material instructions boundary-safe', () => {
+  const output = structuredTools.synthesis.calculate({
+    topic: '复盘一件合作事项',
+    focus: 'overview',
+    question: '把材料整理成下一轮可以继续问的问题。',
+    context: '需要保留原始字段边界',
+    birthChart: '紫微：命宫 子\n四化：禄权科忌',
+    questionChart: '六爻：本卦 泽雷随\n动爻 三爻',
+    tarotText: '牌阵：三张牌\n星星 正位',
+    calendarText: '节气：立夏\n干支：丙午日',
+    notes: '现实限制：预算有限'
+  })
+  const text = formatStructuredResultText(output)
+
+  assert.match(output.copyText, /核验公历\/农历、出生地、性别、真太阳时或标准时口径/)
+  assert.match(output.copyText, /六爻重点看本卦、变卦、动爻、世应、六亲、六神、纳甲、伏神飞神/)
+  assert.match(output.copyText, /只复述牌名、位置、关键词和用户背景/)
+  assert.match(output.copyText, /区分黄历字段、节气字段、时辰字段和用户现实约束/)
+  assert.match(output.copyText, /把主观感受、事实描述、猜测和诉求分开记录/)
+  assert.match(text, /五类材料均已填写/)
+  assert.doesNotMatch(output.copyText, /一定|必然|保证成功|保证复合|保证发财/)
 })
 
 test('structured tools apply saved record handoff into target fields', () => {

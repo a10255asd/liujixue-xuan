@@ -220,6 +220,13 @@
   - The prompt still forbids deterministic judgments, auspicious/inauspicious conclusions, medical/legal/investment advice, and result guarantees.
   - Added regression coverage for BaZi/ZiWei/LiuYao profile checklists and handoff mode inference; unit coverage is now 52 passing tests.
   - Mobile browser QA at 390px verified `/tools/ai-prompt`: default BaZi profile renders, switching to LiuYao shows the LiuYao checklist, and no page-level horizontal overflow was observed.
+- Synthesis prompt quality pass completed after the AI handoff profile pass:
+  - `/tools/synthesis` now has per-material review profiles for `出生盘字段`, `问事盘字段`, `塔罗字段`, `日课/择日字段`, and `补充材料`.
+  - The copied synthesis prompt now tells downstream AI to first audit each material type independently, then only cross-observe around the user topic, preserving field/source boundaries.
+  - Birth-chart instructions cover BaZi/ZiWei/source/time口径 checks; question-chart instructions cover六爻、梅花、奇门、六壬 field checks; Tarot and calendar/date materials are explicitly kept as supporting material instead of final conclusions.
+  - The visible synthesis result now includes a `分材料核验清单` section, so users can see the handoff quality before copying the prompt.
+  - Added regression coverage for synthesis material profiles and boundary-safe wording; unit coverage is now 53 passing tests.
+  - Mobile browser QA at 390px verified `/tools/synthesis`: all five material profiles render, filled sample materials switch to `已提供`, and no page-level horizontal overflow was observed.
 
 ## Source Boundaries
 
@@ -249,6 +256,6 @@ npm run build
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
    - Consider clearer save feedback for fallback/session-only storage if desired.
-   - Improve `/tools/synthesis` prompt quality next: add per-material review instructions for birth charts, question charts, Tarot, calendar fields, and notes without turning it into final judgement.
+   - Improve `/tools/compatibility` next: add per-person/per-system review instructions so 合盘 A/B stays a field comparison workflow, not a relationship verdict workflow.
    - Then do another visual pass only if real mobile QA shows scanning problems; avoid cosmetic churn without a workflow reason.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.
