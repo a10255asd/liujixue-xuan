@@ -3,7 +3,7 @@
 import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
 import { ToolHandoffActions } from '@/components/tool-handoff-actions'
 import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, getMemoryRecordPreview, getMemoryRecordSlotSuggestion, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
+import { favoritesKey, filterMemoryRecordsForTarget, getMemoryRecordPreview, getMemoryRecordSlotSuggestion, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
 import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
 import { track } from '@vercel/analytics'
 import { useEffect, useMemo, useState } from 'react'
@@ -117,7 +117,27 @@ const previewRecordText = text => {
   return preview.lines.join(' / ') || '暂无预览'
 }
 
+const recordFilterOptions = [
+  { value: 'recommended', label: '推荐' },
+  { value: 'all', label: '全部' },
+  { value: 'birth', label: '出生盘' },
+  { value: 'question', label: '问事盘' },
+  { value: 'tarot', label: '塔罗' },
+  { value: 'calendar', label: '日课' },
+  { value: 'dream', label: '梦境' },
+  { value: 'other', label: '其他' }
+]
+
 function RecordSlotPanel({ records, slots, insertRecord, targetSlug }) {
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState(targetSlug === 'compatibility' ? 'recommended' : 'all')
+  const filteredRecords = useMemo(() => filterMemoryRecordsForTarget(records, {
+    category,
+    query,
+    targetSlug
+  }), [category, query, records, targetSlug])
+  const visibleRecords = filteredRecords.slice(0, 12)
+
   return (
     <section className='structured-record-panel'>
       <div>
@@ -125,33 +145,58 @@ function RecordSlotPanel({ records, slots, insertRecord, targetSlug }) {
         <h3>从记录填入</h3>
       </div>
       {records.length ? (
-        <div className='structured-record-list'>
-          {records.map(record => {
-            const suggestion = getMemoryRecordSlotSuggestion(record, targetSlug)
+        <>
+          <div className='structured-record-filter'>
+            <div className='chart-field'>
+              <label htmlFor={`${targetSlug}-record-search`}>搜索记录</label>
+              <input
+                className='chart-text-input'
+                id={`${targetSlug}-record-search`}
+                placeholder='标题、工具或字段'
+                value={query}
+                onChange={event => setQuery(event.target.value)}
+              />
+            </div>
+            <div className='chart-field'>
+              <label htmlFor={`${targetSlug}-record-category`}>类型</label>
+              <select id={`${targetSlug}-record-category`} value={category} onChange={event => setCategory(event.target.value)}>
+                {recordFilterOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+              </select>
+            </div>
+            <span className='structured-record-count'>{filteredRecords.length}/{records.length}</span>
+          </div>
+          {visibleRecords.length ? (
+            <div className='structured-record-list'>
+              {visibleRecords.map(record => {
+                const suggestion = getMemoryRecordSlotSuggestion(record, targetSlug)
 
-            return (
-              <article className='structured-record-card' key={record.id}>
-                <div>
-                  <span>{record.tool}</span>
-                  <strong>{record.title}</strong>
-                  <p>{previewRecordText(record.text)}</p>
-                  {suggestion ? <em>建议填入：{suggestion.label} · {suggestion.reason}</em> : null}
-                </div>
-                <div className='structured-record-slot-actions'>
-                  {slots.map(slot => (
-                    <button
-                      className={suggestion?.slot === slot.key ? 'recommended' : ''}
-                      key={`${record.id}-${slot.key}`}
-                      type='button'
-                      onClick={() => insertRecord(record, slot)}>
-                      {suggestion?.slot === slot.key ? '推荐：' : ''}{slot.label}
-                    </button>
-                  ))}
-                </div>
-              </article>
-            )
-          })}
-        </div>
+                return (
+                  <article className='structured-record-card' key={record.id}>
+                    <div>
+                      <span>{record.tool}</span>
+                      <strong>{record.title}</strong>
+                      <p>{previewRecordText(record.text)}</p>
+                      {suggestion ? <em>建议填入：{suggestion.label} · {suggestion.reason}</em> : null}
+                    </div>
+                    <div className='structured-record-slot-actions'>
+                      {slots.map(slot => (
+                        <button
+                          className={suggestion?.slot === slot.key ? 'recommended' : ''}
+                          key={`${record.id}-${slot.key}`}
+                          type='button'
+                          onClick={() => insertRecord(record, slot)}>
+                          {suggestion?.slot === slot.key ? '推荐：' : ''}{slot.label}
+                        </button>
+                      ))}
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          ) : (
+            <p>没有匹配记录</p>
+          )}
+        </>
       ) : (
         <p>暂无保存记录</p>
       )}
@@ -210,7 +255,7 @@ export function StructuredTool({ slug }) {
   const output = useMemo(() => tool.calculate(form), [form, tool])
   const exportText = useMemo(() => output.copyText || formatStructuredResultText(output), [output])
   const recordSlots = useMemo(() => tool.recordSlots || [], [tool])
-  const recentRecords = useMemo(() => records.filter(record => record?.text).slice(0, 8), [records])
+  const recordOptions = useMemo(() => records.filter(record => record?.text), [records])
 
   useEffect(() => {
     const favorites = readMemory(favoritesKey, [])
@@ -326,7 +371,7 @@ export function StructuredTool({ slug }) {
           />
         </div>
         <AppliedRecordNotice items={appliedRecords} />
-        {recordSlots.length ? <RecordSlotPanel records={recentRecords} slots={recordSlots} insertRecord={insertRecord} targetSlug={slug} /> : null}
+        {recordSlots.length ? <RecordSlotPanel records={recordOptions} slots={recordSlots} insertRecord={insertRecord} targetSlug={slug} /> : null}
       </section>
 
       <section className='chart-result-panel'>

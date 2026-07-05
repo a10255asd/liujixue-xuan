@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
   createToolHandoff,
+  filterMemoryRecordsForTarget,
   getMemoryRecordPreview,
   getMemoryRecordSlotSuggestion,
   getMemoryRecordWorkflow,
@@ -231,4 +232,49 @@ test('record slot suggestion routes saved records into the right workspace field
   assert.equal(getMemoryRecordSlotSuggestion(baziRecord, 'compatibility').slot, 'chartA')
   assert.equal(getMemoryRecordSlotSuggestion(liuyaoRecord, 'compatibility'), null)
   assert.equal(getMemoryRecordSlotSuggestion(liuyaoRecord, 'aiPrompt').slot, 'chartText')
+})
+
+test('record picker filters by target recommendation, category, and query', () => {
+  const records = [
+    {
+      id: 'bazi',
+      tool: '八字专业细盘',
+      href: '/tools/bazi',
+      title: '甲方 1996',
+      text: '四柱：丙子 乙未 戊午 壬子\n出生地：黑龙江省 黑河市'
+    },
+    {
+      id: 'liuyao',
+      tool: '六爻纳甲排盘',
+      href: '/tools/liuyao',
+      title: '合作问事',
+      text: '本卦：泽雷随\n变卦：水泽节\n世应：四爻为世'
+    },
+    {
+      id: 'tarot',
+      tool: '塔罗抽牌',
+      href: '/tools/tarot',
+      title: '关系补充',
+      text: '牌阵：三张牌\n抽牌：星星 正位'
+    }
+  ]
+
+  const compatibilityRecommended = filterMemoryRecordsForTarget(records, {
+    category: 'recommended',
+    targetSlug: 'compatibility'
+  })
+  const questionRecords = filterMemoryRecordsForTarget(records, {
+    category: 'question',
+    targetSlug: 'synthesis'
+  })
+  const queryRecords = filterMemoryRecordsForTarget(records, {
+    category: 'all',
+    query: '1996',
+    targetSlug: 'synthesis'
+  })
+
+  assert.deepEqual(compatibilityRecommended.map(record => record.id), ['bazi'])
+  assert.deepEqual(questionRecords.map(record => record.id), ['liuyao'])
+  assert.deepEqual(queryRecords.map(record => record.id), ['bazi'])
+  assert.deepEqual(filterMemoryRecordsForTarget(null), [])
 })

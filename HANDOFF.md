@@ -196,6 +196,16 @@
   - Mobile browser QA at 390px verified duplicate BaZi saves show `已更新`, collapse existing duplicate 1996 cards to one, and do not create horizontal overflow.
   - Added regression coverage for repeated saves and historical duplicate collapse; unit coverage is now 49 passing tests.
 
+## 2026-07-05 Quality Pass
+
+- Record picker filtering completed after de-duplication:
+  - `/tools/synthesis` and `/tools/compatibility` now show a compact search + type filter above saved-record insertion cards.
+  - The filter reuses `getMemoryRecordWorkflow` and `getMemoryRecordSlotSuggestion`, so record center cards and workspace insertion panels follow the same category/recommendation rules.
+  - `/tools/compatibility` defaults to `推荐`, which only shows birth-chart records and prevents question charts such as LiuYao from being treated as compatibility material.
+  - `/tools/synthesis` defaults to `全部`, but can filter to `出生盘`, `问事盘`, `塔罗`, `日课`, `梦境`, or `其他`, and can search title/tool/text fields.
+  - Mobile browser QA at 390px verified `/tools/synthesis` question filtering, `1996` search filtering, `/tools/compatibility` default recommended filtering, and no page-level horizontal overflow.
+  - Added regression coverage for target recommendation, category, and query filtering; unit coverage is now 50 passing tests.
+
 ## Source Boundaries
 
 - Reference site reviewed: `https://suanlemeai.cn/`.
@@ -223,7 +233,7 @@ npm run build
 
 1. Do not add new tools by default. First improve core tool quality: BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility.
 2. BaZi, ZiWei, LiuYao, Records, AI Prompt, Synthesis, and Compatibility now have the first quality-workflow pass and a completed mobile handoff QA pass. Next best work:
-   - Add a compact record picker filter in `/tools/synthesis` and `/tools/compatibility` now that records can accumulate without accidental duplicates.
+   - Do a visual density pass on `/tools/records`, `/tools/synthesis`, and `/tools/compatibility`: reduce repeated helper copy inside record cards, tighten action button rows, and keep mobile cards scannable.
    - Consider clearer save feedback for fallback/session-only storage if desired.
-   - Then do a visual pass on the record card density; do not change chart logic without tests.
+   - Then improve the actual AI handoff templates for BaZi / ZiWei / LiuYao review workflows; keep them boundary-safe and covered by tests.
 3. Before adding any new metaphysics tool, run browser QA on the relevant core workflow and add sample baselines when chart logic is involved.

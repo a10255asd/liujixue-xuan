@@ -9765,6 +9765,45 @@ body {
   font-weight: 780;
 }
 
+.structured-record-filter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(118px, 150px) auto;
+  gap: 8px;
+  align-items: end;
+  min-width: 0;
+}
+
+.structured-record-filter .chart-field {
+  gap: 6px;
+  min-width: 0;
+}
+
+.structured-record-filter .chart-field label {
+  font-size: 11px;
+}
+
+.structured-record-filter .chart-text-input,
+.structured-record-filter select {
+  min-height: 38px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.structured-record-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid rgba(13, 111, 97, 0.14);
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.07);
+  color: #0d6f61;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
 .structured-handoff-indicator {
   display: grid;
   gap: 10px;
@@ -10711,6 +10750,7 @@ body {
 @media (max-width: 640px) {
   .structured-tool .chart-side-panel .chart-form-grid,
   .structured-action-grid,
+  .structured-record-panel,
   .memory-guide-panel,
   .memory-favorite-strip,
   .memory-filter-bar,
@@ -10726,6 +10766,16 @@ body {
 
   .memory-filter-bar button {
     width: 100%;
+  }
+
+  .structured-record-filter {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .structured-record-count {
+    justify-self: start;
+    min-height: 32px;
   }
 
   .memory-guide-steps {
