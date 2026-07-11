@@ -47,6 +47,7 @@
 - Removed the old local records route, dashboard, copy helpers, and local-record storage utilities from the product surface.
 - Removed visible cross-tool action buttons from chart export panels, daily tools, calendar tools, and structured tools.
 - Changed BaZi, ZiWei, LiuYao, daily, calendar, and structured tool action areas to image-download only.
+- Upgraded LiuYao image export from the generic text card to a dedicated professional chart image with meta rows, hexagram summary, six lines, six gods, na-jia, moving/change marks, world/response, hidden/flying spirits, and relation tags.
 - Updated homepage, tool index, site catalogue, sitemap source, and smoke routes to match the chart/download direction.
 - Simplified `StructuredTool` so it no longer consumes pending cross-page payloads or copy/save actions.
 
