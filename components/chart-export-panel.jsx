@@ -1,10 +1,7 @@
 'use client'
 
-import { CheckCircle2, Download, Save } from '@/components/icons'
-import { TemplateCopyButton } from '@/components/template-copy-button'
-import { ToolHandoffActions } from '@/components/tool-handoff-actions'
+import { Download } from '@/components/icons'
 import { downloadChartImage } from '@/lib/chart-image-export'
-import { getMemorySaveFeedback, saveMemoryRecord } from '@/lib/local-memory'
 import { track } from '@vercel/analytics'
 import { useState } from 'react'
 
@@ -37,115 +34,29 @@ function ChartImageButton({ imageDownloader = downloadChartImage, imageLabel = '
   )
 }
 
-function ChartTextButton({ location, payload, text, textLabel = '下载 AI 文本' }) {
-  const [downloaded, setDownloaded] = useState(false)
-
-  const downloadText = () => {
-    const filename = payload.textFilename || payload.filename.replace(/\.png$/, '.txt')
-    const url = `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`
-    const link = document.createElement('a')
-    link.href = url
-    link.download = filename
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-
-    track('chart_text_download', {
-      chart: payload.title,
-      location
-    })
-    setDownloaded(true)
-    window.setTimeout(() => setDownloaded(false), 1800)
-  }
-
-  return (
-    <button className='button chart-export-action-button' type='button' onClick={downloadText}>
-      <Download size={16} />
-      {downloaded ? '文本已下载' : textLabel}
-    </button>
-  )
-}
-
-function ChartSaveButton({ location, payload, text }) {
-  const [saveFeedback, setSaveFeedback] = useState(null)
-
-  const saveRecord = () => {
-    const record = saveMemoryRecord({
-      tool: payload.title,
-      href: window.location.pathname,
-      title: payload.subtitle || payload.title,
-      text
-    })
-
-    const feedback = getMemorySaveFeedback(record)
-    setSaveFeedback(feedback)
-    if (!record) return
-    track('chart_record_save', {
-      chart: payload.title,
-      location
-    })
-    window.setTimeout(() => setSaveFeedback(null), 2200)
-  }
-
-  return (
-    <button className='button chart-export-action-button' type='button' onClick={saveRecord}>
-      {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
-      {saveFeedback?.label || '保存记录'}
-    </button>
-  )
-}
-
 export function ChartExportActions({
-  copiedLabel = '已复制解析包',
-  copyLabel = '复制 AI 解析包',
-  copyText,
-  failedLabel = '复制受限',
-  handoffTargets,
   imageDownloader,
   imageLabel,
   location,
-  payload,
-  templateTitle,
-  textLabel
+  payload
 }) {
   return (
     <div className='chart-export-actions'>
-      <TemplateCopyButton
-        className='button chart-export-action-button'
-        copiedLabel={copiedLabel}
-        failedLabel={failedLabel}
-        idleLabel={copyLabel}
-        location={location}
-        templateTitle={templateTitle}
-        text={copyText}
-      />
-      <ChartTextButton location={location} payload={payload} text={copyText} textLabel={textLabel} />
-      <ChartSaveButton location={location} payload={payload} text={copyText} />
-      <ToolHandoffActions
-        location={location}
-        record={{
-          tool: payload.title,
-          href: typeof window === 'undefined' ? '' : window.location.pathname,
-          title: payload.subtitle || payload.title,
-          text: copyText
-        }}
-        targets={handoffTargets}
-      />
       <ChartImageButton imageDownloader={imageDownloader} imageLabel={imageLabel} location={location} payload={payload} />
     </div>
   )
 }
 
-export function ChartExportPanel({ copyText, location, payload, templateTitle }) {
+export function ChartExportPanel({ location, payload }) {
   return (
     <section className='chart-export-card'>
       <div className='chart-export-head'>
         <div>
-          <span className='chart-kicker'>AI Export</span>
+          <span className='chart-kicker'>Chart Export</span>
           <h2>{payload.title}</h2>
           <p>{payload.subtitle}</p>
         </div>
-        <ChartExportActions copyText={copyText} location={location} payload={payload} templateTitle={templateTitle} />
+        <ChartExportActions location={location} payload={payload} />
       </div>
 
       {payload.badges?.length > 0 && (

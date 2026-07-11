@@ -1,8 +1,7 @@
 'use client'
 
-import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
-import { ToolHandoffActions } from '@/components/tool-handoff-actions'
-import { getMemorySaveFeedback, saveMemoryRecord } from '@/lib/local-memory'
+import { ChartExportActions } from '@/components/chart-export-panel'
+import { RefreshCcw } from '@/components/icons'
 import { Solar } from 'lunar-javascript'
 import { useMemo, useState } from 'react'
 
@@ -77,20 +76,43 @@ const buildCalendar = ({ date, time }) => {
   }
 }
 
-const buildCopyText = calendar => [
-  '黄历节气查询',
-  `公历：${calendar.solar}`,
-  `农历：${calendar.lunar}`,
-  `四柱：${calendar.ganZhi.year}年 ${calendar.ganZhi.month}月 ${calendar.ganZhi.day}日 ${calendar.ganZhi.time}时`,
-  `纳音：${calendar.nayin.year} / ${calendar.nayin.month} / ${calendar.nayin.day} / ${calendar.nayin.time}`,
-  `宜：${calendar.yi}`,
-  `忌：${calendar.ji}`,
-  `冲煞：${calendar.chong} / ${calendar.sha}`,
-  `旬空：${calendar.xun} / ${calendar.xunKong}`,
-  `星宿：${calendar.xiu}`,
-  `方位：喜神${calendar.positions.xi}，福神${calendar.positions.fu}，财神${calendar.positions.cai}`,
-  `节气：上一节气 ${calendar.jieQi.previous}；下一节气 ${calendar.jieQi.next}`
-].join('\n')
+const buildImagePayload = calendar => ({
+  title: '黄历节气',
+  subtitle: `${calendar.solar} · ${calendar.lunar}`,
+  badges: [
+    `${calendar.ganZhi.year}年`,
+    `${calendar.ganZhi.month}月`,
+    `${calendar.ganZhi.day}日`,
+    `${calendar.ganZhi.time}时`
+  ],
+  filename: `calendar-${calendar.solar.slice(0, 10)}.png`,
+  sections: [
+    {
+      title: '日期信息',
+      rows: [
+        { label: '公历', value: calendar.solar },
+        { label: '农历', value: calendar.lunar },
+        { label: '四柱', value: `${calendar.ganZhi.year}年 ${calendar.ganZhi.month}月 ${calendar.ganZhi.day}日 ${calendar.ganZhi.time}时` },
+        { label: '纳音', value: `${calendar.nayin.year} / ${calendar.nayin.month} / ${calendar.nayin.day} / ${calendar.nayin.time}` }
+      ]
+    },
+    {
+      title: '黄历字段',
+      rows: [
+        { label: '宜', value: calendar.yi },
+        { label: '忌', value: calendar.ji },
+        { label: '冲煞', value: `${calendar.chong} / ${calendar.sha}` },
+        { label: '旬空', value: `${calendar.xun} / ${calendar.xunKong}` },
+        { label: '星宿', value: calendar.xiu },
+        { label: '生肖', value: calendar.animal },
+        { label: '彭祖', value: calendar.pengZu },
+        { label: '方位', value: `喜神${calendar.positions.xi} / 福神${calendar.positions.fu} / 财神${calendar.positions.cai}` },
+        { label: '上一节气', value: calendar.jieQi.previous },
+        { label: '下一节气', value: calendar.jieQi.next }
+      ]
+    }
+  ]
+})
 
 function DetailItem({ label, value }) {
   return (
@@ -106,39 +128,15 @@ export function CalendarTool() {
     date: todayDate(),
     time: currentTime()
   })
-  const [copied, setCopied] = useState(false)
-  const [saveFeedback, setSaveFeedback] = useState(null)
   const calendar = useMemo(() => buildCalendar(form), [form])
-  const copyText = useMemo(() => buildCopyText(calendar), [calendar])
+  const imagePayload = useMemo(() => buildImagePayload(calendar), [calendar])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
-    setCopied(false)
-    setSaveFeedback(null)
   }
 
   const resetNow = () => {
     setForm({ date: todayDate(), time: currentTime() })
-    setCopied(false)
-    setSaveFeedback(null)
-  }
-
-  const copy = async () => {
-    await navigator.clipboard.writeText(copyText)
-    setCopied(true)
-  }
-
-  const save = () => {
-    const record = saveMemoryRecord({
-      tool: '黄历节气',
-      href: '/tools/calendar',
-      title: `${calendar.solar} · ${calendar.ganZhi.day}日`,
-      text: copyText
-    })
-    const feedback = getMemorySaveFeedback(record)
-    setSaveFeedback(feedback)
-    if (!record) return
-    window.setTimeout(() => setSaveFeedback(null), 2200)
   }
 
   return (
@@ -164,25 +162,7 @@ export function CalendarTool() {
           </div>
         </div>
         <div className='daily-action-row'>
-          <button className='button primary' type='button' onClick={copy}>
-            {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-            {copied ? '已复制日课字段' : '复制日课字段'}
-          </button>
-          <button className='button' type='button' onClick={save}>
-            {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveFeedback?.label || '保存记录'}
-          </button>
-          <ToolHandoffActions
-            buttonClassName='button'
-            className='direct-tool-handoff-actions'
-            location='calendar-tool'
-            record={{
-              tool: '黄历节气',
-              href: '/tools/calendar',
-              title: `${calendar.solar} · ${calendar.ganZhi.day}日`,
-              text: copyText
-            }}
-          />
+          <ChartExportActions imageLabel='下载排盘图片' payload={imagePayload} />
         </div>
       </section>
 

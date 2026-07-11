@@ -6,12 +6,11 @@ const routes = [
   { path: "/tools/bazi", expects: ["八字"] },
   { path: "/tools/ziwei", expects: ["紫微"] },
   { path: "/tools/liuyao", expects: ["六爻"] },
+  { path: "/tools/meihua", expects: ["梅花"] },
+  { path: "/tools/qimen", expects: ["奇门"] },
+  { path: "/tools/daliuren", expects: ["六壬"] },
   { path: "/tools/tarot", expects: ["塔罗"] },
   { path: "/tools/dream", expects: ["梦境"] },
-  { path: "/tools/records", expects: ["记录"] },
-  { path: "/tools/ai-prompt", expects: ["AI"] },
-  { path: "/tools/synthesis", expects: ["合参"] },
-  { path: "/tools/compatibility", expects: ["合盘"] },
 ];
 
 const baseUrl = (process.env.SMOKE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, "");

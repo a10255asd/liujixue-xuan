@@ -15,7 +15,6 @@ export function XuanHeader() {
         </Link>
         <nav className='xuan-nav' aria-label='主导航'>
           <Link href='/tools'>工具</Link>
-          <Link href='/tools/records'>记录</Link>
           <Link href='/classics'>古籍</Link>
           <Link href='/knowledge'>图解</Link>
           <a href={site.mainSite}>主站</a>

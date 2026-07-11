@@ -3,7 +3,6 @@
 import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
-import { aiAndCompatibilityTargets } from '@/components/tool-handoff-actions'
 import { calculateZiWeiChart, defaultZiWeiInput, ziWeiExampleInputs, ziWeiGenderOptions, ziWeiSectOptions } from '@/lib/ziwei-chart'
 import {
   getAreaOptions,
@@ -14,7 +13,6 @@ import {
 } from '@/lib/birth-place-options'
 import { downloadZiWeiFineChartImage } from '@/lib/chart-image-export'
 import {
-  buildZiWeiCopyText,
   buildZiWeiExportPayload,
   ziweiTermExplanations
 } from '@/lib/traditional-chart-annotations'
@@ -257,7 +255,7 @@ function PalaceFineCell({ palace }) {
   )
 }
 
-function ZiWeiFineChart({ copyText, exportPayload, result }) {
+function ZiWeiFineChart({ exportPayload, result }) {
   return (
     <section className='chart-section-card ziwei-fine-chart-card'>
       <div className='chart-section-head'>
@@ -268,16 +266,10 @@ function ZiWeiFineChart({ copyText, exportPayload, result }) {
         <div className='ziwei-fine-actions'>
           <span className='chart-source'>十二宫 / 星曜 / 大限 / 真太阳时</span>
           <ChartExportActions
-            copyLabel='复制专业盘文本'
-            copiedLabel='已复制专业盘'
-            copyText={copyText}
-            handoffTargets={aiAndCompatibilityTargets}
             imageDownloader={downloadZiWeiFineChartImage}
             imageLabel='下载专业命盘'
             location='ziwei-fine-chart'
             payload={exportPayload}
-            templateTitle='紫微斗数专业盘 AI 解析包'
-            textLabel='下载专业盘文本'
           />
         </div>
       </div>
@@ -321,8 +313,8 @@ function ZiWeiWorkflowCard({ result }) {
       value: `${result.fiveElementsClass} · 命宫 ${mingPosition} · 身宫 ${bodyPosition}`
     },
     {
-      label: '导出交接',
-      value: '复制专业盘文本、保存记录或下载专业命盘图片'
+      label: '下载结果',
+      value: '核对无误后下载专业命盘图片'
     }
   ]
 
@@ -331,9 +323,9 @@ function ZiWeiWorkflowCard({ result }) {
       <div className='chart-section-head'>
         <div>
           <span className='chart-kicker'>Workflow</span>
-          <h2>排盘后下一步</h2>
+          <h2>排盘核对</h2>
         </div>
-        <span className='chart-source'>核对 / 导出 / 交接</span>
+        <span className='chart-source'>核对 / 下载</span>
       </div>
       <div className='chart-workflow-steps'>
         {checkpoints.map((item, index) => (
@@ -360,7 +352,6 @@ export function ZiWeiChartCalculator() {
   const areaOptions = useMemo(() => getAreaOptions(form.birthProvinceCode, form.birthCityCode), [form.birthProvinceCode, form.birthCityCode])
   const chartInput = useMemo(() => normalizeFormForChart(form), [form])
   const result = useMemo(() => calculateZiWeiChart(chartInput), [chartInput])
-  const copyText = useMemo(() => buildZiWeiCopyText(result), [result])
   const exportPayload = useMemo(() => buildZiWeiExportPayload(result), [result])
 
   useEffect(() => {
@@ -599,7 +590,7 @@ export function ZiWeiChartCalculator() {
 
         <ZiWeiWorkflowCard result={result} />
 
-        <ZiWeiFineChart copyText={copyText} exportPayload={exportPayload} result={result} />
+        <ZiWeiFineChart exportPayload={exportPayload} result={result} />
 
         <TermExplanationPanel terms={ziweiTermExplanations} />
       </section>

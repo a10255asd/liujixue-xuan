@@ -1,11 +1,8 @@
 'use client'
 
-import { CheckCircle2, Copy, RefreshCcw, Save, Star } from '@/components/icons'
-import { ToolHandoffActions } from '@/components/tool-handoff-actions'
-import { copyText as writeClipboard } from '@/lib/copy-text'
-import { favoritesKey, filterMemoryRecordsForTarget, getMemoryRecordPreview, getMemoryRecordSlotSuggestion, getMemorySaveFeedback, handoffKey, readMemory, recordsKey, removeMemory, saveMemoryRecord, writeMemory } from '@/lib/local-memory'
-import { formatStructuredResultText, getStructuredTool } from '@/lib/structured-tools'
-import { track } from '@vercel/analytics'
+import { ChartExportActions } from '@/components/chart-export-panel'
+import { RefreshCcw } from '@/components/icons'
+import { getStructuredTool } from '@/lib/structured-tools'
 import { useEffect, useMemo, useState } from 'react'
 
 const todayDate = () => {
@@ -23,6 +20,21 @@ const hydrateDefaults = (defaults, dynamic = false) => Object.fromEntries(Object
   if (value === '__now') return [key, dynamic ? currentTime() : '09:00']
   return [key, value]
 }))
+
+const sectionRowsForImage = section => {
+  if (Array.isArray(section.rows)) return section.rows
+  if (!Array.isArray(section.cells)) return []
+
+  return section.cells.map(cell => ({
+    label: cell.title,
+    value: cell.items.map(item => `${item.label}：${item.value}`).join(' / ')
+  }))
+}
+
+const imageFilenameFromTool = tool => {
+  const slug = tool.href.split('/').filter(Boolean).pop() || 'chart'
+  return `${slug}-chart.png`
+}
 
 function ResultSection({ section }) {
   if (section.layout === 'palace-grid') {
@@ -112,239 +124,34 @@ function Field({ field, form, updateForm }) {
   )
 }
 
-const previewRecordText = text => {
-  const preview = getMemoryRecordPreview({ text }, { maxLines: 2 })
-  return preview.lines.join(' / ') || '暂无预览'
-}
-
-const recordFilterOptions = [
-  { value: 'recommended', label: '推荐' },
-  { value: 'all', label: '全部' },
-  { value: 'birth', label: '出生盘' },
-  { value: 'question', label: '问事盘' },
-  { value: 'tarot', label: '塔罗' },
-  { value: 'calendar', label: '日课' },
-  { value: 'dream', label: '梦境' },
-  { value: 'other', label: '其他' }
-]
-
-const compactSlotLabel = slot => String(slot?.label || '').replace(/^作为/, '').trim() || '字段'
-
-function RecordSlotPanel({ records, slots, insertRecord, targetSlug }) {
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState(targetSlug === 'compatibility' ? 'recommended' : 'all')
-  const filteredRecords = useMemo(() => filterMemoryRecordsForTarget(records, {
-    category,
-    query,
-    targetSlug
-  }), [category, query, records, targetSlug])
-  const visibleRecords = filteredRecords.slice(0, 12)
-
-  return (
-    <section className='structured-record-panel'>
-      <div>
-        <span className='chart-kicker'>记录工作台</span>
-        <h3>从记录填入</h3>
-      </div>
-      {records.length ? (
-        <>
-          <div className='structured-record-filter'>
-            <div className='chart-field'>
-              <label htmlFor={`${targetSlug}-record-search`}>搜索记录</label>
-              <input
-                className='chart-text-input'
-                id={`${targetSlug}-record-search`}
-                placeholder='标题、工具或字段'
-                value={query}
-                onChange={event => setQuery(event.target.value)}
-              />
-            </div>
-            <div className='chart-field'>
-              <label htmlFor={`${targetSlug}-record-category`}>类型</label>
-              <select id={`${targetSlug}-record-category`} value={category} onChange={event => setCategory(event.target.value)}>
-                {recordFilterOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
-              </select>
-            </div>
-            <span className='structured-record-count'>{filteredRecords.length}/{records.length}</span>
-          </div>
-          {visibleRecords.length ? (
-            <div className='structured-record-list'>
-              {visibleRecords.map(record => {
-                const suggestion = getMemoryRecordSlotSuggestion(record, targetSlug)
-                const primarySlot = slots.find(slot => slot.key === suggestion?.slot) || slots[0]
-                const otherSlots = slots.filter(slot => slot.key !== primarySlot?.key)
-
-                return (
-                  <article className='structured-record-card' key={record.id}>
-                    <div>
-                      <div className='structured-record-card-head'>
-                        <span>{record.tool}</span>
-                        {suggestion ? <em>{suggestion.label}</em> : null}
-                      </div>
-                      <strong>{record.title}</strong>
-                      <p>{previewRecordText(record.text)}</p>
-                    </div>
-                    {primarySlot ? (
-                      <div className='structured-record-slot-actions'>
-                        <button
-                          className='recommended'
-                          type='button'
-                          onClick={() => insertRecord(record, primarySlot)}>
-                          填入{compactSlotLabel(primarySlot)}
-                        </button>
-                        {otherSlots.length ? (
-                          <details className='structured-record-more-slots'>
-                            <summary>其他位置</summary>
-                            <div>
-                              {otherSlots.map(slot => (
-                                <button
-                                  key={`${record.id}-${slot.key}`}
-                                  type='button'
-                                  onClick={() => insertRecord(record, slot)}>
-                                  {compactSlotLabel(slot)}
-                                </button>
-                              ))}
-                            </div>
-                          </details>
-                        ) : null}
-                      </div>
-                    ) : null}
-                  </article>
-                )
-              })}
-            </div>
-          ) : (
-            <p>没有匹配记录</p>
-          )}
-        </>
-      ) : (
-        <p>暂无保存记录</p>
-      )}
-    </section>
-  )
-}
-
-const slotLabelFromTool = (tool, slots, slotKey) => {
-  const configuredSlot = slots.find(slot => slot.key === slotKey)
-  const field = tool.fields.find(item => item.key === slotKey)
-  const label = configuredSlot?.indicatorLabel || configuredSlot?.label || field?.label || '排盘字段'
-  return label
-}
-
-const buildAppliedRecordNotice = (source, slotKey, slotLabel) => ({
-  id: `${slotKey || 'field'}-${source?.sourceId || source?.id || Date.now()}`,
-  slot: slotKey || '',
-  slotLabel,
-  sourceTool: source?.sourceTool || source?.tool || '记录',
-  sourceTitle: source?.sourceTitle || source?.title || '未命名记录'
-})
-
-const mergeAppliedRecordNotice = (current, next) => [
-  next,
-  ...current.filter(item => item.slot !== next.slot)
-].slice(0, 4)
-
-function AppliedRecordNotice({ items }) {
-  if (!items.length) return null
-
-  return (
-    <section className='structured-handoff-indicator' aria-label='最近填入记录'>
-      <span className='chart-kicker'>最近填入</span>
-      <div className='structured-handoff-chip-list'>
-        {items.map(item => (
-          <div className='structured-handoff-chip' key={item.id}>
-            <span>{item.slotLabel}</span>
-            <strong>{item.sourceTitle}</strong>
-            <em>{item.sourceTool}</em>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 export function StructuredTool({ slug }) {
   const tool = getStructuredTool(slug)
   const defaultInput = tool.defaultInput
   const [form, setForm] = useState(() => hydrateDefaults(defaultInput))
-  const [copied, setCopied] = useState(false)
-  const [saveFeedback, setSaveFeedback] = useState(null)
-  const [favorited, setFavorited] = useState(false)
-  const [records, setRecords] = useState([])
-  const [appliedRecords, setAppliedRecords] = useState([])
   const output = useMemo(() => tool.calculate(form), [form, tool])
-  const exportText = useMemo(() => output.copyText || formatStructuredResultText(output), [output])
-  const recordSlots = useMemo(() => tool.recordSlots || [], [tool])
-  const recordOptions = useMemo(() => records.filter(record => record?.text), [records])
+  const imagePayload = useMemo(() => ({
+    title: output.title,
+    subtitle: output.subtitle,
+    badges: output.badges,
+    filename: imageFilenameFromTool(tool),
+    sections: output.sections.map(section => ({
+      title: section.title,
+      rows: sectionRowsForImage(section)
+    }))
+  }), [output, tool])
 
   useEffect(() => {
-    const favorites = readMemory(favoritesKey, [])
-    const handoff = readMemory(handoffKey, null)
     const dynamicDefaults = hydrateDefaults(defaultInput, true)
-    const shouldApplyHandoff = tool.applyHandoff && handoff && (handoff.targetHref === tool.href || handoff.targetSlug === slug)
 
-    setFavorited(favorites.some(item => item.href === tool.href))
-    if (recordSlots.length) setRecords(readMemory(recordsKey, []))
-    setForm(shouldApplyHandoff ? tool.applyHandoff(dynamicDefaults, handoff) : dynamicDefaults)
-    setAppliedRecords(shouldApplyHandoff
-      ? [buildAppliedRecordNotice(handoff, handoff.slot, slotLabelFromTool(tool, recordSlots, handoff.slot))]
-      : []
-    )
-    if (shouldApplyHandoff) window.setTimeout(() => removeMemory(handoffKey), 0)
-  }, [defaultInput, recordSlots, slug, tool])
+    setForm(dynamicDefaults)
+  }, [defaultInput, tool])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
-    setAppliedRecords(current => current.filter(item => item.slot !== key))
-    setCopied(false)
-    setSaveFeedback(null)
   }
 
   const reset = () => {
     setForm(hydrateDefaults(defaultInput, true))
-    setAppliedRecords([])
-    setCopied(false)
-    setSaveFeedback(null)
-  }
-
-  const copy = async () => {
-    const ok = await writeClipboard(exportText)
-    if (!ok) return
-    track('xuan_structured_tool_copy', { tool: tool.title })
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1800)
-  }
-
-  const saveRecord = () => {
-    const record = saveMemoryRecord({
-      tool: tool.title,
-      href: tool.href,
-      title: output.summary || output.title,
-      text: exportText
-    })
-    const feedback = getMemorySaveFeedback(record)
-    setSaveFeedback(feedback)
-    if (!record) return
-    track('xuan_structured_tool_save', { tool: tool.title })
-    window.setTimeout(() => setSaveFeedback(null), 2200)
-  }
-
-  const toggleFavorite = () => {
-    const favorites = readMemory(favoritesKey, [])
-    const exists = favorites.some(item => item.href === tool.href)
-    const next = exists
-      ? favorites.filter(item => item.href !== tool.href)
-      : [{ title: tool.title, href: tool.href, addedAt: new Date().toISOString() }, ...favorites]
-    writeMemory(favoritesKey, next)
-    setFavorited(!exists)
-  }
-
-  const insertRecord = (record, slot) => {
-    if (!tool.applyRecordSlot) return
-    setForm(current => tool.applyRecordSlot(current, record, slot))
-    setAppliedRecords(current => mergeAppliedRecordNotice(current, buildAppliedRecordNotice(record, slot?.key, slotLabelFromTool(tool, recordSlots, slot?.key))))
-    setCopied(false)
-    setSaveFeedback(null)
   }
 
   return (
@@ -365,34 +172,8 @@ export function StructuredTool({ slug }) {
           ))}
         </div>
         <div className='structured-action-grid'>
-          <button className='button primary' type='button' onClick={copy}>
-            {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-            {copied ? '已复制' : tool.copyLabel || '复制字段'}
-          </button>
-          <button className='button' type='button' onClick={saveRecord}>
-            {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveFeedback?.label || '保存记录'}
-          </button>
-          <button className='button' type='button' onClick={toggleFavorite}>
-            <Star size={16} />
-            {favorited ? '已收藏' : '收藏工具'}
-          </button>
-          <ToolHandoffActions
-            buttonClassName='button'
-            className='structured-direct-handoff-actions'
-            location={`${slug}-structured-tool`}
-            record={{
-              tool: tool.title,
-              href: tool.href,
-              title: output.summary || output.title,
-              text: exportText
-            }}
-            showHints
-            targets={tool.handoffTargets || []}
-          />
+          <ChartExportActions imageLabel='下载排盘图片' payload={imagePayload} />
         </div>
-        <AppliedRecordNotice items={appliedRecords} />
-        {recordSlots.length ? <RecordSlotPanel records={recordOptions} slots={recordSlots} insertRecord={insertRecord} targetSlug={slug} /> : null}
       </section>
 
       <section className='chart-result-panel'>

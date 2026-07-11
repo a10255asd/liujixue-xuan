@@ -6,9 +6,7 @@ test('structured tool catalogue exposes callable tools', () => {
   const slugs = Object.keys(structuredTools)
 
   assert.deepEqual(slugs.sort(), [
-    'aiPrompt',
     'birthTime',
-    'compatibility',
     'dailyFortune',
     'daliuren',
     'dateSelection',
@@ -17,7 +15,6 @@ test('structured tool catalogue exposes callable tools', () => {
     'meihua',
     'name',
     'qimen',
-    'synthesis',
     'tarot'
   ].sort())
 
@@ -30,32 +27,10 @@ test('structured tool catalogue exposes callable tools', () => {
   }
 })
 
-test('structured chart tools expose direct AI handoff targets', () => {
-  const directAiTools = ['birthTime', 'dailyFortune', 'daliuren', 'dateSelection', 'dream', 'findTime', 'meihua', 'name', 'qimen', 'tarot']
-  const targets = [
-    {
-      label: '送去 AI',
-      hint: '整理字段和追问清单',
-      slot: 'chartText',
-      targetHref: '/tools/ai-prompt',
-      targetSlug: 'aiPrompt'
-    },
-    {
-      label: '合参',
-      hint: '多份材料归并整理',
-      slot: 'auto',
-      targetHref: '/tools/synthesis',
-      targetSlug: 'synthesis'
-    }
-  ]
-
-  for (const slug of directAiTools) {
-    assert.deepEqual(structuredTools[slug].handoffTargets, targets)
+test('structured tools do not expose cross-tool handoff targets', () => {
+  for (const tool of Object.values(structuredTools)) {
+    assert.equal(tool.handoffTargets, undefined)
   }
-
-  assert.equal(structuredTools.aiPrompt.handoffTargets, undefined)
-  assert.equal(structuredTools.compatibility.handoffTargets, undefined)
-  assert.equal(structuredTools.synthesis.handoffTargets, undefined)
 })
 
 test('meihua number method returns core hexagram fields', () => {
@@ -186,274 +161,8 @@ test('dream tool exports journal fields without omen judgement', () => {
 
   assert.equal(output.title, '梦境记录整理')
   assert.ok(output.badges.includes('情绪线索'))
-  assert.match(output.copyText, /不做吉凶、预兆、应期或结果保证/)
-  assert.match(output.copyText, /梦境全文/)
+  assert.match(text, /不输出吉凶、预兆、应期或结果判断/)
+  assert.match(text, /梦境全文/)
   assert.match(text, /反复意象：走廊 \/ 灯 \/ 门/)
-  assert.doesNotMatch(output.copyText, /一定|必然/)
-})
-
-test('ai prompt tool exports boundary-safe prompt text', () => {
-  const output = structuredTools.aiPrompt.calculate({
-    chartType: 'liuyao',
-    mode: 'questions',
-    outputFormat: 'checklist',
-    question: '这件事是否值得继续推进？',
-    context: '只想做结构梳理',
-    chartText: '本卦：泽雷随\n动爻：二爻'
-  })
-  const text = formatStructuredResultText(output)
-
-  assert.equal(output.title, 'AI 解析提示词')
-  assert.ok(output.badges.includes('六爻纳甲排盘'))
-  assert.ok(output.badges.includes('2 行字段'))
-  assert.match(output.copyText, /不输出恐吓式/)
-  assert.match(output.copyText, /不要编造未提供/)
-  assert.match(output.copyText, /六爻字段核验/)
-  assert.match(output.copyText, /月建、日辰、旬空/)
-  assert.match(output.copyText, /世爻、应爻/)
-  assert.match(output.copyText, /用神候选和缺失背景问题/)
-  assert.match(output.copyText, /本卦：泽雷随/)
-  assert.match(text, /交接摘要/)
-  assert.match(text, /六爻字段核验/)
-  assert.match(text, /边界要求/)
-})
-
-test('ai prompt profiles expose BaZi ZiWei and LiuYao review checklists', () => {
-  const bazi = structuredTools.aiPrompt.calculate({
-    chartType: 'bazi',
-    mode: 'verify',
-    outputFormat: 'checklist',
-    question: '核验这份八字字段。',
-    context: '只做字段核验',
-    chartText: '四柱：丙子 乙未 戊午 壬子\n日主：戊'
-  })
-  const ziwei = structuredTools.aiPrompt.calculate({
-    chartType: 'ziwei',
-    mode: 'verify',
-    outputFormat: 'checklist',
-    question: '核验这份紫微命盘字段。',
-    context: '只做字段核验',
-    chartText: '命宫：子\n身宫：午\n四化：禄权科忌'
-  })
-  const liuyao = structuredTools.aiPrompt.calculate({
-    chartType: 'liuyao',
-    mode: 'questions',
-    outputFormat: 'checklist',
-    question: '核验这份六爻字段。',
-    context: '只做字段核验',
-    chartText: '本卦：泽雷随\n变卦：水泽节\n世应：四爻为世'
-  })
-
-  assert.match(bazi.copyText, /八字字段核验/)
-  assert.match(bazi.copyText, /真太阳时或标准时口径/)
-  assert.match(bazi.copyText, /四柱、十神、五行、大运流年分层摘要/)
-  assert.match(formatStructuredResultText(bazi), /八字字段核验/)
-  assert.match(ziwei.copyText, /紫微字段核验/)
-  assert.match(ziwei.copyText, /命宫、身宫、五行局/)
-  assert.match(ziwei.copyText, /十二宫字段完整度/)
-  assert.match(formatStructuredResultText(ziwei), /紫微字段核验/)
-  assert.match(liuyao.copyText, /六爻字段核验/)
-  assert.match(liuyao.copyText, /本卦、变卦、动爻/)
-  assert.match(liuyao.copyText, /起卦信息完整度表/)
-  assert.doesNotMatch(`${bazi.copyText}\n${ziwei.copyText}\n${liuyao.copyText}`, /一定|必然|保证复合|保证发财/)
-})
-
-test('compatibility tool builds paired fields without relationship judgement', () => {
-  const output = structuredTools.compatibility.calculate({
-    chartType: 'bazi',
-    focus: 'relation',
-    personA: '甲方',
-    personB: '乙方',
-    relation: '亲密关系',
-    question: '帮我整理两份盘的对照点。',
-    context: '只需要字段材料',
-    chartA: '四柱：甲子 乙丑 丙寅 丁卯\n日主：丙',
-    chartB: '四柱：戊辰 己巳 庚午 辛未\n日主：庚'
-  })
-  const text = formatStructuredResultText(output)
-
-  assert.equal(output.title, '合盘对照')
-  assert.ok(output.badges.includes('八字合盘字段'))
-  assert.ok(output.badges.includes('2\/2 份资料'))
-  assert.match(output.copyText, /不输出关系好坏/)
-  assert.match(output.copyText, /八字合盘核验清单/)
-  assert.match(output.copyText, /对象 A 和对象 B 先分别核验出生时间/)
-  assert.match(output.copyText, /四柱对四柱、十神对十神、五行结构对五行结构/)
-  assert.match(output.copyText, /先分别核验对象 A 和对象 B 的资料来源/)
-  assert.match(output.copyText, /甲方 排盘字段/)
-  assert.match(output.copyText, /乙方 排盘字段/)
-  assert.match(text, /交接摘要/)
-  assert.match(text, /八字合盘核验清单/)
-  assert.match(text, /字段并排摘要/)
-  assert.doesNotMatch(output.copyText, /一定/)
-})
-
-test('compatibility profiles keep ZiWei and mixed chart comparison scoped', () => {
-  const ziwei = structuredTools.compatibility.calculate({
-    chartType: 'ziwei',
-    focus: 'verify',
-    personA: 'A',
-    personB: 'B',
-    relation: '合作',
-    question: '只做字段核验。',
-    context: '不要输出结论',
-    chartA: '命宫：子\n身宫：午\n四化：禄权科忌',
-    chartB: '命宫：丑\n身宫：未\n四化：禄权科忌'
-  })
-  const mixed = structuredTools.compatibility.calculate({
-    chartType: 'mixed',
-    focus: 'relation',
-    personA: 'A',
-    personB: 'B',
-    relation: '亲密关系',
-    question: '整理不同体系材料。',
-    context: '只看材料',
-    chartA: '八字：甲子 乙丑 丙寅 丁卯',
-    chartB: '紫微：命宫 子'
-  })
-  const text = `${formatStructuredResultText(ziwei)}\n${formatStructuredResultText(mixed)}`
-
-  assert.match(ziwei.copyText, /紫微合盘核验清单/)
-  assert.match(ziwei.copyText, /命宫、身宫、五行局、命主、身主、十二宫/)
-  assert.match(ziwei.copyText, /只把同类宫位和同类星曜字段并排/)
-  assert.match(mixed.copyText, /混合资料合盘核验清单/)
-  assert.match(mixed.copyText, /八字和紫微只能并列摘要/)
-  assert.match(mixed.copyText, /不同体系指向不一致时，只记录差异和待核验字段/)
-  assert.match(text, /紫微合盘核验清单/)
-  assert.match(text, /混合资料合盘核验清单/)
-  assert.doesNotMatch(`${ziwei.copyText}\n${mixed.copyText}`, /一定|必然|保证复合|保证发财/)
-})
-
-test('synthesis tool builds multi-source handoff prompt and auto-routes records', () => {
-  const output = structuredTools.synthesis.calculate({
-    topic: '合作事项',
-    focus: 'decision',
-    question: '请整理当前材料。',
-    context: '只需要结构化摘要',
-    birthChart: '八字：甲子 乙丑 丙寅 丁卯',
-    questionChart: '六爻：泽雷随',
-    tarotText: '塔罗：星星 正位',
-    calendarText: '',
-    notes: '线下沟通记录'
-  })
-  const text = formatStructuredResultText(output)
-  const fromTarot = structuredTools.synthesis.applyHandoff(structuredTools.synthesis.defaultInput, {
-    sourceTool: '塔罗抽牌',
-    sourceTitle: '三张牌',
-    text: '塔罗字段'
-  })
-  const fromCalendar = structuredTools.synthesis.applyRecordSlot(structuredTools.synthesis.defaultInput, {
-    tool: '黄历节气',
-    title: '日课',
-    text: '黄历字段'
-  }, structuredTools.synthesis.recordSlots[3])
-
-  assert.equal(output.title, '综合合参工作台')
-  assert.ok(output.badges.includes('决策参考'))
-  assert.ok(output.badges.includes('可接力'))
-  assert.match(output.copyText, /字段之间如果口径不同或互相矛盾/)
-  assert.match(output.copyText, /出生盘材料核验/)
-  assert.match(output.copyText, /问事盘材料核验/)
-  assert.match(output.copyText, /塔罗材料核验/)
-  assert.match(output.copyText, /日课\/择日材料核验/)
-  assert.match(output.copyText, /补充材料整理/)
-  assert.match(output.copyText, /先按材料类型单独核验完整度、口径和缺失项/)
-  assert.match(output.copyText, /不把塔罗、梦境、日课或补充材料写成出生盘\/问事盘结论/)
-  assert.match(text, /交接摘要/)
-  assert.match(text, /分材料核验清单/)
-  assert.match(text, /出生盘字段：1 行/)
-  assert.match(text, /日课\/择日字段：未填写/)
-  assert.equal(fromTarot.tarotText, '塔罗字段')
-  assert.equal(fromCalendar.calendarText, '黄历字段')
-  assert.doesNotMatch(output.copyText, /一定|必然/)
-})
-
-test('synthesis prompt keeps per-material instructions boundary-safe', () => {
-  const output = structuredTools.synthesis.calculate({
-    topic: '复盘一件合作事项',
-    focus: 'overview',
-    question: '把材料整理成下一轮可以继续问的问题。',
-    context: '需要保留原始字段边界',
-    birthChart: '紫微：命宫 子\n四化：禄权科忌',
-    questionChart: '六爻：本卦 泽雷随\n动爻 三爻',
-    tarotText: '牌阵：三张牌\n星星 正位',
-    calendarText: '节气：立夏\n干支：丙午日',
-    notes: '现实限制：预算有限'
-  })
-  const text = formatStructuredResultText(output)
-
-  assert.match(output.copyText, /核验公历\/农历、出生地、性别、真太阳时或标准时口径/)
-  assert.match(output.copyText, /六爻重点看本卦、变卦、动爻、世应、六亲、六神、纳甲、伏神飞神/)
-  assert.match(output.copyText, /只复述牌名、位置、关键词和用户背景/)
-  assert.match(output.copyText, /区分黄历字段、节气字段、时辰字段和用户现实约束/)
-  assert.match(output.copyText, /把主观感受、事实描述、猜测和诉求分开记录/)
-  assert.match(text, /五类材料均已填写/)
-  assert.doesNotMatch(output.copyText, /一定|必然|保证成功|保证复合|保证发财/)
-})
-
-test('structured tools apply saved record handoff into target fields', () => {
-  const aiForm = structuredTools.aiPrompt.applyHandoff(structuredTools.aiPrompt.defaultInput, {
-    sourceTool: '六爻纳甲排盘',
-    sourceTitle: '合作卦',
-    text: '本卦：泽雷随'
-  })
-  const compatibilityForm = structuredTools.compatibility.applyHandoff(structuredTools.compatibility.defaultInput, {
-    slot: 'chartB',
-    sourceTool: '紫微斗数命盘',
-    sourceTitle: '乙方命盘',
-    text: '命宫：子'
-  })
-
-  assert.equal(aiForm.chartType, 'liuyao')
-  assert.equal(aiForm.mode, 'questions')
-  assert.match(aiForm.question, /起卦字段/)
-  assert.equal(aiForm.chartText, '本卦：泽雷随')
-  assert.match(aiForm.context, /合作卦/)
-  assert.equal(compatibilityForm.chartType, 'ziwei')
-  assert.equal(compatibilityForm.personB, '乙方命盘')
-  assert.equal(compatibilityForm.chartB, '命宫：子')
-})
-
-test('AI handoff infers review mode for BaZi and ZiWei records', () => {
-  const baziForm = structuredTools.aiPrompt.applyHandoff(structuredTools.aiPrompt.defaultInput, {
-    sourceTool: '八字专业细盘',
-    sourceTitle: '甲方八字',
-    text: '四柱：丙子 乙未 戊午 壬子\n日主：戊\n大运：戊戌'
-  })
-  const ziweiForm = structuredTools.aiPrompt.applyHandoff(structuredTools.aiPrompt.defaultInput, {
-    sourceTool: '紫微斗数命盘',
-    sourceTitle: '乙方紫微',
-    text: '命宫：子\n身宫：午\n四化：禄权科忌'
-  })
-
-  assert.equal(baziForm.chartType, 'bazi')
-  assert.equal(baziForm.mode, 'verify')
-  assert.match(baziForm.question, /八字字段核验清单/)
-  assert.match(baziForm.question, /四柱、十神、大运流年/)
-  assert.equal(ziweiForm.chartType, 'ziwei')
-  assert.equal(ziweiForm.mode, 'verify')
-  assert.match(ziweiForm.question, /紫微字段核验清单/)
-  assert.match(ziweiForm.question, /命宫、身宫、十二宫/)
-})
-
-test('compatibility tool applies recent record into selected worksheet slot', () => {
-  const output = structuredTools.compatibility.applyRecordSlot(structuredTools.compatibility.defaultInput, {
-    tool: '八字专业细盘',
-    title: '甲方八字记录',
-    text: '四柱：甲子 乙丑 丙寅 丁卯'
-  }, structuredTools.compatibility.recordSlots[0])
-  const second = structuredTools.compatibility.applyRecordSlot(output, {
-    tool: '紫微斗数命盘',
-    title: '乙方紫微记录',
-    text: '命宫：子'
-  }, structuredTools.compatibility.recordSlots[1])
-
-  assert.equal(structuredTools.compatibility.recordSlots.length, 2)
-  assert.equal(output.chartType, 'bazi')
-  assert.equal(output.personA, '甲方八字记录')
-  assert.equal(output.chartA, '四柱：甲子 乙丑 丙寅 丁卯')
-  assert.match(output.context, /甲方八字记录/)
-  assert.equal(second.personB, '乙方紫微记录')
-  assert.match(second.context, /甲方八字记录/)
-  assert.match(second.context, /乙方紫微记录/)
+  assert.doesNotMatch(text, /一定|必然/)
 })

@@ -23,9 +23,9 @@ const knowledgeMaps = [
     text: '用于把黄历节气、择日速览和时辰速查串起来。'
   },
   {
-    title: 'AI 接力链路',
-    steps: ['排盘', '复制字段', '保存记录', '补充背景', '交给 AI'],
-    text: '用于把工具结果变成可复用的解析材料，而不是截图丢失上下文。'
+    title: '图片导出链路',
+    steps: ['排盘', '核对口径', '查看细盘', '下载图片', '人工复核'],
+    text: '用于把工具结果变成可保存、可分享的完整排盘图片。'
   }
 ]
 
@@ -49,7 +49,6 @@ export default function KnowledgePage() {
             <div className='xuan-tool-related'>
               <span>相关入口</span>
               <Link href='/classics'>古籍书楼</Link>
-              <Link href='/tools/records'>收藏记录</Link>
               <Link href='/tools'>工具箱</Link>
             </div>
           </div>
@@ -72,7 +71,7 @@ export default function KnowledgePage() {
             <div>
               <span className='xuan-kicker'>Tool Flow</span>
               <h2>从图解直接进入工具</h2>
-              <p>新用户先理解入口，老用户直接打开工具和记录页继续使用。</p>
+              <p>新用户先理解入口，老用户直接打开工具并下载排盘图片。</p>
             </div>
             <Link className='button primary' href='/tools'>
               打开工具箱

@@ -3,7 +3,6 @@
 import { RefreshCcw } from '@/components/icons'
 import { ChartExportActions } from '@/components/chart-export-panel'
 import {
-  buildLiuYaoCopyText,
   buildLiuYaoExportPayload,
   calculateLiuYaoChart,
   defaultLiuYaoInput,
@@ -300,7 +299,7 @@ function HiddenSpirit({ line }) {
   )
 }
 
-function LiuYaoChartTable({ chart, copyText, exportPayload }) {
+function LiuYaoChartTable({ chart, exportPayload }) {
   return (
     <section className='chart-section-card liuyao-chart-card'>
       <div className='chart-section-head'>
@@ -311,14 +310,9 @@ function LiuYaoChartTable({ chart, copyText, exportPayload }) {
         <div className='bazi-fine-actions'>
           <span className='chart-source'>纳甲 / 六亲 / 世应 / 六神</span>
           <ChartExportActions
-            copyLabel='复制排盘文本'
-            copiedLabel='已复制排盘'
-            copyText={copyText}
             imageLabel='下载排盘图片'
             location='liuyao-chart'
             payload={exportPayload}
-            templateTitle='六爻排盘 AI 解析包'
-            textLabel='下载排盘文本'
           />
         </div>
       </div>
@@ -375,8 +369,8 @@ function LiuYaoWorkflowCard({ chart }) {
       value: `${chart.hexagram.name} · ${chart.hexagram.palace}宫${chart.hexagram.palaceElement} · 动爻 ${chart.movingLines.length ? chart.movingLines.map(item => `${item}爻`).join('、') : '无'}`
     },
     {
-      label: '导出交接',
-      value: '复制排盘文本、保存记录、送去 AI 或合参'
+      label: '下载结果',
+      value: '核对无误后下载排盘图片'
     }
   ]
 
@@ -385,9 +379,9 @@ function LiuYaoWorkflowCard({ chart }) {
       <div className='chart-section-head'>
         <div>
           <span className='chart-kicker'>Workflow</span>
-          <h2>排盘后下一步</h2>
+          <h2>排盘核对</h2>
         </div>
-        <span className='chart-source'>核对 / 用神 / 交接</span>
+        <span className='chart-source'>核对 / 下载</span>
       </div>
       <div className='chart-workflow-steps'>
         {checkpoints.map((item, index) => (
@@ -406,7 +400,6 @@ export function LiuYaoChartCalculator() {
   const [form, setForm] = useState(defaultLiuYaoInput)
   const chartInput = useMemo(() => normalizeFormForChart(form), [form])
   const chart = useMemo(() => calculateLiuYaoChart(chartInput), [chartInput])
-  const copyText = useMemo(() => buildLiuYaoCopyText(chart), [chart])
   const exportPayload = useMemo(() => buildLiuYaoExportPayload(chart), [chart])
 
   const setNumberDraft = (field, value) => {
@@ -571,7 +564,7 @@ export function LiuYaoChartCalculator() {
 
         <LiuYaoWorkflowCard chart={chart} />
 
-        <LiuYaoChartTable chart={chart} copyText={copyText} exportPayload={exportPayload} />
+        <LiuYaoChartTable chart={chart} exportPayload={exportPayload} />
 
       </section>
     </div>

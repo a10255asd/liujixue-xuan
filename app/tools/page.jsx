@@ -4,7 +4,7 @@ import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools } from '@
 
 export const metadata = {
   title: '玄学工具箱',
-  description: '鸡血玄策工具总览，包含八字、紫微、六爻、记录、AI 接力、综合合参和辅助资料工具。'
+  description: '鸡血玄策工具总览，包含八字、紫微、六爻、梅花、奇门六壬和辅助资料工具。'
 }
 
 function ToolCard({ tool, index }) {
@@ -35,7 +35,7 @@ export default function ToolsIndexPage() {
           <div>
             <span className='xuan-kicker'><Blocks size={16} /> Tools</span>
             <h1>玄学工具箱</h1>
-            <p>按用途选择入口：先完成排盘、保存、AI 接力和合参，需要时再补充日课、时辰、五行和卦象资料。</p>
+            <p>按用途选择入口：先完成排盘和图片下载，需要时再补充日课、时辰、五行和卦象资料。</p>
           </div>
           <div className='xuan-tool-index-panel'>
             <span>Tools</span>
@@ -52,7 +52,7 @@ export default function ToolsIndexPage() {
               <span className='xuan-kicker'>Workflows</span>
               <h2>按任务进入</h2>
             </div>
-            <p>如果不知道该开哪个工具，先选任务路径。每条路径都会带你完成排盘、保存和后续接力。</p>
+            <p>如果不知道该开哪个工具，先选任务路径。每条路径都会带你完成排盘、核对和导出。</p>
           </div>
           <div className='xuan-workflow-strip'>
             {xuanPrimaryWorkflows.map(workflow => (
@@ -74,7 +74,7 @@ export default function ToolsIndexPage() {
               <span className='xuan-kicker'>Main Tools</span>
               <h2>常用工具</h2>
             </div>
-            <p>常用入口覆盖出生排盘、问事排盘、合盘对照、记录中心、AI 提示词和综合合参。</p>
+            <p>常用入口覆盖出生排盘、问事排盘、奇门六壬和资料查询。</p>
           </div>
           <div className='xuan-tool-grid xuan-core-tool-grid'>
             {xuanCoreTools.map((tool, index) => <ToolCard index={index} key={tool.href} tool={tool} />)}
@@ -89,7 +89,7 @@ export default function ToolsIndexPage() {
               <span className='xuan-kicker'>References</span>
               <h2>辅助资料工具</h2>
             </div>
-            <p>这些工具用于补充日课、时辰、五行、卦象、塔罗和其他材料，可以和常用工具一起整理。</p>
+            <p>这些工具用于补充日课、时辰、五行、卦象、塔罗和其他材料，结果以图片下载为主。</p>
           </div>
           <div className='xuan-secondary-tool-list'>
             {xuanSecondaryTools.map(tool => (
@@ -109,7 +109,7 @@ export default function ToolsIndexPage() {
             <div>
               <span className='xuan-kicker'><CircleDot size={15} /> Main Site</span>
               <h2>主站负责展示，玄学站负责工具</h2>
-              <p>主站展示项目和服务，玄学站提供排盘、记录、提示词和资料整理入口。</p>
+              <p>主站展示项目和服务，玄学站提供排盘、图片下载和资料整理入口。</p>
             </div>
             <a className='button primary' href={site.mainSite}>
               返回主站

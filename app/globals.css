@@ -9397,17 +9397,18 @@ body {
 
 .xuan-tool-workspace .chart-export-action-button {
   min-height: 38px;
-  border-color: rgba(215, 192, 142, 0.24);
+  border-color: rgba(19, 116, 106, 0.28);
   border-radius: 999px;
-  background: rgba(255, 253, 246, 0.08);
-  color: #fffdf6;
+  background: linear-gradient(180deg, rgba(244, 255, 251, 0.98) 0%, rgba(228, 246, 239, 0.96) 100%);
+  color: var(--xuan-jade-deep);
   padding: 0 12px;
+  box-shadow: 0 12px 24px rgba(19, 116, 106, 0.08);
 }
 
 .xuan-tool-workspace .chart-export-action-button:hover {
-  border-color: rgba(215, 192, 142, 0.46);
-  background: rgba(215, 192, 142, 0.14);
-  color: #fffdf6;
+  border-color: rgba(19, 116, 106, 0.42);
+  background: linear-gradient(180deg, #fafffd 0%, #ddf4ec 100%);
+  color: #0b5f56;
 }
 
 .xuan-tool-workspace .bazi-fine-table-wrap,

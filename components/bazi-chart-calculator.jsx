@@ -3,7 +3,6 @@
 import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
-import { aiAndCompatibilityTargets } from '@/components/tool-handoff-actions'
 import { baZiExampleInputs, baZiGenderOptions, baZiSectOptions, baZiYunSectOptions, calculateBaZiChart, defaultBaZiInput } from '@/lib/bazi-chart'
 import {
   getAreaOptions,
@@ -15,8 +14,7 @@ import {
 import { downloadBaZiFineChartImage } from '@/lib/chart-image-export'
 import {
   buildBaZiExportPayload,
-  baziTermExplanations,
-  buildBaZiCopyText
+  baziTermExplanations
 } from '@/lib/traditional-chart-annotations'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
@@ -230,7 +228,7 @@ function FineCellList({ items }) {
   )
 }
 
-function BaZiFineTable({ copyText, exportPayload, result }) {
+function BaZiFineTable({ exportPayload, result }) {
   const rows = [
     {
       label: '日期',
@@ -294,16 +292,10 @@ function BaZiFineTable({ copyText, exportPayload, result }) {
         <div className='bazi-fine-actions'>
           <span className='chart-source'>四柱 / 神煞 / 大运 / 流年</span>
           <ChartExportActions
-            copyLabel='复制细盘文本'
-            copiedLabel='已复制细盘'
-            copyText={copyText}
-            handoffTargets={aiAndCompatibilityTargets}
             imageDownloader={downloadBaZiFineChartImage}
             imageLabel='下载专业细盘'
             location='bazi-fine-chart'
             payload={exportPayload}
-            templateTitle='八字专业细盘 AI 解析包'
-            textLabel='下载细盘文本'
           />
         </div>
       </div>
@@ -384,8 +376,8 @@ function BaZiWorkflowCard({ result }) {
       value: result.eightCharText
     },
     {
-      label: '导出交接',
-      value: '复制文本、保存记录或下载专业细盘图片'
+      label: '下载结果',
+      value: '核对无误后下载专业细盘图片'
     }
   ]
 
@@ -394,9 +386,9 @@ function BaZiWorkflowCard({ result }) {
       <div className='chart-section-head'>
         <div>
           <span className='chart-kicker'>Workflow</span>
-          <h2>排盘后下一步</h2>
+          <h2>排盘核对</h2>
         </div>
-        <span className='chart-source'>核对 / 导出 / 交接</span>
+        <span className='chart-source'>核对 / 下载</span>
       </div>
       <div className='bazi-workflow-steps'>
         {checkpoints.map((item, index) => (
@@ -448,7 +440,6 @@ export function BaZiChartCalculator() {
   const areaOptions = useMemo(() => getAreaOptions(form.birthProvinceCode, form.birthCityCode), [form.birthProvinceCode, form.birthCityCode])
   const chartInput = useMemo(() => normalizeFormForChart(form), [form])
   const result = useMemo(() => calculateBaZiChart(chartInput), [chartInput])
-  const copyText = useMemo(() => buildBaZiCopyText(result), [result])
   const exportPayload = useMemo(() => buildBaZiExportPayload(result), [result])
 
   useEffect(() => {
@@ -681,7 +672,7 @@ export function BaZiChartCalculator() {
 
         <BaZiWorkflowCard result={result} />
 
-        <BaZiFineTable copyText={copyText} exportPayload={exportPayload} result={result} />
+        <BaZiFineTable exportPayload={exportPayload} result={result} />
 
         <section className='chart-section-card'>
           <div className='chart-section-head'>

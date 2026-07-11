@@ -1,8 +1,7 @@
 'use client'
 
-import { CheckCircle2, Copy, RefreshCcw, Save } from '@/components/icons'
-import { ToolHandoffActions } from '@/components/tool-handoff-actions'
-import { getMemorySaveFeedback, saveMemoryRecord } from '@/lib/local-memory'
+import { ChartExportActions } from '@/components/chart-export-panel'
+import { RefreshCcw } from '@/components/icons'
 import { useMemo, useState } from 'react'
 
 const trigramOrder = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤']
@@ -90,17 +89,31 @@ const buildHexagram = ({ date, time, topic }) => {
   }
 }
 
-const buildCopyText = chart => [
-  '每日一卦记录',
-  `事项：${chart.topic}`,
-  `时间：${chart.date} ${chart.time}`,
-  `本卦：${chart.name}（${chart.upper.name}上${chart.lower.name}下）`,
-  `变卦：${chart.changedName}（${chart.changedUpper.name}上${chart.changedLower.name}下）`,
-  `动爻：${lineNames[chart.movingLine - 1]}`,
-  `上卦：${chart.upper.name} / ${chart.upper.image} / 五行${chart.upper.element}`,
-  `下卦：${chart.lower.name} / ${chart.lower.image} / 五行${chart.lower.element}`,
-  '说明：本工具只输出起卦记录字段，不输出吉凶、应期或人生判断。'
-].join('\n')
+const buildImagePayload = chart => ({
+  title: '每日一卦',
+  subtitle: `${chart.topic} · ${chart.date} ${chart.time}`,
+  badges: [chart.name, `变卦 ${chart.changedName}`, lineNames[chart.movingLine - 1]],
+  filename: `daily-hexagram-${chart.date}.png`,
+  sections: [
+    {
+      title: '起卦信息',
+      rows: [
+        { label: '事项', value: chart.topic },
+        { label: '时间', value: `${chart.date} ${chart.time}` }
+      ]
+    },
+    {
+      title: '卦象字段',
+      rows: [
+        { label: '本卦', value: `${chart.name}（${chart.upper.name}上${chart.lower.name}下）` },
+        { label: '变卦', value: `${chart.changedName}（${chart.changedUpper.name}上${chart.changedLower.name}下）` },
+        { label: '动爻', value: lineNames[chart.movingLine - 1] },
+        { label: '上卦', value: `${chart.upper.name} / ${chart.upper.image} / 五行${chart.upper.element}` },
+        { label: '下卦', value: `${chart.lower.name} / ${chart.lower.image} / 五行${chart.lower.element}` }
+      ]
+    }
+  ]
+})
 
 function HexagramLines({ chart }) {
   return (
@@ -123,33 +136,11 @@ export function DailyHexagramTool() {
     time: currentTime(),
     topic: '今天适合推进什么？'
   })
-  const [copied, setCopied] = useState(false)
-  const [saveFeedback, setSaveFeedback] = useState(null)
   const chart = useMemo(() => buildHexagram(form), [form])
-  const copyText = useMemo(() => buildCopyText(chart), [chart])
+  const imagePayload = useMemo(() => buildImagePayload(chart), [chart])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
-    setCopied(false)
-    setSaveFeedback(null)
-  }
-
-  const copy = async () => {
-    await navigator.clipboard.writeText(copyText)
-    setCopied(true)
-  }
-
-  const save = () => {
-    const record = saveMemoryRecord({
-      tool: '每日一卦',
-      href: '/tools/daily',
-      title: `${chart.topic} · ${chart.name}`,
-      text: copyText
-    })
-    const feedback = getMemorySaveFeedback(record)
-    setSaveFeedback(feedback)
-    if (!record) return
-    window.setTimeout(() => setSaveFeedback(null), 2200)
   }
 
   return (
@@ -165,8 +156,6 @@ export function DailyHexagramTool() {
             type='button'
             onClick={() => {
               setForm({ date: todayDate(), time: currentTime(), topic: form.topic })
-              setCopied(false)
-              setSaveFeedback(null)
             }}>
             <RefreshCcw size={18} />
           </button>
@@ -192,25 +181,7 @@ export function DailyHexagramTool() {
           </div>
         </div>
         <div className='daily-action-row'>
-          <button className='button primary' type='button' onClick={copy}>
-            {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-            {copied ? '已复制起卦记录' : '复制起卦记录'}
-          </button>
-          <button className='button' type='button' onClick={save}>
-            {saveFeedback ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveFeedback?.label || '保存记录'}
-          </button>
-          <ToolHandoffActions
-            buttonClassName='button'
-            className='direct-tool-handoff-actions'
-            location='daily-hexagram-tool'
-            record={{
-              tool: '每日一卦',
-              href: '/tools/daily',
-              title: `${chart.topic} · ${chart.name}`,
-              text: copyText
-            }}
-          />
+          <ChartExportActions imageLabel='下载排盘图片' payload={imagePayload} />
         </div>
       </section>
 
