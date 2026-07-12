@@ -4,16 +4,16 @@ import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTool
 
 const qualityRules = [
   {
-    title: '按用途进入',
-    text: '从出生排盘、问事起卦、资料查询三条路径开始，更快找到合适入口。'
+    title: '入口清晰',
+    text: '出生盘、问事盘和资料查询分层呈现，打开页面就能进入对应工具。'
   },
   {
-    title: '结果可带走',
-    text: '核心排盘支持图片下载，方便保存、分享和后续人工复核。'
+    title: '图片保存',
+    text: '核心排盘保留图片下载，减少手动截图、裁剪和信息遗漏。'
   },
   {
-    title: '只做材料',
-    text: '站内只做排盘、材料整理和口径记录，不直接输出吉凶、应期或确定性判断。'
+    title: '字段完整',
+    text: '优先打磨八字、紫微、六爻等核心盘面字段，后续工具围绕主路径补充。'
   }
 ]
 
@@ -84,10 +84,13 @@ export default function HomePage() {
         <div className='xuan-container xuan-hero-inner'>
           <div className='xuan-hero-copy'>
             <span className='xuan-kicker'><Blocks size={16} /> 鸡血玄策</span>
-            <h1>专业排盘与图片下载工具</h1>
+            <h1>
+              <span>东方术数</span>
+              <span>排盘工作台</span>
+            </h1>
             <p>
-              <span>从八字、紫微、六爻开始生成可复核的排盘字段。</span>
-              <span>核心结果直接下载成图片，便于保存和分享。</span>
+              <span>从八字、紫微、六爻到梅花、奇门、六壬，把常用排盘入口做成一个独立工具站。</span>
+              <span>结果以清晰盘面和图片下载为核心。</span>
             </p>
             <div className='xuan-hero-actions'>
               <Link className='button primary' href='/tools/bazi'>
@@ -114,8 +117,8 @@ export default function HomePage() {
               </div>
               <div className='xuan-console-copy'>
                 <span>使用路径</span>
-                <h2>先选场景，再开工具</h2>
-                <p>按出生排盘、问事起卦、资料查询进入。工具页专注排盘、核对和图片下载。</p>
+                <h2>出生盘、问事盘、资料层</h2>
+                <p>把高频入口放在前面，资料、图解和辅助查询放到第二层，避免工具越堆越乱。</p>
               </div>
               <div className='xuan-hero-focus-list'>
                 <div>
@@ -149,9 +152,9 @@ export default function HomePage() {
           <div className='xuan-section-head'>
             <div>
               <span className='xuan-kicker'>Use Cases</span>
-              <h2>三条常用路径</h2>
+              <h2>按场景进入</h2>
             </div>
-            <p>不用先理解所有术语，按当前要处理的事情进入：出生排盘、问事起卦、资料查询。</p>
+            <p>出生信息、具体事项、日期资料分别进入，页面只保留对当前场景真正有用的工具。</p>
           </div>
           <div className='xuan-primary-workflow-grid'>
             {xuanPrimaryWorkflows.map((workflow, index) => <WorkflowCard index={index} key={workflow.title} workflow={workflow} />)}
@@ -164,9 +167,9 @@ export default function HomePage() {
           <div className='xuan-section-head'>
             <div>
               <span className='xuan-kicker'>Main Tools</span>
-              <h2>常用排盘工具</h2>
+              <h2>核心排盘</h2>
             </div>
-            <p>常用入口覆盖八字、紫微、六爻、梅花、奇门和六壬，核心排盘结果支持图片下载。</p>
+            <p>先把八字、紫微、六爻、梅花、奇门和六壬作为主工具打磨，其他能力围绕它们补充。</p>
           </div>
           <div className='xuan-tool-grid xuan-core-tool-grid'>
             {xuanCoreTools.map((tool, index) => <ToolCard index={index} key={tool.href} tool={tool} />)}
@@ -193,9 +196,9 @@ export default function HomePage() {
           <div className='xuan-section-head'>
             <div>
               <span className='xuan-kicker'>References</span>
-              <h2>辅助资料工具</h2>
+              <h2>资料与日课</h2>
             </div>
-            <p>这些入口适合补充日课、时辰、五行、卦象、塔罗和其他材料，配合主路径一起使用。</p>
+            <p>黄历、择日、五行、卦象和古籍入口放在资料层，避免干扰核心排盘。</p>
           </div>
           <div className='xuan-secondary-tool-list'>
             {xuanSecondaryTools.map(tool => (

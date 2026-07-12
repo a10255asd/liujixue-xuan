@@ -10906,3 +10906,583 @@ body {
     font-size: 25px;
   }
 }
+
+/* Premium xuan product visual pass */
+:root {
+  --xuan-ink: #0f130f;
+  --xuan-ink-2: #1f261f;
+  --xuan-muted: #626a61;
+  --xuan-bg: #efeae0;
+  --xuan-soft: #f5f1e8;
+  --xuan-panel: #fffdf6;
+  --xuan-line: rgba(15, 19, 15, 0.11);
+  --xuan-jade: #0d6f61;
+  --xuan-jade-deep: #084d44;
+  --xuan-brass: #c2a06a;
+  --xuan-copper: #9d6730;
+}
+
+body {
+  background:
+    linear-gradient(90deg, rgba(15, 19, 15, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, #f7f4ed 0%, var(--xuan-bg) 100%);
+  background-size: 88px 88px, auto;
+  color: var(--xuan-ink);
+}
+
+.xuan-shell {
+  background: transparent;
+}
+
+.xuan-container {
+  width: min(1180px, calc(100% - 48px));
+}
+
+.xuan-header {
+  border-bottom: 1px solid rgba(255, 253, 246, 0.1);
+  background: rgba(11, 14, 11, 0.93);
+  color: #fffaf0;
+}
+
+.xuan-header-inner {
+  min-height: 76px;
+}
+
+.xuan-brand > span {
+  border-color: rgba(255, 253, 246, 0.14);
+  border-radius: 7px;
+  background:
+    linear-gradient(135deg, rgba(13, 111, 97, 0.32), rgba(194, 160, 106, 0.13)),
+    #141814;
+  color: #e2c98f;
+  box-shadow: none;
+}
+
+.xuan-brand strong {
+  color: #fffdf6;
+}
+
+.xuan-brand small {
+  color: rgba(255, 253, 246, 0.52);
+}
+
+.xuan-nav a {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: rgba(255, 253, 246, 0.68);
+  font-weight: 760;
+}
+
+.xuan-nav a:hover {
+  border-color: rgba(255, 253, 246, 0.12);
+  background: rgba(255, 253, 246, 0.07);
+  color: #fffdf6;
+}
+
+.xuan-nav a.xuan-nav-primary {
+  border-color: rgba(226, 201, 143, 0.32);
+  background: rgba(226, 201, 143, 0.11);
+  color: #f0d9a5;
+}
+
+.xuan-shell .button,
+.xuan-tool-workspace .tool-actions .button,
+.xuan-tool-workspace .tool-action-buttons .button,
+.xuan-tool-workspace .template-actions .button,
+.structured-action-grid .button,
+.daily-action-row .button {
+  min-height: 42px;
+  border-color: rgba(15, 19, 15, 0.13);
+  border-radius: 6px;
+  background: rgba(255, 253, 246, 0.92);
+  color: var(--xuan-ink);
+  box-shadow: none;
+  font-weight: 780;
+}
+
+.xuan-shell .button:hover,
+.xuan-tool-workspace .tool-actions .button:hover,
+.xuan-tool-workspace .tool-action-buttons .button:hover,
+.xuan-tool-workspace .template-actions .button:hover,
+.structured-action-grid .button:hover,
+.daily-action-row .button:hover {
+  border-color: rgba(13, 111, 97, 0.32);
+  background: #fffdf6;
+  color: var(--xuan-jade-deep);
+}
+
+.xuan-shell .button.primary,
+.xuan-tool-workspace .tool-actions .button.primary,
+.xuan-tool-workspace .tool-action-buttons .button.primary,
+.xuan-tool-workspace .template-actions .button.primary,
+.structured-action-grid .button.primary {
+  border-color: rgba(13, 111, 97, 0.58);
+  background: linear-gradient(180deg, #147b6f 0%, #0a574d 100%);
+  color: #fffdf6;
+}
+
+.xuan-shell .button.primary:hover,
+.xuan-tool-workspace .tool-actions .button.primary:hover,
+.xuan-tool-workspace .tool-action-buttons .button.primary:hover,
+.xuan-tool-workspace .template-actions .button.primary:hover,
+.structured-action-grid .button.primary:hover {
+  border-color: rgba(13, 111, 97, 0.72);
+  background: linear-gradient(180deg, #168474 0%, #0a574d 100%);
+  color: #fffdf6;
+}
+
+.xuan-kicker {
+  border-color: rgba(13, 111, 97, 0.16);
+  background: rgba(13, 111, 97, 0.07);
+  color: var(--xuan-jade-deep);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.xuan-hero {
+  overflow: hidden;
+  border-bottom: 1px solid rgba(15, 19, 15, 0.1);
+  background: #0d100d;
+  color: #fffaf0;
+  padding: 94px 0 0;
+}
+
+.xuan-hero::before {
+  background:
+    linear-gradient(90deg, rgba(255, 253, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 253, 246, 0.04) 1px, transparent 1px);
+  background-size: 76px 76px;
+}
+
+.xuan-hero::after {
+  display: none;
+}
+
+.xuan-hero-scene {
+  top: 112px;
+  width: min(500px, 38vw);
+  color: rgba(226, 201, 143, 0.12);
+  font-size: 82px;
+}
+
+.xuan-hero-scene span {
+  border-color: rgba(226, 201, 143, 0.07);
+  background: rgba(255, 253, 246, 0.018);
+}
+
+.xuan-hero-inner {
+  gap: 72px;
+}
+
+.xuan-hero-copy {
+  max-width: 900px;
+}
+
+.xuan-hero-copy .xuan-kicker,
+.xuan-tool-hero .xuan-kicker,
+.xuan-footer .xuan-kicker {
+  border-color: rgba(226, 201, 143, 0.18);
+  background: rgba(255, 253, 246, 0.07);
+  color: #e2c98f;
+}
+
+.xuan-hero-copy h1 {
+  max-width: 820px;
+  color: #fffdf6;
+  font-size: 88px;
+  line-height: 0.94;
+}
+
+.xuan-hero-copy h1 span {
+  display: block;
+}
+
+.xuan-hero-copy p {
+  max-width: 720px;
+  color: rgba(255, 250, 240, 0.68);
+  font-size: 18px;
+  line-height: 1.82;
+  word-break: normal;
+}
+
+.xuan-hero-actions .button {
+  border-color: rgba(255, 253, 246, 0.16);
+  background: rgba(255, 253, 246, 0.08);
+  color: #fffaf0;
+}
+
+.xuan-hero-actions .button:hover {
+  border-color: rgba(226, 201, 143, 0.36);
+  background: rgba(255, 253, 246, 0.12);
+  color: #fffdf6;
+}
+
+.xuan-hero-actions .button.primary {
+  border-color: rgba(13, 111, 97, 0.72);
+  background: linear-gradient(180deg, #147b6f 0%, #0a574d 100%);
+}
+
+.xuan-hero-console {
+  border-color: rgba(255, 253, 246, 0.12);
+  border-radius: 8px 8px 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.095), rgba(255, 253, 246, 0.03)),
+    #151a15;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.28);
+}
+
+.xuan-console-head,
+.xuan-console-strip {
+  border-color: rgba(255, 253, 246, 0.1);
+}
+
+.xuan-console-main {
+  grid-template-columns: 170px minmax(0, 1fr) 260px;
+}
+
+.xuan-console-orbit {
+  border-color: rgba(226, 201, 143, 0.22);
+  color: #e2c98f;
+}
+
+.xuan-console-orbit i {
+  border-color: rgba(226, 201, 143, 0.13);
+}
+
+.xuan-console-copy h2 {
+  color: #fffdf6;
+}
+
+.xuan-console-copy p {
+  color: rgba(255, 250, 240, 0.62);
+  word-break: normal;
+}
+
+.xuan-hero-focus-list div {
+  border-color: rgba(255, 253, 246, 0.1);
+  background: rgba(255, 253, 246, 0.045);
+}
+
+.xuan-hero-focus-list span {
+  color: rgba(255, 250, 240, 0.52);
+}
+
+.xuan-hero-focus-list strong {
+  color: #fffdf6;
+}
+
+.xuan-console-strip a {
+  border-right-color: rgba(255, 253, 246, 0.1);
+  color: rgba(255, 250, 240, 0.72);
+}
+
+.xuan-console-strip a:hover {
+  background: rgba(255, 253, 246, 0.06);
+}
+
+.xuan-section {
+  padding: 76px 0;
+}
+
+.xuan-section.compact {
+  padding-top: 0;
+}
+
+.xuan-section-head {
+  margin-bottom: 28px;
+}
+
+.xuan-section-head h2 {
+  color: var(--xuan-ink);
+  font-size: 48px;
+  line-height: 1.02;
+}
+
+.xuan-section-head p {
+  color: var(--xuan-muted);
+}
+
+.xuan-primary-workflow-grid,
+.xuan-core-tool-grid,
+.xuan-quality-grid {
+  align-items: stretch;
+}
+
+.xuan-primary-workflow-card,
+.xuan-tool-card,
+.xuan-quality-card,
+.xuan-secondary-tool-link,
+.classic-card,
+.knowledge-map-card {
+  border-color: rgba(15, 19, 15, 0.11);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(247, 244, 237, 0.92)),
+    #fffdf6;
+  box-shadow: 0 22px 66px rgba(15, 19, 15, 0.07);
+}
+
+.xuan-primary-workflow-card,
+.xuan-tool-card {
+  min-height: 330px;
+}
+
+.xuan-primary-workflow-card:hover,
+.xuan-tool-card:hover,
+.xuan-secondary-tool-link:hover {
+  border-color: rgba(13, 111, 97, 0.32);
+  box-shadow: 0 30px 82px rgba(15, 19, 15, 0.11);
+  transform: translateY(-2px);
+}
+
+.xuan-primary-workflow-head span,
+.xuan-tool-card-top em,
+.xuan-workflow-checkpoints span,
+.xuan-tool-card div.xuan-tool-tags em,
+.xuan-secondary-tool-link em {
+  border-color: rgba(13, 111, 97, 0.16);
+  background: rgba(13, 111, 97, 0.07);
+  color: var(--xuan-jade-deep);
+}
+
+.xuan-primary-workflow-head em,
+.xuan-tool-card-top span {
+  color: rgba(15, 19, 15, 0.2);
+}
+
+.xuan-primary-workflow-card h3,
+.xuan-tool-card h3 {
+  color: var(--xuan-ink);
+  font-size: 29px;
+  line-height: 1.08;
+}
+
+.xuan-primary-workflow-card p,
+.xuan-tool-card p,
+.xuan-quality-card p {
+  color: #586057;
+}
+
+.xuan-workflow-supporting a {
+  border-color: rgba(15, 19, 15, 0.09);
+  background: rgba(15, 19, 15, 0.035);
+  color: #424b43;
+}
+
+.xuan-suite-primary,
+.xuan-tool-card strong {
+  width: 100%;
+  justify-content: space-between;
+  border-top-color: rgba(15, 19, 15, 0.1);
+  color: var(--xuan-jade-deep);
+}
+
+.xuan-quality-card svg {
+  color: var(--xuan-jade-deep);
+}
+
+.xuan-secondary-tool-list {
+  gap: 10px;
+}
+
+.xuan-secondary-tool-link {
+  min-height: 64px;
+}
+
+.xuan-tool-hero {
+  background: #0d100d;
+}
+
+.xuan-tool-hero::before {
+  background:
+    linear-gradient(90deg, rgba(255, 253, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 253, 246, 0.04) 1px, transparent 1px);
+  background-size: 76px 76px;
+}
+
+.xuan-tool-hero h1 {
+  color: #fffdf6;
+  font-size: 60px;
+}
+
+.xuan-tool-hero p {
+  color: rgba(255, 250, 240, 0.64);
+  word-break: normal;
+}
+
+.xuan-tool-panel {
+  border-color: rgba(255, 253, 246, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.08), rgba(255, 253, 246, 0.035)),
+    rgba(255, 253, 246, 0.035);
+}
+
+.xuan-tool-workspace .chart-side-panel,
+.xuan-tool-workspace .chart-card,
+.xuan-tool-workspace .form-panel,
+.xuan-tool-workspace .chart-section-card,
+.xuan-tool-workspace .chart-export-card,
+.xuan-tool-workspace .bazi-fine-chart-card,
+.xuan-tool-workspace .ziwei-fine-chart-card,
+.xuan-tool-workspace .liuyao-chart-card,
+.structured-record-panel,
+.memory-guide-panel,
+.memory-record-card {
+  border-color: rgba(15, 19, 15, 0.11);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(247, 244, 237, 0.92)),
+    #fffdf6;
+  box-shadow: 0 22px 66px rgba(15, 19, 15, 0.07);
+}
+
+.xuan-tool-workspace .chart-panel-head {
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.08), rgba(255, 253, 246, 0.025)),
+    #111511;
+}
+
+.xuan-tool-workspace .chart-field label {
+  color: #5d665d;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.xuan-tool-workspace input,
+.xuan-tool-workspace select,
+.xuan-tool-workspace textarea,
+.xuan-tool-workspace .chart-number-control,
+.xuan-tool-workspace .chart-field select,
+.xuan-tool-workspace .chart-text-input {
+  border-color: rgba(15, 19, 15, 0.12);
+  background: #fffdf6;
+}
+
+.xuan-tool-workspace .chart-segment-button,
+.xuan-tool-workspace .liuyao-line-state-button,
+.xuan-tool-workspace .bazi-example-button,
+.xuan-tool-workspace .chart-example-button {
+  border-color: rgba(15, 19, 15, 0.11);
+  background: rgba(255, 253, 246, 0.8);
+}
+
+.xuan-tool-workspace .chart-segment-button:hover,
+.xuan-tool-workspace .chart-segment-button.active,
+.xuan-tool-workspace .liuyao-line-state-button.active {
+  border-color: rgba(13, 111, 97, 0.45);
+  background: rgba(223, 241, 236, 0.62);
+}
+
+.xuan-footer {
+  border-top: 1px solid rgba(255, 253, 246, 0.1);
+  background: #0d100d;
+}
+
+.xuan-footer h2 {
+  color: #fffdf6;
+}
+
+.xuan-footer p {
+  color: rgba(255, 250, 240, 0.56);
+}
+
+.xuan-footer-links a {
+  border-bottom-color: rgba(255, 253, 246, 0.1);
+  color: rgba(255, 250, 240, 0.72);
+}
+
+.xuan-footer-links a:hover {
+  color: #f0d9a5;
+}
+
+@media (max-width: 980px) {
+  .xuan-console-main,
+  .xuan-tool-hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .xuan-hero-copy h1 {
+    font-size: 64px;
+  }
+
+  .xuan-console-orbit {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .xuan-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .xuan-header-inner {
+    min-height: 66px;
+  }
+
+  .xuan-nav a:not(.xuan-nav-primary) {
+    display: none;
+  }
+
+  .xuan-nav a.xuan-nav-primary {
+    margin-left: 0;
+  }
+
+  .xuan-hero {
+    padding: 54px 0 0;
+  }
+
+  .xuan-hero-scene {
+    display: none;
+  }
+
+  .xuan-hero-copy h1 {
+    font-size: 44px;
+  }
+
+  .xuan-hero-copy p {
+    font-size: 16px;
+  }
+
+  .xuan-hero-console {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .xuan-console-main {
+    padding: 20px;
+  }
+
+  .xuan-console-copy h2 {
+    font-size: 30px;
+  }
+
+  .xuan-console-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .xuan-console-strip a {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 253, 246, 0.1);
+  }
+
+  .xuan-console-strip a:last-child {
+    border-bottom: 0;
+  }
+
+  .xuan-section {
+    padding: 48px 0;
+  }
+
+  .xuan-section.compact {
+    padding-top: 0;
+  }
+
+  .xuan-section-head h2,
+  .xuan-tool-hero h1 {
+    font-size: 34px;
+  }
+
+  .xuan-primary-workflow-card,
+  .xuan-tool-card {
+    min-height: 0;
+  }
+}
