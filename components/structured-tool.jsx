@@ -130,6 +130,7 @@ export function StructuredTool({ slug }) {
   const [form, setForm] = useState(() => hydrateDefaults(defaultInput))
   const output = useMemo(() => tool.calculate(form), [form, tool])
   const imagePayload = useMemo(() => ({
+    toolCode: tool.href.split('/').filter(Boolean).pop() || 'structured',
     title: output.title,
     subtitle: output.subtitle,
     badges: output.badges,

@@ -14,8 +14,9 @@ CNAME xuan d9b8b7be22d9773b.vercel-dns-017.com.
 
 - 首页展示东方命理工具矩阵。
 - 复用已验证的八字、紫微斗数、六爻排盘逻辑。
-- 支持排盘文本复制、文本下载和图片导出。
+- 支持排盘图片导出。
 - 只输出排盘字段和机械规则标记，不输出吉凶断语、建议或人生判断。
+- 工具下载事件可通过统一后端记录，但页面不增加额外分析或发送动作。
 
 ## Scripts
 
@@ -24,6 +25,14 @@ npm run dev
 npm run lint
 npm run test:unit
 npm run build
+```
+
+## API 对接
+
+配置后会在成功下载排盘图片后写入工具事件：
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://api.liujixue.cn
 ```
 
 ## Routes

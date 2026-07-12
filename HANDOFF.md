@@ -49,6 +49,10 @@
 - Removed visible cross-tool action buttons from chart export panels, daily tools, calendar tools, and structured tools.
 - Changed BaZi, ZiWei, LiuYao, daily, calendar, and structured tool action areas to image-download only.
 - Upgraded LiuYao image export from the generic text card to a dedicated professional chart image with meta rows, hexagram summary, six lines, six gods, na-jia, moving/change marks, world/response, hidden/flying spirits, and relation tags.
+- Added `lib/liujixue-api.js` for the shared backend at `NEXT_PUBLIC_API_BASE_URL`.
+- Connected the single visible chart-image download action to `POST /api/tool-events` after a successful local image download.
+- Kept the visible product surface unchanged: chart tools still only show image download, with no send-to-analysis, record center, or extra share button.
+- Added `toolCode` to BaZi, ZiWei, LiuYao, and structured-tool image payloads so backend events can distinguish tools.
 - Upgraded Next.js and `eslint-config-next` from 14.2.35 to 15.5.20 and added a PostCSS override to 8.5.17; official npm audit currently reports 0 vulnerabilities.
 - Updated homepage, tool index, site catalogue, sitemap source, and smoke routes to match the chart/download direction.
 - Simplified `StructuredTool` so it no longer consumes pending cross-page payloads or copy/save actions.
@@ -83,3 +87,9 @@ vercel --prod --token "$VERCEL_TOKEN"
 ```
 
 Never paste or commit secret tokens. Keep environment-specific values in the shell or Vercel project settings.
+
+Frontend API env:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://api.liujixue.cn
+```
