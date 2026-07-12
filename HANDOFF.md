@@ -43,6 +43,7 @@
 
 ## Recent Change
 
+- Refined homepage visual system on 2026-07-12: tightened hero typography, removed awkward desktop heading wrap, unified primary buttons as smoke-graphite with restrained champagne edges, and fixed mobile horizontal overflow in the hero/console area.
 - Removed public routes for the old analysis-oriented workspaces.
 - Removed the old local records route, dashboard, copy helpers, and local-record storage utilities from the product surface.
 - Removed visible cross-tool action buttons from chart export panels, daily tools, calendar tools, and structured tools.

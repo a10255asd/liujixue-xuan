@@ -11596,3 +11596,139 @@ body {
   border-color: rgba(184, 139, 82, 0.42);
   background: rgba(212, 189, 134, 0.16);
 }
+
+/* Premium layout pass: tighten hero typography and remove accidental display awkwardness. */
+.xuan-hero {
+  padding-top: 78px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.026), transparent 44%),
+    #0a0f0c;
+}
+
+.xuan-hero::before {
+  background:
+    linear-gradient(90deg, rgba(255, 253, 246, 0.038) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 253, 246, 0.03) 1px, transparent 1px);
+  background-size: 96px 96px;
+}
+
+.xuan-hero-scene {
+  top: 104px;
+  color: rgba(226, 201, 143, 0.08);
+}
+
+.xuan-hero-inner {
+  gap: 56px;
+}
+
+.xuan-hero-copy {
+  max-width: 780px;
+}
+
+.xuan-hero-copy h1 {
+  max-width: 760px;
+  font-size: 78px;
+  line-height: 0.96;
+}
+
+.xuan-hero-copy h1 span {
+  display: block;
+}
+
+.xuan-hero-copy p {
+  max-width: 660px;
+  color: rgba(255, 250, 240, 0.7);
+}
+
+.xuan-hero-actions {
+  margin-top: 34px;
+}
+
+.xuan-hero-actions .button,
+.xuan-shell .button {
+  border-radius: 7px;
+}
+
+.xuan-hero-console {
+  border-color: rgba(255, 253, 246, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.075), rgba(255, 253, 246, 0.024)),
+    rgba(22, 27, 22, 0.88);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.3);
+}
+
+.xuan-console-main {
+  grid-template-columns: 150px minmax(0, 1fr) 238px;
+}
+
+.xuan-primary-workflow-card,
+.xuan-tool-card,
+.xuan-quality-card,
+.xuan-secondary-tool-link,
+.classic-card,
+.knowledge-map-card {
+  border-radius: 8px;
+  box-shadow: 0 20px 64px rgba(15, 19, 15, 0.06);
+}
+
+.xuan-primary-workflow-card:hover,
+.xuan-tool-card:hover,
+.xuan-secondary-tool-link:hover {
+  border-color: rgba(184, 139, 82, 0.3);
+  box-shadow: 0 26px 76px rgba(68, 45, 21, 0.1);
+}
+
+@media (max-width: 980px) {
+  .xuan-hero-copy h1 {
+    font-size: 62px;
+  }
+}
+
+@media (max-width: 760px) {
+  .xuan-hero {
+    padding-top: 46px;
+  }
+
+  .xuan-hero-inner,
+  .xuan-console-main {
+    grid-template-columns: 1fr;
+  }
+
+  .xuan-hero-copy,
+  .xuan-hero-copy h1,
+  .xuan-hero-copy p,
+  .xuan-hero-actions,
+  .xuan-hero-actions .button,
+  .xuan-hero-console {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .xuan-hero-copy h1 {
+    font-size: 40px;
+    line-height: 1.02;
+  }
+
+  .xuan-hero-copy p,
+  .xuan-hero-copy p span {
+    overflow-wrap: anywhere;
+  }
+
+  .xuan-hero-actions {
+    grid-template-columns: 1fr;
+    margin-top: 28px;
+  }
+
+  .xuan-console-main {
+    padding: 18px;
+  }
+
+  .xuan-hero-focus-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .xuan-console-strip {
+    grid-template-columns: 1fr;
+  }
+}
