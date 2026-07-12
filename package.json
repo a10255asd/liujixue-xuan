@@ -21,13 +21,16 @@
     "daliuren-lib": "^0.2.1",
     "iztro": "^2.5.8",
     "lunar-javascript": "^1.7.7",
-    "next": "^14.2.35",
+    "next": "^15.5.20",
     "qimen-dunjia": "^2.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.35"
+    "eslint-config-next": "^15.5.20"
+  },
+  "overrides": {
+    "postcss": "8.5.17"
   }
 }

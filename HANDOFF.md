@@ -48,6 +48,7 @@
 - Removed visible cross-tool action buttons from chart export panels, daily tools, calendar tools, and structured tools.
 - Changed BaZi, ZiWei, LiuYao, daily, calendar, and structured tool action areas to image-download only.
 - Upgraded LiuYao image export from the generic text card to a dedicated professional chart image with meta rows, hexagram summary, six lines, six gods, na-jia, moving/change marks, world/response, hidden/flying spirits, and relation tags.
+- Upgraded Next.js and `eslint-config-next` from 14.2.35 to 15.5.20 and added a PostCSS override to 8.5.17; official npm audit currently reports 0 vulnerabilities.
 - Updated homepage, tool index, site catalogue, sitemap source, and smoke routes to match the chart/download direction.
 - Simplified `StructuredTool` so it no longer consumes pending cross-page payloads or copy/save actions.
 
@@ -58,9 +59,10 @@ Run from `/Users/LIU/Documents/workTable/liujixue-xuan`:
 ```bash
 npm run test:unit
 npm run build
+npm run audit:official -- --json
 ```
 
-Expected result: unit tests and production build pass.
+Expected result: unit tests, production build, and official npm audit pass.
 
 After deployment:
 
