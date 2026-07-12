@@ -10907,7 +10907,7 @@ body {
   }
 }
 
-/* Premium xuan product visual pass */
+/* Premium xuan product visual pass *
 :root {
   --xuan-ink: #0f130f;
   --xuan-ink-2: #1f261f;
@@ -11485,4 +11485,114 @@ body {
   .xuan-tool-card {
     min-height: 0;
   }
+}
+
+/* Final button tone override: graphite core, champagne edge. */
+.xuan-shell .button.primary,
+.xuan-shell .xuan-hero-actions .button.primary,
+.xuan-hero-actions .button.primary,
+.xuan-shell .xuan-tool-workspace .tool-actions .button.primary,
+.xuan-tool-workspace .tool-actions .button.primary,
+.xuan-shell .xuan-tool-workspace .tool-action-buttons .button.primary,
+.xuan-tool-workspace .tool-action-buttons .button.primary,
+.xuan-shell .xuan-tool-workspace .template-actions .button.primary,
+.xuan-tool-workspace .template-actions .button.primary,
+.xuan-shell .structured-action-grid .button.primary,
+.structured-action-grid .button.primary {
+  border-color: rgba(220, 192, 139, 0.42);
+  background:
+    linear-gradient(180deg, #2e281f 0%, #17140f 100%);
+  color: #f5e6c4;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 238, 198, 0.16),
+    0 14px 34px rgba(20, 14, 8, 0.22);
+}
+
+.xuan-shell .button.primary:hover,
+.xuan-shell .xuan-hero-actions .button.primary:hover,
+.xuan-hero-actions .button.primary:hover,
+.xuan-shell .xuan-tool-workspace .tool-actions .button.primary:hover,
+.xuan-tool-workspace .tool-actions .button.primary:hover,
+.xuan-shell .xuan-tool-workspace .tool-action-buttons .button.primary:hover,
+.xuan-tool-workspace .tool-action-buttons .button.primary:hover,
+.xuan-shell .xuan-tool-workspace .template-actions .button.primary:hover,
+.xuan-tool-workspace .template-actions .button.primary:hover,
+.xuan-shell .structured-action-grid .button.primary:hover,
+.structured-action-grid .button.primary:hover {
+  border-color: rgba(235, 207, 154, 0.58);
+  background:
+    linear-gradient(180deg, #393126 0%, #1d1812 100%);
+  color: #fff0cf;
+}
+
+.xuan-nav a.xuan-nav-primary {
+  border-color: rgba(241, 220, 174, 0.36);
+  background: rgba(212, 189, 134, 0.13);
+  color: #f1dcae;
+}
+
+.xuan-nav a.xuan-nav-primary:hover {
+  border-color: rgba(241, 220, 174, 0.52);
+  background: rgba(212, 189, 134, 0.2);
+  color: #fff3cf;
+}
+
+.xuan-brand > span,
+.xuan-console-orbit,
+.xuan-primary-workflow-head span,
+.xuan-tool-card-top em,
+.xuan-workflow-checkpoints span,
+.xuan-tool-card div.xuan-tool-tags em,
+.xuan-secondary-tool-link em,
+.classic-card span,
+.memory-tool-card span {
+  border-color: rgba(212, 189, 134, 0.24);
+  background: rgba(212, 189, 134, 0.1);
+  color: #76532c;
+}
+
+.xuan-brand > span,
+.xuan-console-orbit,
+.xuan-hero-copy .xuan-kicker,
+.xuan-tool-hero .xuan-kicker,
+.xuan-footer .xuan-kicker,
+.xuan-console-head strong,
+.xuan-footer-links a:hover {
+  color: #e6cf9f;
+}
+
+.xuan-hero-copy .xuan-kicker,
+.xuan-tool-hero .xuan-kicker,
+.xuan-footer .xuan-kicker {
+  border-color: rgba(241, 220, 174, 0.2);
+  background: rgba(212, 189, 134, 0.09);
+}
+
+.xuan-primary-workflow-card:hover,
+.xuan-tool-card:hover,
+.xuan-secondary-tool-link:hover {
+  border-color: rgba(184, 139, 82, 0.36);
+  box-shadow: 0 30px 82px rgba(68, 45, 21, 0.11);
+}
+
+.xuan-suite-primary,
+.xuan-tool-card strong,
+.xuan-workflow-supporting a:hover,
+.xuan-tool-related a:hover,
+.xuan-tool-related a[aria-current='page'] {
+  color: #5a3e21;
+}
+
+.xuan-tool-workspace .chart-number-control:focus-within,
+.xuan-tool-workspace .chart-field select:focus,
+.xuan-tool-workspace .chart-text-input:focus {
+  border-color: rgba(184, 139, 82, 0.48);
+  box-shadow: 0 0 0 3px rgba(212, 189, 134, 0.14);
+}
+
+.xuan-tool-workspace .chart-segment-button:hover,
+.xuan-tool-workspace .chart-segment-button.active,
+.xuan-tool-workspace .liuyao-line-state-button.active {
+  border-color: rgba(184, 139, 82, 0.42);
+  background: rgba(212, 189, 134, 0.16);
 }
