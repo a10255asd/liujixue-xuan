@@ -90,6 +90,7 @@ const buildHexagram = ({ date, time, topic }) => {
 }
 
 const buildImagePayload = chart => ({
+  toolCode: 'daily-hexagram',
   title: '每日一卦',
   subtitle: `${chart.topic} · ${chart.date} ${chart.time}`,
   badges: [chart.name, `变卦 ${chart.changedName}`, lineNames[chart.movingLine - 1]],

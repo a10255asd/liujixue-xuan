@@ -2,25 +2,9 @@
 
 import { Download } from '@/components/icons'
 import { downloadChartImage } from '@/lib/chart-image-export'
-import { recordToolEvent } from '@/lib/liujixue-api'
+import { recordChartDownloadEvent } from '@/lib/tool-event-tracking'
 import { track } from '@vercel/analytics'
 import { useState } from 'react'
-
-function getVisitorId() {
-  if (typeof window === 'undefined') return ''
-  const storageKey = 'liujixue_xuan_visitor_id'
-  const nextId = `visitor-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
-
-  try {
-    const existing = window.localStorage.getItem(storageKey)
-    if (existing) return existing
-    window.localStorage.setItem(storageKey, nextId)
-  } catch (error) {
-    return nextId
-  }
-
-  return nextId
-}
 
 function ChartImageButton({ imageDownloader = downloadChartImage, imageLabel = '下载排盘图片', location, payload }) {
   const [downloaded, setDownloaded] = useState(false)
@@ -39,19 +23,7 @@ function ChartImageButton({ imageDownloader = downloadChartImage, imageLabel = '
       chart: payload.title,
       location
     })
-    recordToolEvent({
-      eventType: 'chart_image_download',
-      toolCode: payload.toolCode || location || 'chart',
-      sourceSite: 'xuan',
-      sourcePath: typeof window === 'undefined' ? '' : window.location.pathname,
-      visitorId: getVisitorId(),
-      metadata: {
-        title: payload.title,
-        subtitle: payload.subtitle,
-        location,
-        filename: payload.filename || ''
-      }
-    }).catch(() => {})
+    recordChartDownloadEvent({ payload, location }).catch(() => {})
     setDownloaded(true)
     window.setTimeout(() => setDownloaded(false), 1800)
   }

@@ -51,8 +51,10 @@
 - Upgraded LiuYao image export from the generic text card to a dedicated professional chart image with meta rows, hexagram summary, six lines, six gods, na-jia, moving/change marks, world/response, hidden/flying spirits, and relation tags.
 - Added `lib/liujixue-api.js` for the shared backend at `NEXT_PUBLIC_API_BASE_URL`.
 - Connected the single visible chart-image download action to `POST /api/tool-events` after a successful local image download.
+- Added `lib/tool-event-tracking.js` so chart download analytics are built in one place with visitor/session IDs, source path, tool code, image kind, and structural counts.
+- Chart download event metadata must not include birth-date subtitles, birthplace strings, generated filenames, or other unnecessary personal chart details.
 - Kept the visible product surface unchanged: chart tools still only show image download, with no send-to-analysis, record center, or extra share button.
-- Added `toolCode` to BaZi, ZiWei, LiuYao, and structured-tool image payloads so backend events can distinguish tools.
+- Added `toolCode` to BaZi, ZiWei, LiuYao, daily, calendar, and structured-tool image payloads so backend events can distinguish tools.
 - Upgraded Next.js and `eslint-config-next` from 14.2.35 to 15.5.20 and added a PostCSS override to 8.5.17; official npm audit currently reports 0 vulnerabilities.
 - Updated homepage, tool index, site catalogue, sitemap source, and smoke routes to match the chart/download direction.
 - Simplified `StructuredTool` so it no longer consumes pending cross-page payloads or copy/save actions.
@@ -88,8 +90,8 @@ vercel --prod --token "$VERCEL_TOKEN"
 
 Never paste or commit secret tokens. Keep environment-specific values in the shell or Vercel project settings.
 
-Frontend API env:
+Frontend API env. Use the official API domain after it is ready; until then the mall-domain prefix is the verified production backend path:
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=https://api.liujixue.cn
+NEXT_PUBLIC_API_BASE_URL=https://mall.liujixue.cn/_liujixue-api
 ```

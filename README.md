@@ -29,11 +29,13 @@ npm run build
 
 ## API 对接
 
-配置后会在成功下载排盘图片后写入工具事件：
+配置后会在成功下载排盘图片后写入工具事件。正式 API 域名就绪后可使用 `https://api.liujixue.cn`，当前也可以使用主站后端临时前缀：
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=https://api.liujixue.cn
+NEXT_PUBLIC_API_BASE_URL=https://mall.liujixue.cn/_liujixue-api
 ```
+
+事件 metadata 只记录工具、页面、图片类型和结构计数，不记录排盘字幕、出生信息或文件名。
 
 ## Routes
 

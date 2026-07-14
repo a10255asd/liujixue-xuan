@@ -77,6 +77,7 @@ const buildCalendar = ({ date, time }) => {
 }
 
 const buildImagePayload = calendar => ({
+  toolCode: 'calendar',
   title: '黄历节气',
   subtitle: `${calendar.solar} · ${calendar.lunar}`,
   badges: [
