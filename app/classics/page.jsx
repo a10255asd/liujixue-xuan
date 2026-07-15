@@ -1,10 +1,18 @@
 import Link from 'next/link'
+import { JsonLd } from '@/components/json-ld'
 import { ArrowRight, BookOpenText } from '@/components/icons'
+import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo'
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: '古籍书楼',
-  description: '整理八字、紫微、六爻、易经、奇门和择日相关古籍索引，作为工具口径的资料入口。'
-}
+  description: '整理八字、紫微、六爻、易经、奇门和择日相关古籍索引，作为工具口径的资料入口。',
+  path: '/classics'
+})
+
+const breadcrumbItems = [
+  { name: '鸡血玄策', path: '/' },
+  { name: '古籍书楼', path: '/classics' }
+]
 
 const classicGroups = [
   {
@@ -32,6 +40,7 @@ const classicGroups = [
 export default function ClassicsPage() {
   return (
     <>
+      <JsonLd data={buildBreadcrumbJsonLd(breadcrumbItems)} />
       <section className='xuan-tool-hero'>
         <div className='xuan-container xuan-tool-hero-inner'>
           <div>

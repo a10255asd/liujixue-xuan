@@ -1,11 +1,19 @@
 import Link from 'next/link'
+import { JsonLd } from '@/components/json-ld'
 import { ArrowRight, ArrowUpRight, Blocks, CircleDot } from '@/components/icons'
 import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools } from '@/lib/site'
+import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo'
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: '玄学工具箱',
-  description: '鸡血玄策工具总览，包含八字、紫微、六爻、梅花、奇门六壬和辅助资料工具。'
-}
+  description: '鸡血玄策工具总览，包含八字、紫微、六爻、梅花、奇门六壬和辅助资料工具。',
+  path: '/tools'
+})
+
+const breadcrumbItems = [
+  { name: '鸡血玄策', path: '/' },
+  { name: '工具', path: '/tools' }
+]
 
 function ToolCard({ tool, index }) {
   return (
@@ -30,6 +38,7 @@ function ToolCard({ tool, index }) {
 export default function ToolsIndexPage() {
   return (
     <>
+      <JsonLd data={buildBreadcrumbJsonLd(breadcrumbItems)} />
       <section className='xuan-tool-index-hero'>
         <div className='xuan-container xuan-tool-index-inner'>
           <div>

@@ -1,10 +1,18 @@
 import Link from 'next/link'
+import { JsonLd } from '@/components/json-ld'
 import { ArrowRight, CircleDot } from '@/components/icons'
+import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo'
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: '知识图解',
-  description: '用图解结构整理八字、紫微、六爻、梅花、奇门、六壬和择日工具的字段关系。'
-}
+  description: '用图解结构整理八字、紫微、六爻、梅花、奇门、六壬和择日工具的字段关系。',
+  path: '/knowledge'
+})
+
+const breadcrumbItems = [
+  { name: '鸡血玄策', path: '/' },
+  { name: '知识图解', path: '/knowledge' }
+]
 
 const knowledgeMaps = [
   {
@@ -32,6 +40,7 @@ const knowledgeMaps = [
 export default function KnowledgePage() {
   return (
     <>
+      <JsonLd data={buildBreadcrumbJsonLd(breadcrumbItems)} />
       <section className='xuan-tool-hero'>
         <div className='xuan-container xuan-tool-hero-inner'>
           <div>

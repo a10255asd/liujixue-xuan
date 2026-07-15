@@ -2,6 +2,12 @@ import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2 } from '@/components/icons'
 import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools } from '@/lib/site'
 
+export const metadata = {
+  alternates: {
+    canonical: site.domain
+  }
+}
+
 const qualityRules = [
   {
     title: '入口清晰',

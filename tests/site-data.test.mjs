@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
 import test from 'node:test'
 import { xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools, xuanToolSuites } from '../lib/site.js'
 
@@ -20,6 +22,20 @@ test('xuan tools expose unique page titles for tool shell lookup', () => {
   const titles = xuanTools.map(tool => tool.title)
 
   assert.equal(new Set(titles).size, titles.length)
+})
+
+test('tool page shell titles match site catalogue titles', () => {
+  for (const tool of xuanTools) {
+    const pagePath = path.join(process.cwd(), 'app', tool.href.replace(/^\//, ''), 'page.jsx')
+    if (!fs.existsSync(pagePath)) continue
+
+    const source = fs.readFileSync(pagePath, 'utf8')
+    const frameTitle = source.match(/<ToolPageFrame\s+title='([^']+)'/)?.[1]
+
+    if (frameTitle) {
+      assert.equal(frameTitle, tool.title, `${tool.href} should match xuanTools title`)
+    }
+  }
 })
 
 test('xuan tool suites cover every online tool once', () => {

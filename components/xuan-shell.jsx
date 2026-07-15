@@ -1,28 +1,36 @@
-import Link from 'next/link'
 import { ArrowUpRight, Blocks } from '@/components/icons'
+import { JsonLd } from '@/components/json-ld'
+import { TrackedLink } from '@/components/tracked-link'
+import { XuanMobileNav } from '@/components/xuan-mobile-nav'
+import { buildBreadcrumbJsonLd, buildToolJsonLd } from '@/lib/seo'
 import { site, xuanCoreTools, xuanTools, xuanToolSuites } from '@/lib/site'
 
 export function XuanHeader() {
   return (
     <header className='xuan-header'>
       <div className='xuan-container xuan-header-inner'>
-        <Link className='xuan-brand' href='/'>
+        <TrackedLink
+          className='xuan-brand'
+          href='/'
+          eventName='xuan_nav_click'
+          eventProps={{ label: site.name, location: 'brand' }}>
           <span>玄</span>
           <div>
             <strong>{site.name}</strong>
             <small>{site.cnName}</small>
           </div>
-        </Link>
+        </TrackedLink>
         <nav className='xuan-nav' aria-label='主导航'>
-          <Link href='/tools'>工具</Link>
-          <Link href='/classics'>古籍</Link>
-          <Link href='/knowledge'>图解</Link>
-          <a href={site.mainSite}>主站</a>
-          <Link className='xuan-nav-primary' href='/tools/bazi'>
+          <TrackedLink href='/tools' eventName='xuan_nav_click' eventProps={{ label: '工具', location: 'desktop_nav' }}>工具</TrackedLink>
+          <TrackedLink href='/classics' eventName='xuan_nav_click' eventProps={{ label: '古籍', location: 'desktop_nav' }}>古籍</TrackedLink>
+          <TrackedLink href='/knowledge' eventName='xuan_nav_click' eventProps={{ label: '图解', location: 'desktop_nav' }}>图解</TrackedLink>
+          <TrackedLink href={site.mainSite} eventName='xuan_nav_click' eventProps={{ label: '主站', location: 'desktop_nav' }}>主站</TrackedLink>
+          <TrackedLink className='xuan-nav-primary' href='/tools/bazi' eventName='xuan_nav_click' eventProps={{ label: '开始排盘', location: 'desktop_nav' }}>
             开始排盘
             <ArrowUpRight size={14} />
-          </Link>
+          </TrackedLink>
         </nav>
+        <XuanMobileNav />
       </div>
     </header>
   )
@@ -39,13 +47,19 @@ export function XuanFooter() {
         </div>
         <div className='xuan-footer-links'>
           {xuanCoreTools.map(tool => (
-            <Link href={tool.href} key={tool.href}>{tool.title}</Link>
+            <TrackedLink
+              href={tool.href}
+              eventName='xuan_footer_click'
+              eventProps={{ label: tool.title }}
+              key={tool.href}>
+              {tool.title}
+            </TrackedLink>
           ))}
-          <Link href='/tools'>全部工具</Link>
-          <a href={site.mainSite}>
+          <TrackedLink href='/tools' eventName='xuan_footer_click' eventProps={{ label: '全部工具' }}>全部工具</TrackedLink>
+          <TrackedLink href={site.mainSite} eventName='xuan_footer_click' eventProps={{ label: '返回主站' }}>
             返回 Jixue Lab
             <ArrowUpRight size={14} />
-          </a>
+          </TrackedLink>
         </div>
       </div>
     </footer>
@@ -61,9 +75,26 @@ export function ToolPageFrame({ children, description, title }) {
   const relatedTools = currentSuite
     ? currentSuite.toolHrefs.map(href => xuanTools.find(tool => tool.href === href)).filter(Boolean)
     : xuanTools.slice(0, 3)
+  const currentDescription = currentTool?.summary ?? descriptionLines.join(' ')
+  const breadcrumbItems = [
+    { name: site.cnName, path: '/' },
+    { name: '工具', path: '/tools' },
+    { name: currentTool?.title ?? title, path: currentTool?.href ?? '/tools' }
+  ]
+  const jsonLd = currentTool
+    ? [
+        buildToolJsonLd({
+          title: currentTool.title,
+          description: currentDescription,
+          path: currentTool.href
+        }),
+        buildBreadcrumbJsonLd(breadcrumbItems)
+      ]
+    : buildBreadcrumbJsonLd(breadcrumbItems)
 
   return (
     <>
+      <JsonLd data={jsonLd} />
       <section className='xuan-tool-hero'>
         <div className='xuan-container xuan-tool-hero-inner'>
           <div>
@@ -81,7 +112,7 @@ export function ToolPageFrame({ children, description, title }) {
               <em>{currentTool?.status ?? '已上线'}</em>
             </div>
             <strong>{currentSuite?.title ?? '工具工作台'}</strong>
-            <p>{currentTool?.summary ?? descriptionLines.join(' ')}</p>
+            <p>{currentDescription}</p>
             {currentTool?.tags?.length ? (
               <div className='xuan-tool-panel-tags'>
                 {currentTool.tags.map(tag => <span key={tag}>{tag}</span>)}
@@ -90,18 +121,20 @@ export function ToolPageFrame({ children, description, title }) {
             <div className='xuan-tool-related'>
               <span>同组工具</span>
               {relatedTools.map(tool => (
-                <Link
+                <TrackedLink
                   aria-current={tool.href === currentTool?.href ? 'page' : undefined}
                   href={tool.href}
+                  eventName='xuan_related_tool_click'
+                  eventProps={{ label: tool.title, location: currentTool?.href ?? title }}
                   key={tool.href}>
                   {tool.title}
                   <ArrowUpRight size={13} />
-                </Link>
+                </TrackedLink>
               ))}
-              <Link href='/tools'>
+              <TrackedLink href='/tools' eventName='xuan_related_tool_click' eventProps={{ label: '全部工具', location: currentTool?.href ?? title }}>
                 全部工具
                 <ArrowUpRight size={13} />
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>

@@ -1,5 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
+import { JsonLd } from '@/components/json-ld'
 import { XuanFooter, XuanHeader } from '@/components/xuan-shell'
+import { buildSiteJsonLd, ogImagePath } from '@/lib/seo'
 import { site } from '@/lib/site'
 import './globals.css'
 
@@ -15,7 +17,22 @@ export const metadata = {
     description: site.description,
     url: site.domain,
     siteName: site.cnName,
-    type: 'website'
+    type: 'website',
+    locale: 'zh_CN',
+    images: [
+      {
+        url: ogImagePath,
+        width: 1200,
+        height: 630,
+        alt: `${site.cnName} ${site.name}`
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${site.cnName} | ${site.name}`,
+    description: site.description,
+    images: [ogImagePath]
   }
 }
 
@@ -28,6 +45,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang='zh-CN'>
       <body>
+        <JsonLd data={buildSiteJsonLd()} />
         <div className='xuan-shell'>
           <XuanHeader />
           <main>{children}</main>
