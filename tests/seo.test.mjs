@@ -81,6 +81,7 @@ test('xuan sitemap exposes unique routes with priority hints', () => {
   const tools = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/tools')
   const bazi = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/tools/bazi')
   const classics = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/classics')
+  const llms = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/llms.txt')
 
   assert.equal(new Set(urls).size, urls.length)
   assert.ok(entries.every(entry => entry.lastModified.toISOString() === new Date('2026-07-16T00:00:00+08:00').toISOString()))
@@ -88,5 +89,6 @@ test('xuan sitemap exposes unique routes with priority hints', () => {
   assert.equal(tools?.priority, 0.9)
   assert.equal(bazi?.priority, 0.85)
   assert.equal(classics?.priority, 0.75)
+  assert.equal(llms?.priority, 0.4)
   assert.equal(home?.changeFrequency, 'weekly')
 })

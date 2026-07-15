@@ -13,6 +13,7 @@
     "lint": "eslint . --ext .js,.jsx,.mjs",
     "test:unit": "node --test tests/*.test.mjs",
     "smoke:live": "node scripts/smoke-live-routes.mjs",
+    "smoke:seo": "node scripts/smoke-live-seo.mjs",
     "audit:official": "npm_config_registry=https://registry.npmjs.org npm audit"
   },
   "dependencies": {

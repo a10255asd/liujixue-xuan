@@ -1,0 +1,28 @@
+# Jixue Xuan
+
+> Jixue Xuan is an independent Chinese metaphysics utility site for structured charting, reference lookup, and image export. It does not publish fortune-telling conclusions or omen judgement copy.
+
+## Core URLs
+
+- https://xuan.liujixue.cn/ - Xuan tools homepage.
+- https://xuan.liujixue.cn/tools - Complete tool catalogue.
+- https://xuan.liujixue.cn/tools/bazi - Bazi professional chart.
+- https://xuan.liujixue.cn/tools/ziwei - Zi Wei Dou Shu chart.
+- https://xuan.liujixue.cn/tools/liuyao - Liu Yao Na Jia chart.
+- https://xuan.liujixue.cn/tools/meihua - Mei Hua Yi Shu chart.
+- https://xuan.liujixue.cn/tools/qimen - Qi Men Dun Jia quick chart.
+- https://xuan.liujixue.cn/tools/daliuren - Da Liu Ren four lessons and three transmissions.
+- https://xuan.liujixue.cn/classics - Classics and reference entry.
+- https://xuan.liujixue.cn/knowledge - Workflow diagrams and knowledge entry.
+
+## Site Signals
+
+- https://xuan.liujixue.cn/sitemap.xml - Public sitemap.
+- https://xuan.liujixue.cn/robots.txt - Crawling policy.
+- https://liujixue.cn/ - Main personal studio site.
+
+## Content Boundaries
+
+- Outputs are structured charting and reference utilities.
+- The site avoids deterministic good-or-bad judgement text.
+- API routes are private operational surfaces.
