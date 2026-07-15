@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import robots from '../app/robots.js'
 import {
   absoluteUrl,
   buildBreadcrumbJsonLd,
@@ -40,4 +41,12 @@ test('xuan json ld helpers expose site tool and breadcrumb data', () => {
   assert.equal(toolJsonLd['@type'], 'WebApplication')
   assert.equal(toolJsonLd.url, 'https://xuan.liujixue.cn/tools/liuyao')
   assert.equal(breadcrumbs.itemListElement.at(-1).item, 'https://xuan.liujixue.cn/tools/liuyao')
+})
+
+test('xuan robots keeps public pages open and hides API endpoints', () => {
+  const config = robots()
+
+  assert.equal(config.sitemap, 'https://xuan.liujixue.cn/sitemap.xml')
+  assert.equal(config.rules.allow, '/')
+  assert.deepEqual(config.rules.disallow, ['/api/'])
 })
