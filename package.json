@@ -10,7 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.jsx,.mjs",
     "test:unit": "node --test tests/*.test.mjs",
     "smoke:live": "node scripts/smoke-live-routes.mjs",
     "audit:official": "npm_config_registry=https://registry.npmjs.org npm audit"
