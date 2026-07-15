@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import robots from '../app/robots.js'
+import sitemap from '../app/sitemap.js'
 import {
   absoluteUrl,
   buildBreadcrumbJsonLd,
@@ -71,4 +72,21 @@ test('xuan item list json ld exposes ordered tool catalogue entries', () => {
   assert.equal(jsonLd.numberOfItems, 1)
   assert.equal(jsonLd.itemListElement[0].position, 1)
   assert.equal(jsonLd.itemListElement[0].url, 'https://xuan.liujixue.cn/tools/bazi')
+})
+
+test('xuan sitemap exposes unique routes with priority hints', () => {
+  const entries = sitemap()
+  const urls = entries.map(entry => entry.url)
+  const home = entries.find(entry => entry.url === 'https://xuan.liujixue.cn')
+  const tools = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/tools')
+  const bazi = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/tools/bazi')
+  const classics = entries.find(entry => entry.url === 'https://xuan.liujixue.cn/classics')
+
+  assert.equal(new Set(urls).size, urls.length)
+  assert.ok(entries.every(entry => entry.lastModified.toISOString() === new Date('2026-07-16T00:00:00+08:00').toISOString()))
+  assert.equal(home?.priority, 1)
+  assert.equal(tools?.priority, 0.9)
+  assert.equal(bazi?.priority, 0.85)
+  assert.equal(classics?.priority, 0.75)
+  assert.equal(home?.changeFrequency, 'weekly')
 })
