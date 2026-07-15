@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/json-ld'
 import { ArrowRight, ArrowUpRight, Blocks, CircleDot } from '@/components/icons'
-import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools } from '@/lib/site'
-import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo'
+import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools } from '@/lib/site'
+import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildPageMetadata } from '@/lib/seo'
 
 export const metadata = buildPageMetadata({
   title: '玄学工具箱',
@@ -14,6 +14,13 @@ const breadcrumbItems = [
   { name: '鸡血玄策', path: '/' },
   { name: '工具', path: '/tools' }
 ]
+
+const toolsItemListJsonLd = buildItemListJsonLd({
+  name: '鸡血玄策工具目录',
+  description: '鸡血玄策已上线工具和资料入口目录，覆盖出生排盘、问事起卦、日课资料和基础速查。',
+  path: '/tools',
+  items: xuanTools
+})
 
 function ToolCard({ tool, index }) {
   return (
@@ -38,7 +45,7 @@ function ToolCard({ tool, index }) {
 export default function ToolsIndexPage() {
   return (
     <>
-      <JsonLd data={buildBreadcrumbJsonLd(breadcrumbItems)} />
+      <JsonLd data={[buildBreadcrumbJsonLd(breadcrumbItems), toolsItemListJsonLd]} />
       <section className='xuan-tool-index-hero'>
         <div className='xuan-container xuan-tool-index-inner'>
           <div>

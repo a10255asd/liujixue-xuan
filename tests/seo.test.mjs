@@ -4,6 +4,7 @@ import robots from '../app/robots.js'
 import {
   absoluteUrl,
   buildBreadcrumbJsonLd,
+  buildItemListJsonLd,
   buildPageMetadata,
   buildSiteJsonLd,
   buildToolJsonLd
@@ -49,4 +50,25 @@ test('xuan robots keeps public pages open and hides API endpoints', () => {
   assert.equal(config.sitemap, 'https://xuan.liujixue.cn/sitemap.xml')
   assert.equal(config.rules.allow, '/')
   assert.deepEqual(config.rules.disallow, ['/api/'])
+})
+
+test('xuan item list json ld exposes ordered tool catalogue entries', () => {
+  const jsonLd = buildItemListJsonLd({
+    name: '玄学工具箱',
+    description: '工具目录。',
+    path: '/tools',
+    items: [
+      {
+        title: '八字专业细盘',
+        summary: '输出四柱。',
+        href: '/tools/bazi'
+      }
+    ]
+  })
+
+  assert.equal(jsonLd['@type'], 'ItemList')
+  assert.equal(jsonLd.url, 'https://xuan.liujixue.cn/tools')
+  assert.equal(jsonLd.numberOfItems, 1)
+  assert.equal(jsonLd.itemListElement[0].position, 1)
+  assert.equal(jsonLd.itemListElement[0].url, 'https://xuan.liujixue.cn/tools/bazi')
 })
