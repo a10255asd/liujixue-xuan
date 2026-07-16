@@ -1,17 +1,7 @@
-const shichenRows = [
-  { branch: '子', range: '23:00-00:59', name: '夜半', element: '水', animal: '鼠', period: '夜' },
-  { branch: '丑', range: '01:00-02:59', name: '鸡鸣', element: '土', animal: '牛', period: '夜' },
-  { branch: '寅', range: '03:00-04:59', name: '平旦', element: '木', animal: '虎', period: '晨' },
-  { branch: '卯', range: '05:00-06:59', name: '日出', element: '木', animal: '兔', period: '晨' },
-  { branch: '辰', range: '07:00-08:59', name: '食时', element: '土', animal: '龙', period: '晨' },
-  { branch: '巳', range: '09:00-10:59', name: '隅中', element: '火', animal: '蛇', period: '昼' },
-  { branch: '午', range: '11:00-12:59', name: '日中', element: '火', animal: '马', period: '昼' },
-  { branch: '未', range: '13:00-14:59', name: '日昳', element: '土', animal: '羊', period: '昼' },
-  { branch: '申', range: '15:00-16:59', name: '晡时', element: '金', animal: '猴', period: '夕' },
-  { branch: '酉', range: '17:00-18:59', name: '日入', element: '金', animal: '鸡', period: '夕' },
-  { branch: '戌', range: '19:00-20:59', name: '黄昏', element: '土', animal: '狗', period: '夜' },
-  { branch: '亥', range: '21:00-22:59', name: '人定', element: '水', animal: '猪', period: '夜' }
-]
+'use client'
+
+import { useMemo, useState } from 'react'
+import { buildShichenCandidates, shichenPurposeOptions, shichenRows } from '@/lib/shichen-candidates'
 
 const elementClassMap = {
   木: 'wood',
@@ -25,9 +15,89 @@ function ElementBadge({ value }) {
   return <span className={`wuxing-element ${elementClassMap[value] || ''}`}>{value}</span>
 }
 
+const todayDate = () => {
+  const date = new Date()
+
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
 export function ShichenReferenceTool() {
+  const [date, setDate] = useState(todayDate)
+  const [purpose, setPurpose] = useState('launch')
+  const [topic, setTopic] = useState('上线发布')
+  const shichenPlan = useMemo(() => buildShichenCandidates({ date, purpose }), [date, purpose])
+
   return (
     <div className='wuxing-reference-layout'>
+      <section className='chart-section-card wuxing-reference-card shichen-planner-card'>
+        <div className='chart-section-head'>
+          <div>
+            <span className='chart-kicker'>Hour Candidates</span>
+            <h2>日内时辰候选</h2>
+          </div>
+          <span className='chart-source'>按事项类型、日支冲时和执行时段筛选</span>
+        </div>
+        <div className='shichen-planner-form'>
+          <div className='chart-field'>
+            <label htmlFor='shichen-topic'>事项</label>
+            <input
+              className='chart-text-input'
+              id='shichen-topic'
+              type='text'
+              value={topic}
+              onChange={event => setTopic(event.target.value)}
+            />
+          </div>
+          <div className='chart-field'>
+            <label htmlFor='shichen-purpose'>事项类型</label>
+            <select id='shichen-purpose' value={purpose} onChange={event => setPurpose(event.target.value)}>
+              {shichenPurposeOptions.map(option => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+          <div className='chart-field'>
+            <label htmlFor='shichen-date'>日期</label>
+            <input
+              className='chart-text-input'
+              id='shichen-date'
+              type='date'
+              value={date}
+              onChange={event => setDate(event.target.value)}
+            />
+          </div>
+        </div>
+        <div className='shichen-planner-summary'>
+          <span>{topic || '未填写事项'}</span>
+          <span>{shichenPlan.profile.label}</span>
+          <span>日支 {shichenPlan.dayBranch}</span>
+          <span>冲时 {shichenPlan.clashBranch}时</span>
+        </div>
+        <div className='shichen-candidate-grid'>
+          {shichenPlan.topCandidates.map(item => (
+            <article className='shichen-candidate-card' key={item.branch}>
+              <div>
+                <span>{item.level}</span>
+                <strong>{item.branch}时</strong>
+              </div>
+              <h3>{item.range}</h3>
+              <p>{item.name} / {item.period} / 五行{item.element}</p>
+              <dl>
+                <div>
+                  <dt>命中</dt>
+                  <dd>{item.reasonText}</dd>
+                </div>
+                <div>
+                  <dt>复核</dt>
+                  <dd>{item.cautionText}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+        <p className='shichen-planner-note'>时辰候选只用于缩小日内时间段，仍需结合具体地点、执行条件和人工口径复核。</p>
+      </section>
+
       <section className='chart-section-card wuxing-reference-card'>
         <div className='chart-section-head'>
           <div>
@@ -68,10 +138,11 @@ export function ShichenReferenceTool() {
                 <th>五行</th>
                 <th>生肖</th>
                 <th>昼夜段</th>
+                <th>候选级别</th>
               </tr>
             </thead>
             <tbody>
-              {shichenRows.map(item => (
+              {shichenPlan.candidates.map(item => (
                 <tr key={item.branch}>
                   <th>{item.branch}时</th>
                   <td>{item.range}</td>
@@ -79,6 +150,7 @@ export function ShichenReferenceTool() {
                   <td><ElementBadge value={item.element} /></td>
                   <td>{item.animal}</td>
                   <td>{item.period}</td>
+                  <td>{item.level}</td>
                 </tr>
               ))}
             </tbody>

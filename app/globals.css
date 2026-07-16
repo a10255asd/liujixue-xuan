@@ -4543,6 +4543,125 @@ body {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.shichen-planner-card {
+  display: grid;
+  gap: 18px;
+}
+
+.shichen-planner-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.8fr) minmax(160px, 0.8fr);
+  gap: 14px;
+}
+
+.shichen-planner-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shichen-planner-summary span {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 111, 97, 0.14);
+  background: rgba(13, 111, 97, 0.08);
+  color: #0d6f61;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.shichen-candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.shichen-candidate-card {
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 16px;
+}
+
+.shichen-candidate-card > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.shichen-candidate-card > div:first-child span {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(197, 138, 37, 0.12);
+  color: #7d520d;
+  padding: 0 9px;
+  font-size: 12px;
+  font-weight: 860;
+  white-space: nowrap;
+}
+
+.shichen-candidate-card strong {
+  color: #111411;
+  font-size: 18px;
+}
+
+.shichen-candidate-card h3 {
+  margin: 14px 0 0;
+  color: #111411;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.shichen-candidate-card p {
+  margin: 8px 0 0;
+  color: #687168;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.shichen-candidate-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+
+.shichen-candidate-card dl > div {
+  display: grid;
+  gap: 3px;
+}
+
+.shichen-candidate-card dt,
+.shichen-candidate-card dd {
+  min-width: 0;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.shichen-candidate-card dt {
+  color: #8a9188;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.shichen-candidate-card dd {
+  color: #293028;
+  font-size: 13px;
+}
+
+.shichen-planner-note {
+  margin: 0;
+  color: #687168;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .trigram-card,
 .shichen-card {
   min-width: 0;
@@ -4626,7 +4745,9 @@ body {
   .xuan-tool-index-inner,
   .wuxing-relation-grid,
   .trigram-card-grid,
-  .shichen-card-grid {
+  .shichen-card-grid,
+  .shichen-planner-form,
+  .shichen-candidate-grid {
     grid-template-columns: 1fr;
   }
 
