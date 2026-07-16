@@ -1,6 +1,13 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2 } from '@/components/icons'
-import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools } from '@/lib/site'
+import {
+  site,
+  xuanCoreTools,
+  xuanPracticalOutcomes,
+  xuanPrimaryWorkflows,
+  xuanSecondaryTools,
+  xuanTools
+} from '@/lib/site'
 
 export const metadata = {
   alternates: {
@@ -39,6 +46,10 @@ function WorkflowCard({ workflow, index }) {
       <div className='xuan-workflow-checkpoints'>
         {workflow.checkpoints.map(item => <span key={item}>{item}</span>)}
       </div>
+      <div className='xuan-workflow-outcome'>
+        <CheckCircle2 size={15} />
+        <span>{workflow.outcome}</span>
+      </div>
       <div className='xuan-workflow-supporting'>
         {supportingTools.map(tool => (
           <Link href={tool.href} key={tool.href}>
@@ -49,6 +60,36 @@ function WorkflowCard({ workflow, index }) {
       </div>
       <Link className='xuan-suite-primary' href={workflow.href}>
         {workflow.action}
+        <ArrowRight size={15} />
+      </Link>
+    </article>
+  )
+}
+
+function OutcomeCard({ outcome, index }) {
+  const outcomeTools = outcome.toolHrefs.map(href => toolsByHref.get(href)).filter(Boolean)
+
+  return (
+    <article className='xuan-outcome-card'>
+      <div className='xuan-outcome-card-head'>
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <em>可带走</em>
+      </div>
+      <h3>{outcome.title}</h3>
+      <p>{outcome.summary}</p>
+      <div className='xuan-outcome-output-list'>
+        {outcome.outputs.map(item => (
+          <span key={item}>
+            <CheckCircle2 size={14} />
+            {item}
+          </span>
+        ))}
+      </div>
+      <div className='xuan-outcome-tool-row'>
+        {outcomeTools.map(tool => <Link href={tool.href} key={tool.href}>{tool.title}</Link>)}
+      </div>
+      <Link className='xuan-suite-primary' href={outcome.href}>
+        {outcome.action}
         <ArrowRight size={15} />
       </Link>
     </article>
@@ -91,21 +132,21 @@ export default function HomePage() {
           <div className='xuan-hero-copy'>
             <span className='xuan-kicker'><Blocks size={16} /> 鸡血玄策</span>
             <h1>
-              <span>东方术数</span>
-              <span>排盘工作台</span>
+              <span>排盘记录</span>
+              <span>择日工作台</span>
             </h1>
             <p>
-              <span>从八字、紫微、六爻到梅花、奇门、六壬，把常用排盘入口做成一个独立工具站。</span>
-              <span>结果以清晰盘面和图片下载为核心。</span>
+              <span>不只把字段排出来，而是把出生档案、问事记录、择日候选和资料速查整理成可复查的材料。</span>
+              <span>所有结果以结构化盘面、图片下载和口径说明为核心。</span>
             </p>
             <div className='xuan-hero-actions'>
               <Link className='button primary' href='/tools/bazi'>
-                八字排盘
+                建立出生档案
                 <ArrowRight size={16} />
               </Link>
-              <Link className='button' href='/tools/liuyao'>六爻排盘</Link>
-              <Link className='button' href='/tools/ziwei'>紫微排盘</Link>
-              <a className='button' href={site.mainSite}>回主站</a>
+              <Link className='button' href='/tools/liuyao'>问事记录</Link>
+              <Link className='button' href='/tools/date-selection'>择日候选</Link>
+              <Link className='button' href='/classics'>资料速查</Link>
             </div>
           </div>
 
@@ -122,22 +163,22 @@ export default function HomePage() {
                 <i />
               </div>
               <div className='xuan-console-copy'>
-                <span>使用路径</span>
-                <h2>出生盘、问事盘、资料层</h2>
-                <p>把高频入口放在前面，资料、图解和辅助查询放到第二层，避免工具越堆越乱。</p>
+                <span>任务闭环</span>
+                <h2>输入、核对、导出、复盘</h2>
+                <p>每条路径都先收集必要信息，再给出结构化结果和下一步入口，避免工具越堆越乱。</p>
               </div>
               <div className='xuan-hero-focus-list'>
                 <div>
-                  <span>常用工具</span>
-                  <strong>{xuanCoreTools.length}</strong>
-                </div>
-                <div>
-                  <span>资料工具</span>
-                  <strong>{xuanSecondaryTools.length}</strong>
-                </div>
-                <div>
-                  <span>主流程</span>
+                  <span>实用路径</span>
                   <strong>{xuanPrimaryWorkflows.length}</strong>
+                </div>
+                <div>
+                  <span>已上线入口</span>
+                  <strong>{xuanTools.length}</strong>
+                </div>
+                <div>
+                  <span>可带走材料</span>
+                  <strong>{xuanPracticalOutcomes.length}</strong>
                 </div>
               </div>
             </div>
@@ -158,12 +199,27 @@ export default function HomePage() {
           <div className='xuan-section-head'>
             <div>
               <span className='xuan-kicker'>Use Cases</span>
-              <h2>按场景进入</h2>
+              <h2>先选要完成的事</h2>
             </div>
-            <p>出生信息、具体事项、日期资料分别进入，页面只保留对当前场景真正有用的工具。</p>
+            <p>把工具入口压到任务路径里：出生信息、具体事项、日期候选和资料来源分别处理，避免一上来就面对一整排术语。</p>
           </div>
           <div className='xuan-primary-workflow-grid'>
             {xuanPrimaryWorkflows.map((workflow, index) => <WorkflowCard index={index} key={workflow.title} workflow={workflow} />)}
+          </div>
+        </div>
+      </section>
+
+      <section className='xuan-section compact'>
+        <div className='xuan-container'>
+          <div className='xuan-section-head'>
+            <div>
+              <span className='xuan-kicker'>Outputs</span>
+              <h2>实际能带走什么</h2>
+            </div>
+            <p>把“排出来看看”变成“留下一份可复查材料”：字段、输入口径、候选清单和导出图片都围绕复用来组织。</p>
+          </div>
+          <div className='xuan-outcome-grid'>
+            {xuanPracticalOutcomes.map((outcome, index) => <OutcomeCard index={index} key={outcome.title} outcome={outcome} />)}
           </div>
         </div>
       </section>

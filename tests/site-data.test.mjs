@@ -2,7 +2,14 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import test from 'node:test'
-import { xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools, xuanToolSuites } from '../lib/site.js'
+import {
+  xuanCoreTools,
+  xuanPracticalOutcomes,
+  xuanPrimaryWorkflows,
+  xuanSecondaryTools,
+  xuanTools,
+  xuanToolSuites
+} from '../lib/site.js'
 
 test('xuan tool suites reference existing tools', () => {
   const toolHrefs = new Set(xuanTools.map(tool => tool.href))
@@ -66,15 +73,32 @@ test('homepage curation keeps core tools smaller than full catalogue', () => {
 test('primary workflows point to existing tools and stay focused', () => {
   const toolHrefs = new Set(xuanTools.map(tool => tool.href))
 
-  assert.equal(xuanPrimaryWorkflows.length, 3)
+  assert.equal(xuanPrimaryWorkflows.length, 4)
 
   for (const workflow of xuanPrimaryWorkflows) {
     assert.ok(toolHrefs.has(workflow.href), `${workflow.title} primary href should exist`)
     assert.ok(workflow.supportingHrefs.length <= 4, `${workflow.title} should stay curated`)
     assert.equal(workflow.checkpoints.length, 3)
+    assert.ok(workflow.outcome?.length > 10, `${workflow.title} should describe a practical output`)
 
     for (const href of workflow.supportingHrefs) {
       assert.ok(toolHrefs.has(href), `${workflow.title} supporting href ${href} should exist`)
+    }
+  }
+})
+
+test('practical outcomes expose reusable task outputs', () => {
+  const toolHrefs = new Set(xuanTools.map(tool => tool.href))
+
+  assert.equal(xuanPracticalOutcomes.length, 3)
+
+  for (const outcome of xuanPracticalOutcomes) {
+    assert.ok(toolHrefs.has(outcome.href), `${outcome.title} href should exist`)
+    assert.ok(outcome.toolHrefs.length >= 3, `${outcome.title} should connect multiple tools`)
+    assert.equal(outcome.outputs.length, 3)
+
+    for (const href of outcome.toolHrefs) {
+      assert.ok(toolHrefs.has(href), `${outcome.title} references missing tool ${href}`)
     }
   }
 })

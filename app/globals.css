@@ -4724,7 +4724,7 @@ body {
 
 .xuan-primary-workflow-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -4794,6 +4794,28 @@ body {
   font-weight: 860;
 }
 
+.xuan-workflow-outcome {
+  display: flex;
+  min-height: 54px;
+  align-items: flex-start;
+  gap: 9px;
+  border: 1px solid rgba(184, 139, 82, 0.18);
+  border-radius: 8px;
+  background: rgba(184, 139, 82, 0.08);
+  color: #4b4538;
+  margin-top: 18px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.55;
+}
+
+.xuan-workflow-outcome svg {
+  flex: 0 0 auto;
+  color: var(--xuan-gold);
+  margin-top: 2px;
+}
+
 .xuan-workflow-supporting {
   display: flex;
   flex-wrap: wrap;
@@ -4856,6 +4878,108 @@ body {
   line-height: 1.75;
 }
 
+.xuan-outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.xuan-outcome-card {
+  display: flex;
+  min-width: 0;
+  min-height: 410px;
+  flex-direction: column;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(247, 244, 237, 0.92)),
+    #fffdf6;
+  box-shadow: 0 20px 64px rgba(15, 19, 15, 0.06);
+  padding: 24px;
+}
+
+.xuan-outcome-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.xuan-outcome-card-head span {
+  color: rgba(15, 19, 15, 0.2);
+  font-size: 36px;
+  font-weight: 920;
+  line-height: 1;
+}
+
+.xuan-outcome-card-head em {
+  border: 1px solid rgba(13, 111, 97, 0.16);
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.07);
+  color: var(--xuan-jade-deep);
+  padding: 7px 10px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 880;
+}
+
+.xuan-outcome-card h3 {
+  margin: 30px 0 0;
+  color: var(--xuan-ink);
+  font-size: 30px;
+  line-height: 1.08;
+}
+
+.xuan-outcome-card p {
+  margin: 14px 0 0;
+  color: #586057;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.xuan-outcome-output-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.xuan-outcome-output-list span {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(13, 111, 97, 0.12);
+  border-radius: 8px;
+  background: rgba(13, 111, 97, 0.055);
+  color: #3e4a41;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 820;
+}
+
+.xuan-outcome-output-list svg {
+  flex: 0 0 auto;
+  color: var(--xuan-jade);
+}
+
+.xuan-outcome-tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 22px;
+}
+
+.xuan-outcome-tool-row a {
+  border: 1px solid rgba(15, 19, 15, 0.09);
+  border-radius: 999px;
+  background: rgba(15, 19, 15, 0.035);
+  color: #424b43;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 820;
+}
+
 .xuan-secondary-tool-list,
 .xuan-workflow-strip {
   display: grid;
@@ -4899,7 +5023,7 @@ body {
 }
 
 .xuan-workflow-strip {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .xuan-workflow-strip-item {
@@ -4924,14 +5048,22 @@ body {
   grid-row: 1 / 4;
 }
 
+@media (max-width: 1180px) {
+  .xuan-primary-workflow-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 980px) {
   .xuan-primary-workflow-grid,
+  .xuan-outcome-grid,
   .xuan-quality-grid,
   .xuan-workflow-strip {
     grid-template-columns: 1fr;
   }
 
-  .xuan-primary-workflow-card {
+  .xuan-primary-workflow-card,
+  .xuan-outcome-card {
     min-height: 0;
   }
 
