@@ -4,7 +4,7 @@ import { buildPageMetadata } from '@/lib/seo'
 
 export const metadata = buildPageMetadata({
   title: '黄历节气',
-  description: '查询公历、农历、四柱、宜忌、冲煞、旬空、星宿、纳音、彭祖和上下节气。',
+  description: '按事项类型查询单日黄历速览，输出宜忌命中、冲煞复核、公历农历、四柱、纳音和上下节气。',
   path: '/tools/calendar'
 })
 
@@ -12,7 +12,7 @@ export default function CalendarPage() {
   return (
     <ToolPageFrame
       title='黄历节气'
-      description={'选择日期和时间。\n输出黄历、四柱和节气字段。'}>
+      description={'输入日期、时间和事项类型。\n先看单日速览，再展开黄历、四柱和节气字段。'}>
       <LazyCalendarTool />
     </ToolPageFrame>
   )

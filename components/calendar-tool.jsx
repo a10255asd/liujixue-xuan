@@ -2,7 +2,9 @@
 
 import { ChartExportActions } from '@/components/chart-export-panel'
 import { RefreshCcw } from '@/components/icons'
+import { buildCalendarDayPlan, calendarPurposeOptions } from '@/lib/calendar-day-plan'
 import { Solar } from 'lunar-javascript'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
 const todayDate = () => {
@@ -76,11 +78,13 @@ const buildCalendar = ({ date, time }) => {
   }
 }
 
-const buildImagePayload = calendar => ({
+const buildImagePayload = (calendar, dayPlan, topic) => ({
   toolCode: 'calendar',
   title: '黄历节气',
-  subtitle: `${calendar.solar} · ${calendar.lunar}`,
+  subtitle: `${calendar.solar} · ${calendar.lunar} · ${topic || '未填写事项'}`,
   badges: [
+    dayPlan.profile.label,
+    dayPlan.level,
     `${calendar.ganZhi.year}年`,
     `${calendar.ganZhi.month}月`,
     `${calendar.ganZhi.day}日`,
@@ -88,6 +92,16 @@ const buildImagePayload = calendar => ({
   ],
   filename: `calendar-${calendar.solar.slice(0, 10)}.png`,
   sections: [
+    {
+      title: '单日速览',
+      rows: [
+        { label: '事项', value: topic || '未填写事项' },
+        { label: '事项类型', value: dayPlan.profile.label },
+        { label: '候选级别', value: `${dayPlan.level}（${dayPlan.score}分）` },
+        { label: '处理建议', value: dayPlan.advice },
+        ...dayPlan.rows
+      ]
+    },
     {
       title: '日期信息',
       rows: [
@@ -124,20 +138,37 @@ function DetailItem({ label, value }) {
   )
 }
 
+function PlanItem({ label, value }) {
+  return (
+    <div className='calendar-plan-item'>
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
+  )
+}
+
 export function CalendarTool() {
   const [form, setForm] = useState({
+    topic: '上线发布',
+    purpose: 'launch',
     date: todayDate(),
     time: currentTime()
   })
   const calendar = useMemo(() => buildCalendar(form), [form])
-  const imagePayload = useMemo(() => buildImagePayload(calendar), [calendar])
+  const dayPlan = useMemo(() => buildCalendarDayPlan(calendar, form.purpose), [calendar, form.purpose])
+  const imagePayload = useMemo(() => buildImagePayload(calendar, dayPlan, form.topic), [calendar, dayPlan, form.topic])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
   }
 
   const resetNow = () => {
-    setForm({ date: todayDate(), time: currentTime() })
+    setForm({
+      topic: '上线发布',
+      purpose: 'launch',
+      date: todayDate(),
+      time: currentTime()
+    })
   }
 
   return (
@@ -153,6 +184,24 @@ export function CalendarTool() {
           </button>
         </div>
         <div className='chart-form-grid'>
+          <div className='chart-field wide'>
+            <label htmlFor='calendar-topic'>事项</label>
+            <input
+              className='chart-text-input'
+              id='calendar-topic'
+              type='text'
+              value={form.topic}
+              onChange={event => updateForm('topic', event.target.value)}
+            />
+          </div>
+          <div className='chart-field'>
+            <label htmlFor='calendar-purpose'>事项类型</label>
+            <select id='calendar-purpose' value={form.purpose} onChange={event => updateForm('purpose', event.target.value)}>
+              {calendarPurposeOptions.map(option => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
           <div className='chart-field'>
             <label htmlFor='calendar-date'>日期</label>
             <input id='calendar-date' type='date' value={form.date} onChange={event => updateForm('date', event.target.value)} />
@@ -185,6 +234,27 @@ export function CalendarTool() {
             <strong>{calendar.lunar}</strong>
           </div>
         </div>
+        <section className='calendar-action-panel'>
+          <div className='calendar-action-head'>
+            <div>
+              <span>单日速览</span>
+              <h3>{dayPlan.level}</h3>
+            </div>
+            <em>{dayPlan.profile.label} · {dayPlan.score}分</em>
+          </div>
+          <p>{dayPlan.advice}</p>
+          <div className='calendar-plan-grid'>
+            {dayPlan.rows.map(row => <PlanItem key={row.label} label={row.label} value={row.value} />)}
+          </div>
+          <div className='calendar-next-step-list'>
+            {dayPlan.nextSteps.map(step => (
+              <Link href={step.href} key={step.href}>
+                <strong>{step.label}</strong>
+                <span>{step.text}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
         <div className='calendar-detail-grid'>
           <DetailItem label='宜' value={calendar.yi} />
           <DetailItem label='忌' value={calendar.ji} />
