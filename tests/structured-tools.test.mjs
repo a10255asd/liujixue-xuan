@@ -137,6 +137,29 @@ test('daily action tool renders practical review fields without fortune claims',
   assert.doesNotMatch(text, /一定|必然|好运|坏运/)
 })
 
+test('birth time workspace renders candidate differences and review boundary', () => {
+  const output = structuredTools.birthTime.calculate({
+    date: '1996-07-19',
+    time: '23:30',
+    birthPlace: '黑龙江省 黑河市 五大连池市',
+    knownRange: 'within2',
+    lifeClues: '家人记得大约夜里十一点半。'
+  })
+  const inputRows = output.sections.find(section => section.title === '输入信息').rows
+  const reviewRows = output.sections.find(section => section.title === '校时复核').rows
+  const differenceRows = output.sections.find(section => section.title === '候选差异').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '出生校时工作台')
+  assert.match(output.badges.join(' / '), /候选5档/)
+  assert.equal(differenceRows.length, 5)
+  assert.match(inputRows.find(row => row.label === '输出口径').value, /不直接判定唯一出生时辰/)
+  assert.match(reviewRows.find(row => row.label === '子时提示').value, /晚子时|跨日/)
+  assert.ok(nextRows.some(row => row.label === '八字专业细盘'))
+  assert.match(text, /日柱变化|日柱同参考/)
+})
+
 test('name tool uses manual strokes for five grids', () => {
   const output = structuredTools.name.calculate({
     fullName: '刘鸡血',
