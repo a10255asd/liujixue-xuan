@@ -160,6 +160,27 @@ test('birth time workspace renders candidate differences and review boundary', (
   assert.match(text, /日柱变化|日柱同参考/)
 })
 
+test('find time workspace highlights focused candidates and keeps full table', () => {
+  const output = structuredTools.findTime.calculate({
+    date: '1996-07-19',
+    topic: '出生时辰候选',
+    focus: 'night'
+  })
+  const infoRows = output.sections.find(section => section.title === '排查信息').rows
+  const focusRows = output.sections.find(section => section.title === '重点候选').rows
+  const fullRows = output.sections.find(section => section.title === '十二时辰全表').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '寻时定盘工作台')
+  assert.match(output.badges.join(' / '), /夜间候选/)
+  assert.equal(focusRows.length, 4)
+  assert.equal(fullRows.length, 12)
+  assert.match(infoRows.find(row => row.label === '排查口径').value, /不直接判定唯一时辰/)
+  assert.ok(nextRows.some(row => row.label === '出生校时工作台'))
+  assert.match(text, /重点候选/)
+})
+
 test('name tool uses manual strokes for five grids', () => {
   const output = structuredTools.name.calculate({
     fullName: '刘鸡血',

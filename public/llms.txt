@@ -16,6 +16,7 @@
 - https://xuan.liujixue.cn/tools/date-selection - Date selection candidate list by purpose.
 - https://xuan.liujixue.cn/tools/daily-fortune - Daily action review with zodiac clash and almanac fields.
 - https://xuan.liujixue.cn/tools/birth-time - Birth time calibration workspace with candidate differences.
+- https://xuan.liujixue.cn/tools/find-time - Full-day birth time candidate workspace.
 - https://xuan.liujixue.cn/tools/shichen - Time-branch candidate selector and reference table.
 - https://xuan.liujixue.cn/classics - Classics and reference entry.
 - https://xuan.liujixue.cn/knowledge - Workflow diagrams and knowledge entry.
