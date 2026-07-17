@@ -116,6 +116,27 @@ test('date selection clamps date range and formats rows', () => {
   assert.match(candidateRows[0].value, /宜项命中|事项在忌项/)
 })
 
+test('daily action tool renders practical review fields without fortune claims', () => {
+  const output = structuredTools.dailyFortune.calculate({
+    topic: '上线发布',
+    purpose: 'launch',
+    date: '2026-07-02',
+    time: '09:00',
+    zodiac: '羊'
+  })
+  const actionRows = output.sections.find(section => section.title === '今日行动速览').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
+  const text = formatStructuredResultText(output)
+
+  assert.equal(output.title, '每日行动速览')
+  assert.match(output.badges.join(' / '), /上线发布/)
+  assert.match(actionRows.find(row => row.label === '生肖复核').value, /个人生肖冲日/)
+  assert.match(actionRows.find(row => row.label === '输出口径').value, /不输出吉凶、运势断语/)
+  assert.ok(nextRows.some(row => row.label === '筛当天时辰'))
+  assert.match(text, /宜项命中：交易/)
+  assert.doesNotMatch(text, /一定|必然|好运|坏运/)
+})
+
 test('name tool uses manual strokes for five grids', () => {
   const output = structuredTools.name.calculate({
     fullName: '刘鸡血',
