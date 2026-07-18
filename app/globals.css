@@ -5083,7 +5083,7 @@ body {
 }
 
 .xuan-core-tool-grid {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .xuan-core-tool-grid .xuan-tool-card {
@@ -7135,11 +7135,15 @@ body {
    ============================================================ */
 
 :root {
-  --display: var(--font-display), 'Songti SC', 'STSong', 'Noto Serif CJK SC', 'SimSun', serif;
   --gold-ink: #a98336;
   --gold-deep: #7c5f22;
   --gold-champagne: #dfc68f;
   --ink-night: #12100b;
+}
+
+/* --font-display 由 next/font 挂在 body 上，--display 必须定义在 body 才能解析 */
+body {
+  --display: var(--font-display), 'Songti SC', 'STSong', 'Noto Serif CJK SC', 'SimSun', serif;
 }
 
 /* ---------- 纸张噪点 ---------- */
@@ -7548,16 +7552,12 @@ h3,
   animation: xuan-rise 1.2s cubic-bezier(0.22, 0.61, 0.21, 1) 0.12s both;
 }
 
-.xuan-section {
-  animation: xuan-rise 0.8s cubic-bezier(0.22, 0.61, 0.21, 1) both;
-  animation-range: entry 0% entry 28%;
-  animation-timeline: view();
-}
+/* 区块不做滚动入场：view() 时间轴会让内容在打印、整页截图和爬虫渲染下不可见，
+   且滚动中段长时间半透明，观感发灰。仅保留 Hero 载入动效。 */
 
 @media (prefers-reduced-motion: reduce) {
   .xuan-hero-copy > *,
   .xuan-compass,
-  .xuan-section,
   .xuan-compass-ring-outer,
   .xuan-compass-ring-mid,
   .xuan-compass-ring-trigram {
@@ -7588,8 +7588,12 @@ h3,
   }
 
   .xuan-hero-focus-list {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .xuan-hero-focus-list div {
+    padding-left: 12px;
   }
 
   .xuan-hero-strip {
