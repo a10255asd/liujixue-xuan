@@ -18,7 +18,7 @@ export default function Image() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: '#0d100d',
+          background: '#12100b',
           color: '#fffdf6',
           padding: 64,
           fontFamily: 'Arial, sans-serif'
@@ -32,11 +32,11 @@ export default function Image() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '2px solid rgba(226, 201, 143, 0.28)',
-                borderRadius: 8,
-                background: '#141814',
-                color: '#e2c98f',
-                fontSize: 42,
+                borderRadius: 4,
+                background: '#a7392d',
+                boxShadow: 'inset 0 0 0 2px rgba(255, 244, 224, 0.35)',
+                color: '#fff6e6',
+                fontSize: 44,
                 fontWeight: 900
               }}>
               玄
@@ -48,19 +48,20 @@ export default function Image() {
           </div>
           <div
             style={{
-              border: '2px solid rgba(226, 201, 143, 0.28)',
-              borderRadius: 999,
+              border: '1px solid rgba(223, 198, 143, 0.4)',
+              borderRadius: 3,
               padding: '12px 20px',
-              color: '#e2c98f',
+              color: '#dfc68f',
               fontSize: 22,
-              fontWeight: 800
+              fontWeight: 800,
+              letterSpacing: 4
             }}>
             xuan.liujixue.cn
           </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <h1 style={{ width: 920, margin: 0, fontSize: 84, lineHeight: 0.98, letterSpacing: 0 }}>
+          <h1 style={{ width: 920, margin: 0, fontSize: 84, lineHeight: 1.02, letterSpacing: 6 }}>
             东方术数排盘工作台
           </h1>
           <p style={{ width: 900, margin: 0, color: 'rgba(255, 250, 240, 0.68)', fontSize: 30, lineHeight: 1.42 }}>
@@ -74,11 +75,11 @@ export default function Image() {
               key={tool.title}
               style={{
                 display: 'flex',
-                border: '2px solid rgba(255, 253, 246, 0.12)',
-                borderRadius: 8,
-                background: 'rgba(255, 253, 246, 0.06)',
+                border: '1px solid rgba(223, 198, 143, 0.24)',
+                borderRadius: 3,
+                background: 'rgba(223, 198, 143, 0.07)',
                 padding: '14px 18px',
-                color: '#fffdf6',
+                color: '#f5e9cd',
                 fontSize: 22,
                 fontWeight: 800
               }}>

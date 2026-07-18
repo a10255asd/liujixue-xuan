@@ -1,9 +1,17 @@
 import { Analytics } from '@vercel/analytics/next'
+import localFont from 'next/font/local'
 import { JsonLd } from '@/components/json-ld'
 import { XuanFooter, XuanHeader } from '@/components/xuan-shell'
 import { buildSiteJsonLd, ogImagePath } from '@/lib/seo'
 import { site } from '@/lib/site'
 import './globals.css'
+
+const displaySerif = localFont({
+  src: './fonts/NotoSerifSC-VF.subset.woff2',
+  variable: '--font-display',
+  display: 'swap',
+  weight: '200 900'
+})
 
 export const metadata = {
   metadataBase: new URL(site.domain),
@@ -39,14 +47,14 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#f4efe6',
+  themeColor: '#12100b',
   colorScheme: 'light'
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang='zh-CN'>
-      <body>
+      <body className={displaySerif.variable}>
         <JsonLd data={buildSiteJsonLd()} />
         <div className='xuan-shell'>
           <XuanHeader />

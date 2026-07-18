@@ -43,6 +43,16 @@
 
 ## Recent Change
 
+- 2026-07-18 视觉系统批次「玄墨 · 香槟金 · 朱砂」：
+  - 全站去青绿（#0d6f61/#13746a 等），统一为金 `#a98336` / 深金 `#7c5f22` / 朱砂 `#a7392d` / 玄墨 `#16130e` / 宣纸 `#f6f1e7`；globals.css 变量已改，历史轮次里的硬编码色值已批量替换。
+  - 展示字体改为本地子集化思源宋体：`app/fonts/NotoSerifSC-VF.subset.woff2`（可变字重 200-900，约 419KB），经 `next/font/local` 暴露 `--font-display`；全站 h1/h2/h3 走 `--display` 字体栈。不要改回系统字体栈。
+  - 字体再生成方法：从 gh 镜像下载 `NotoSerifSC[wght].ttf`，按 `app/fonts/charset.txt` 用 `pyftsubset --flavor=woff2 --text-file=charset.txt` 子集化（需 fontTools + brotli）。新增页面文案后如缺字，重跑提取脚本重建 charset.txt。
+  - 首页 Hero 重做：右侧换成 `components/xuan-compass.jsx` 罗盘 SVG（地支/天干/八卦三环慢转 + 太极），旧 `xuan-hero-scene` 和 `xuan-hero-console` 结构已移除，底部新增 `xuan-hero-strip` 核心工具条。
+  - 新增 `components/tool-mark.jsx`：六大主工具的卦爻/宫位线条符号（八字四柱、紫微十二宫、六爻、梅花、奇门九宫、六壬三传），替换卡片序号。
+  - kicker 全部中文化（用途/成果/主盘/典籍/路径/续读/用法等），卡片序号 `01/02/03` 改天干 `甲乙丙`，`lib/site.js` 的 eyebrow 已中文化；页脚标语「只排盘 · 不断事」。
+  - 圆角收敛：卡片/按钮 3px、tag 2px，彩色阴影换中性浅影；新增纸张噪点 `body::before`、入场动效（`xuan-rise` + `animation-timeline: view()`），均带 `prefers-reduced-motion` 兜底。
+  - OG 图 `app/opengraph-image.jsx` 同步朱砂印章 + 墨金体系；`layout.jsx` themeColor 改 `#12100b`。
+  - 环境注意：本机 Kimi 托管 Node 跑 `npm run build`（webpack worker）会卡在 compile 阶段 0% CPU，用 `npx next build --turbopack` 可通过；用户自己终端的 webpack 构建不受影响时按原流程即可。
 - Refined homepage visual system on 2026-07-12: tightened hero typography, removed awkward desktop heading wrap, unified primary buttons as smoke-graphite with restrained champagne edges, and fixed mobile horizontal overflow in the hero/console area.
 - Removed public routes for the old analysis-oriented workspaces.
 - Removed the old local records route, dashboard, copy helpers, and local-record storage utilities from the product surface.

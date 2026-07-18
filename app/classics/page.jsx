@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/json-ld'
-import { ArrowRight, BookOpenText } from '@/components/icons'
+import { ArrowRight } from '@/components/icons'
 import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo'
 
 export const metadata = buildPageMetadata({
@@ -44,13 +44,13 @@ export default function ClassicsPage() {
       <section className='xuan-tool-hero'>
         <div className='xuan-container xuan-tool-hero-inner'>
           <div>
-            <span className='xuan-kicker'><BookOpenText size={16} /> Classics</span>
+            <span className='xuan-kicker'>典籍</span>
             <h1>古籍书楼</h1>
             <p><span>先做术语索引和口径来源。</span><span>后续再逐步补原文摘录、译注和工具字段关联。</span></p>
           </div>
           <div className='xuan-tool-panel'>
             <div className='xuan-tool-panel-head'>
-              <span>Knowledge</span>
+              <span>资料</span>
               <em>已上线</em>
             </div>
             <strong>资料入口</strong>
@@ -77,7 +77,7 @@ export default function ClassicsPage() {
           </div>
           <div className='xuan-upgrade-panel classics-next-panel'>
             <div>
-              <span className='xuan-kicker'>Next</span>
+              <span className='xuan-kicker'>续读</span>
               <h2>下一步把古籍和工具字段互相链接</h2>
               <p>比如八字神煞、六爻伏神、紫微宫位、奇门九宫，都可以从工具结果跳到对应资料卡。</p>
             </div>

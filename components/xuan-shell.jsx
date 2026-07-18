@@ -1,4 +1,4 @@
-import { ArrowUpRight, Blocks } from '@/components/icons'
+import { ArrowUpRight } from '@/components/icons'
 import { JsonLd } from '@/components/json-ld'
 import { TrackedLink } from '@/components/tracked-link'
 import { XuanMobileNav } from '@/components/xuan-mobile-nav'
@@ -41,7 +41,7 @@ export function XuanFooter() {
     <footer className='xuan-footer'>
       <div className='xuan-container xuan-footer-inner'>
         <div>
-          <span className='xuan-kicker'><Blocks size={15} /> Field-only charting</span>
+          <span className='xuan-kicker'><span className='xuan-seal'>玄</span>只排盘 · 不断事</span>
           <h2>{site.cnName}</h2>
           <p>{site.description}</p>
         </div>
@@ -98,7 +98,7 @@ export function ToolPageFrame({ children, description, title }) {
       <section className='xuan-tool-hero'>
         <div className='xuan-container xuan-tool-hero-inner'>
           <div>
-            <span className='xuan-kicker'>Tool / Chart</span>
+            <span className='xuan-kicker'>玄策 · 工具</span>
             <h1>{title}</h1>
             <p>
               {descriptionLines.map((line, index) => (
@@ -108,7 +108,7 @@ export function ToolPageFrame({ children, description, title }) {
           </div>
           <div className='xuan-tool-panel'>
             <div className='xuan-tool-panel-head'>
-              <span>{currentSuite?.eyebrow ?? 'Tool'}</span>
+              <span>{currentSuite?.eyebrow ?? '工具'}</span>
               <em>{currentTool?.status ?? '已上线'}</em>
             </div>
             <strong>{currentSuite?.title ?? '工具工作台'}</strong>

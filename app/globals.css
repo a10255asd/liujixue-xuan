@@ -1,20 +1,20 @@
 :root {
   color-scheme: light;
-  --bg: #f4efe6;
-  --surface: #fffaf2;
+  --bg: #f6f1e7;
+  --surface: #fffdf6;
   --surface-muted: #eee7da;
-  --text: #11110f;
+  --text: #1a1712;
   --text-muted: #686258;
-  --line: #ded5c7;
+  --line: #ddd4c2;
   --line-strong: #c8bcaa;
-  --accent: #0d6f61;
-  --accent-strong: #0a4f47;
-  --accent-soft: #dcefe8;
-  --accent-2: #a96f2a;
+  --accent: #a98336;
+  --accent-strong: #7c5f22;
+  --accent-soft: #f3ead7;
+  --accent-2: #a7392d;
   --warn: #b45309;
   --shadow: 0 28px 80px rgba(32, 25, 15, 0.12);
   --shadow-soft: 0 14px 40px rgba(32, 25, 15, 0.07);
-  --radius: 8px;
+  --radius: 3px;
 }
 
 * {
@@ -86,7 +86,7 @@ input {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(13, 148, 136, 0.22);
+  border: 1px solid rgba(169, 131, 54, 0.22);
   border-radius: 999px;
   padding: 7px 11px;
   font-size: 13px;
@@ -121,14 +121,14 @@ input {
 }
 
 .card.clickable:hover {
-  border-color: rgba(13, 148, 136, 0.45);
+  border-color: rgba(169, 131, 54, 0.45);
   box-shadow: 0 14px 40px rgba(15, 118, 110, 0.12);
   transform: translateY(-2px);
 }
 
 .card.highlight-card {
-  border-color: rgba(13, 148, 136, 0.5);
-  background: linear-gradient(180deg, rgba(217, 244, 238, 0.52), #ffffff);
+  border-color: rgba(169, 131, 54, 0.5);
+  background: linear-gradient(180deg, rgba(243, 234, 215, 0.52), #ffffff);
 }
 
 .card h2,
@@ -251,7 +251,7 @@ input {
 .field select:focus,
 .field textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.12);
 }
 
 .range {
@@ -260,7 +260,7 @@ input {
 
 .segment-button:hover,
 .segment-button.active {
-  border-color: rgba(13, 148, 136, 0.42);
+  border-color: rgba(169, 131, 54, 0.42);
   background: var(--accent-soft);
 }
 
@@ -395,8 +395,8 @@ input {
 }
 
 .chart-location-status.success {
-  border-color: rgba(13, 148, 136, 0.28);
-  background: rgba(217, 244, 238, 0.42);
+  border-color: rgba(169, 131, 54, 0.28);
+  background: rgba(243, 234, 215, 0.42);
   color: var(--accent-strong);
 }
 
@@ -428,8 +428,8 @@ input {
 
 .chart-number-control:focus-within,
 .chart-field select:focus {
-  border-color: rgba(13, 148, 136, 0.5);
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+  border-color: rgba(169, 131, 54, 0.5);
+  box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.1);
 }
 
 .chart-number-control input {
@@ -495,9 +495,9 @@ input {
 
 .chart-segment-button:hover,
 .chart-segment-button.active {
-  border-color: rgba(13, 148, 136, 0.45);
-  background: #e7f7f3;
-  box-shadow: inset 0 0 0 1px rgba(13, 148, 136, 0.16);
+  border-color: rgba(169, 131, 54, 0.45);
+  background: #f6efdd;
+  box-shadow: inset 0 0 0 1px rgba(169, 131, 54, 0.16);
 }
 
 .chart-segment-button strong,
@@ -590,8 +590,8 @@ input {
 
 .bazi-example-button:hover,
 .chart-example-button:hover {
-  border-color: rgba(13, 148, 136, 0.42);
-  background: rgba(231, 247, 243, 0.72);
+  border-color: rgba(169, 131, 54, 0.42);
+  background: rgba(246, 239, 221, 0.72);
   transform: translateY(-1px);
 }
 
@@ -615,10 +615,10 @@ input {
   display: grid;
   gap: 10px;
   min-width: 0;
-  border: 1px solid rgba(13, 148, 136, 0.2);
+  border: 1px solid rgba(169, 131, 54, 0.2);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(231, 247, 243, 0.56), rgba(255, 253, 248, 0.86)),
+    linear-gradient(180deg, rgba(246, 239, 221, 0.56), rgba(255, 253, 248, 0.86)),
     var(--chart-paper);
   padding: 12px;
 }
@@ -682,7 +682,7 @@ input {
   align-items: stretch;
   background:
     radial-gradient(circle at 12% 12%, rgba(168, 101, 35, 0.22), transparent 34%),
-    linear-gradient(135deg, #18201c, #26332d);
+    linear-gradient(135deg, #1d1912, #2b2419);
   color: #fffdf8;
   padding: 18px;
   box-shadow: 0 20px 54px rgba(24, 32, 28, 0.14);
@@ -788,8 +788,8 @@ input {
 }
 
 .chart-export-action-button:hover {
-  border-color: rgba(13, 148, 136, 0.42);
-  background: rgba(217, 244, 238, 0.62);
+  border-color: rgba(169, 131, 54, 0.42);
+  background: rgba(243, 234, 215, 0.62);
 }
 
 .chart-export-badges {
@@ -800,9 +800,9 @@ input {
 }
 
 .chart-export-badges span {
-  border: 1px solid rgba(13, 148, 136, 0.2);
+  border: 1px solid rgba(169, 131, 54, 0.2);
   border-radius: 999px;
-  background: rgba(217, 244, 238, 0.48);
+  background: rgba(243, 234, 215, 0.48);
   color: var(--accent-strong);
   padding: 6px 9px;
   font-size: 12px;
@@ -1067,9 +1067,9 @@ input {
 }
 
 .bazi-luck-card.active {
-  border-color: rgba(13, 148, 136, 0.46);
-  background: #e7f7f3;
-  box-shadow: inset 0 0 0 1px rgba(13, 148, 136, 0.16);
+  border-color: rgba(169, 131, 54, 0.46);
+  background: #f6efdd;
+  box-shadow: inset 0 0 0 1px rgba(169, 131, 54, 0.16);
 }
 
 .bazi-luck-card span,
@@ -1379,9 +1379,9 @@ input {
 
 .ziwei-palace-card.is-ming,
 .ziwei-palace-card.is-body {
-  border-color: rgba(13, 148, 136, 0.38);
+  border-color: rgba(169, 131, 54, 0.38);
   background:
-    linear-gradient(180deg, rgba(217, 244, 238, 0.42), transparent 92px),
+    linear-gradient(180deg, rgba(243, 234, 215, 0.42), transparent 92px),
     var(--surface);
 }
 
@@ -1451,9 +1451,9 @@ input {
 
 .ziwei-fine-palace.is-ming,
 .ziwei-fine-palace.is-body {
-  border-color: rgba(13, 148, 136, 0.48);
+  border-color: rgba(169, 131, 54, 0.48);
   background:
-    linear-gradient(180deg, rgba(217, 244, 238, 0.5), transparent 110px),
+    linear-gradient(180deg, rgba(243, 234, 215, 0.5), transparent 110px),
     var(--surface);
 }
 
@@ -2046,15 +2046,15 @@ input {
 
 .card.clickable:hover,
 .case-tool-card:hover {
-  border-color: rgba(13, 111, 97, 0.38);
+  border-color: rgba(169, 131, 54, 0.38);
   box-shadow: 0 18px 50px rgba(32, 25, 15, 0.08);
   transform: translateY(-3px);
 }
 
 .status {
-  border-color: rgba(13, 111, 97, 0.18);
+  border-color: rgba(169, 131, 54, 0.18);
   background: #e4f1ec;
-  color: #0a4f47;
+  color: #7c5f22;
 }
 
 .tag {
@@ -2095,19 +2095,19 @@ input {
 }
 
 .chart-tool {
-  --chart-paper: #fffaf2;
+  --chart-paper: #fffdf6;
   --chart-paper-muted: #f0e8dc;
-  --chart-ink: #11110f;
+  --chart-ink: #1a1712;
   --chart-muted: #686258;
-  --chart-rule: #ded5c7;
-  --chart-warm: #a96f2a;
-  --chart-deep: #11110f;
+  --chart-rule: #ddd4c2;
+  --chart-warm: #8a6a26;
+  --chart-deep: #17140f;
 }
 
 .bazi-summary-card,
 .ziwei-summary-card {
   background:
-    linear-gradient(135deg, #11110f, #23302b);
+    linear-gradient(135deg, #11110f, #2a241b);
   box-shadow: none;
 }
 
@@ -2119,7 +2119,7 @@ input {
 .bazi-pillar-card-head span,
 .ziwei-fine-palace-head em {
   background: #e4f1ec;
-  color: #0a4f47;
+  color: #7c5f22;
 }
 
 .bazi-fine-table,
@@ -2147,7 +2147,7 @@ input {
 .ziwei-fine-palace.is-body,
 .ziwei-palace-card.is-ming,
 .ziwei-palace-card.is-body {
-  border-color: rgba(13, 111, 97, 0.4);
+  border-color: rgba(169, 131, 54, 0.4);
   background: #e8f4ef;
 }
 
@@ -2248,8 +2248,8 @@ input {
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: rgba(13, 111, 97, 0.62);
-  box-shadow: 0 0 0 3px rgba(13, 111, 97, 0.12);
+  border-color: rgba(169, 131, 54, 0.62);
+  box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.12);
 }
 
 .segment-button,
@@ -2259,7 +2259,7 @@ input {
 
 .segment-button.active,
 .chart-segment-button.active {
-  border-color: rgba(13, 111, 97, 0.52);
+  border-color: rgba(169, 131, 54, 0.52);
   background: #e4f1ec;
 }
 
@@ -2308,7 +2308,7 @@ input {
 .ziwei-summary-card {
   border-radius: 8px;
   background:
-    linear-gradient(135deg, #11110f, #23302b 72%, #2d2117);
+    linear-gradient(135deg, #11110f, #2a241b 72%, #2e2517);
 }
 
 .bazi-pillar-strip {
@@ -2346,8 +2346,8 @@ input {
 
 /* Softer button tone and Liu Yao chart tool */
 .button.primary {
-  border-color: #0d6f61;
-  background: linear-gradient(180deg, #138475 0%, #0d6f61 100%);
+  border-color: #a98336;
+  background: linear-gradient(180deg, #138475 0%, #a98336 100%);
   color: #fffaf2;
 }
 
@@ -2385,8 +2385,8 @@ input {
 }
 
 .chart-text-input:focus {
-  border-color: rgba(13, 111, 97, 0.56);
-  box-shadow: 0 0 0 3px rgba(13, 111, 97, 0.12);
+  border-color: rgba(169, 131, 54, 0.56);
+  box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.12);
 }
 
 .liuyao-line-input-list {
@@ -2449,9 +2449,9 @@ input {
 }
 
 .liuyao-line-state-button.active {
-  border-color: rgba(13, 111, 97, 0.5);
+  border-color: rgba(169, 131, 54, 0.5);
   background: #dff4ee;
-  color: #0d6f61;
+  color: #a98336;
 }
 
 .liuyao-summary-card .bazi-summary-main p {
@@ -2507,7 +2507,7 @@ input {
 }
 
 .liuyao-chart-table tbody tr.moving {
-  background: rgba(223, 244, 238, 0.4);
+  background: rgba(243, 234, 215, 0.4);
 }
 
 .liuyao-line-text {
@@ -2599,9 +2599,9 @@ input {
 
 /* Jixue Xuan standalone site */
 :root {
-  --xuan-paper: #fbf6ec;
+  --xuan-paper: #f6f1e7;
   --xuan-silk: #efe3cf;
-  --xuan-dark: #14110c;
+  --xuan-dark: #16130e;
   --xuan-gold: #c99b5a;
 }
 
@@ -2880,15 +2880,15 @@ input {
 
 /* Jixue Xuan visual upgrade */
 :root {
-  --xuan-ink: #111411;
-  --xuan-ink-2: #20261f;
-  --xuan-muted: #6c7168;
-  --xuan-soft: #f4f2eb;
+  --xuan-ink: #17140f;
+  --xuan-ink-2: #292319;
+  --xuan-muted: #6f6a5c;
+  --xuan-soft: #f4efe4;
   --xuan-panel: #fffdf6;
-  --xuan-line: rgba(17, 20, 17, 0.12);
+  --xuan-line: rgba(23, 20, 15, 0.13);
   --xuan-line-dark: rgba(244, 242, 235, 0.14);
-  --xuan-jade: #13746a;
-  --xuan-jade-deep: #0c4f49;
+  --xuan-jade: #a98336;
+  --xuan-jade-deep: #7c5f22;
   --xuan-cinnabar: #a7392d;
   --xuan-brass: #b88a4a;
 }
@@ -2933,7 +2933,7 @@ body {
   border-color: rgba(244, 242, 235, 0.18);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(19, 116, 106, 0.28), rgba(183, 138, 74, 0.12)),
+    linear-gradient(135deg, rgba(169, 131, 54, 0.28), rgba(183, 138, 74, 0.12)),
     #171b17;
   color: #d7c08e;
   box-shadow: none;
@@ -2984,14 +2984,14 @@ body {
 }
 
 .xuan-shell .button:hover {
-  border-color: rgba(19, 116, 106, 0.34);
+  border-color: rgba(169, 131, 54, 0.34);
   background: #fffdf6;
   color: var(--xuan-jade-deep);
   transform: translateY(-1px);
 }
 
 .xuan-shell .button.primary {
-  border-color: rgba(19, 116, 106, 0.56);
+  border-color: rgba(169, 131, 54, 0.56);
   background: linear-gradient(180deg, #168174 0%, #0f5d55 100%);
   color: #fffdf6;
 }
@@ -3002,7 +3002,7 @@ body {
 }
 
 .xuan-kicker {
-  border-color: rgba(19, 116, 106, 0.18);
+  border-color: rgba(169, 131, 54, 0.18);
   border-radius: 999px;
   background: rgba(255, 253, 246, 0.78);
   color: var(--xuan-jade-deep);
@@ -3124,7 +3124,7 @@ body {
 }
 
 .xuan-hero-actions .button.primary {
-  border-color: rgba(19, 116, 106, 0.72);
+  border-color: rgba(169, 131, 54, 0.72);
   background: linear-gradient(180deg, #168174 0%, #0f5d55 100%);
 }
 
@@ -3290,7 +3290,7 @@ body {
 }
 
 .xuan-suite-card:hover {
-  border-color: rgba(19, 116, 106, 0.32);
+  border-color: rgba(169, 131, 54, 0.32);
   box-shadow: 0 24px 70px rgba(17, 20, 17, 0.1);
   transform: translateY(-2px);
 }
@@ -3376,9 +3376,9 @@ body {
   min-height: 30px;
   align-items: center;
   gap: 6px;
-  border: 1px solid rgba(19, 116, 106, 0.13);
+  border: 1px solid rgba(169, 131, 54, 0.13);
   border-radius: 999px;
-  background: rgba(19, 116, 106, 0.07);
+  background: rgba(169, 131, 54, 0.07);
   color: var(--xuan-jade-deep);
   padding: 0 10px;
   font-size: 12px;
@@ -3442,7 +3442,7 @@ body {
 }
 
 .xuan-tool-card:hover {
-  border-color: rgba(19, 116, 106, 0.36);
+  border-color: rgba(169, 131, 54, 0.36);
   box-shadow: 0 24px 70px rgba(17, 20, 17, 0.1);
 }
 
@@ -3464,9 +3464,9 @@ body {
 }
 
 .xuan-tool-card-top em {
-  border: 1px solid rgba(19, 116, 106, 0.18);
+  border: 1px solid rgba(169, 131, 54, 0.18);
   border-radius: 999px;
-  background: rgba(19, 116, 106, 0.08);
+  background: rgba(169, 131, 54, 0.08);
   color: var(--xuan-jade-deep);
   font-size: 12px;
   font-style: normal;
@@ -3507,7 +3507,7 @@ body {
 .xuan-footer {
   background:
     linear-gradient(180deg, rgba(244, 242, 235, 0.05), transparent),
-    #111411;
+    #16130e;
 }
 
 .xuan-upgrade-panel {
@@ -3535,7 +3535,7 @@ body {
 .xuan-tool-hero {
   position: relative;
   border-bottom: 0;
-  background: #111411;
+  background: #16130e;
   color: #f8f4e8;
   padding: 54px 0 36px;
 }
@@ -3635,9 +3635,9 @@ body {
   display: inline-flex;
   min-height: 28px;
   align-items: center;
-  border: 1px solid rgba(19, 116, 106, 0.28);
+  border: 1px solid rgba(169, 131, 54, 0.28);
   border-radius: 999px;
-  background: rgba(19, 116, 106, 0.14);
+  background: rgba(169, 131, 54, 0.14);
   color: #9de3d7;
   padding: 0 9px;
   font-size: 12px;
@@ -3709,7 +3709,7 @@ body {
   border-bottom: 1px solid rgba(244, 242, 235, 0.1);
   background:
     linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
-    #111411;
+    #16130e;
   margin: 0;
   padding: 20px;
 }
@@ -3753,7 +3753,7 @@ body {
 .xuan-tool-workspace .bazi-input-audit-head strong,
 .xuan-tool-workspace .chart-example-head strong,
 .xuan-tool-workspace .chart-input-audit-head strong {
-  color: #111411;
+  color: #16130e;
   font-weight: 900;
 }
 
@@ -3766,22 +3766,22 @@ body {
 
 .xuan-tool-workspace .bazi-example-button:hover,
 .xuan-tool-workspace .chart-example-button:hover {
-  border-color: rgba(13, 111, 97, 0.38);
-  background: rgba(223, 244, 238, 0.62);
+  border-color: rgba(169, 131, 54, 0.38);
+  background: rgba(243, 234, 215, 0.62);
 }
 
 .xuan-tool-workspace .bazi-input-audit,
 .xuan-tool-workspace .chart-input-audit {
-  border-color: rgba(13, 111, 97, 0.22);
+  border-color: rgba(169, 131, 54, 0.22);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(223, 244, 238, 0.48), rgba(255, 253, 246, 0.88)),
+    linear-gradient(180deg, rgba(243, 234, 215, 0.48), rgba(255, 253, 246, 0.88)),
     #fffdf8;
 }
 
 .xuan-tool-workspace .bazi-input-audit dd,
 .xuan-tool-workspace .chart-input-audit dd {
-  color: #111411;
+  color: #16130e;
   font-weight: 820;
 }
 
@@ -3830,13 +3830,13 @@ body {
 .xuan-tool-workspace .chart-number-control:focus-within,
 .xuan-tool-workspace .chart-field select:focus,
 .xuan-tool-workspace .chart-text-input:focus {
-  border-color: rgba(13, 111, 97, 0.55);
-  box-shadow: 0 0 0 3px rgba(13, 111, 97, 0.11);
+  border-color: rgba(169, 131, 54, 0.55);
+  box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.11);
 }
 
 .xuan-tool-workspace .chart-number-control input {
   height: 46px;
-  color: #111411;
+  color: #16130e;
   font-size: 18px;
   font-weight: 860;
 }
@@ -3869,8 +3869,8 @@ body {
 
 .xuan-tool-workspace .chart-segment-button:hover,
 .xuan-tool-workspace .chart-segment-button.active {
-  border-color: rgba(13, 111, 97, 0.5);
-  background: rgba(223, 244, 238, 0.58);
+  border-color: rgba(169, 131, 54, 0.5);
+  background: rgba(243, 234, 215, 0.58);
   box-shadow: none;
 }
 
@@ -3881,12 +3881,12 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #0d6f61;
+  background: #a98336;
   content: '';
 }
 
 .xuan-tool-workspace .chart-segment-button strong {
-  color: #111411;
+  color: #16130e;
   font-size: 14px;
 }
 
@@ -3924,9 +3924,9 @@ body {
 }
 
 .xuan-tool-workspace .liuyao-line-state-button.active {
-  border-color: rgba(13, 111, 97, 0.55);
-  background: rgba(223, 244, 238, 0.68);
-  color: #0d6f61;
+  border-color: rgba(169, 131, 54, 0.55);
+  background: rgba(243, 234, 215, 0.68);
+  color: #a98336;
 }
 
 .xuan-tool-workspace .tool-actions .button,
@@ -4152,7 +4152,7 @@ body {
   border: 1px solid rgba(17, 20, 17, 0.12);
   border-radius: 8px;
   background: #fffdf8;
-  color: #111411;
+  color: #16130e;
   cursor: pointer;
 }
 
@@ -4221,7 +4221,7 @@ body {
   height: 28px;
   place-items: center;
   border-radius: 999px;
-  background: #0d6f61;
+  background: #a98336;
   color: #fffdf8;
   font-size: 12px;
   font-style: normal;
@@ -4256,7 +4256,7 @@ body {
 .calendar-hero-line strong {
   display: block;
   margin-top: 6px;
-  color: #111411;
+  color: #16130e;
   font-size: 17px;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -4276,7 +4276,7 @@ body {
   display: grid;
   gap: 14px;
   margin-top: 12px;
-  border: 1px solid rgba(13, 111, 97, 0.14);
+  border: 1px solid rgba(169, 131, 54, 0.14);
   border-radius: 8px;
   background: #f7fbf6;
   padding: 16px;
@@ -4298,7 +4298,7 @@ body {
 
 .calendar-action-head h3 {
   margin: 5px 0 0;
-  color: #111411;
+  color: #16130e;
   font-size: 26px;
   line-height: 1.15;
 }
@@ -4308,8 +4308,8 @@ body {
   min-height: 28px;
   align-items: center;
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.1);
-  color: #0d6f61;
+  background: rgba(169, 131, 54, 0.1);
+  color: #a98336;
   padding: 0 10px;
   font-size: 12px;
   font-style: normal;
@@ -4349,7 +4349,7 @@ body {
 .calendar-plan-item strong {
   display: block;
   margin-top: 5px;
-  color: #111411;
+  color: #16130e;
   font-size: 15px;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -4373,14 +4373,14 @@ body {
 }
 
 .calendar-next-step-list a:hover {
-  border-color: rgba(13, 111, 97, 0.28);
+  border-color: rgba(169, 131, 54, 0.28);
   transform: translateY(-1px);
 }
 
 .calendar-next-step-list strong {
   display: block;
   margin-bottom: 5px;
-  color: #111411;
+  color: #16130e;
   font-size: 14px;
 }
 
@@ -4460,7 +4460,7 @@ body {
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid rgba(244, 242, 235, 0.1);
-  background: #111411;
+  background: #16130e;
   color: #fffdf6;
   padding: 78px 0 54px;
 }
@@ -4574,7 +4574,7 @@ body {
 }
 
 .wuxing-table tbody th {
-  color: #111411;
+  color: #16130e;
   font-size: 20px;
 }
 
@@ -4586,7 +4586,7 @@ body {
   justify-content: center;
   border-radius: 999px;
   background: rgba(17, 20, 17, 0.07);
-  color: #111411;
+  color: #16130e;
   font-weight: 860;
 }
 
@@ -4626,8 +4626,8 @@ body {
 .wuxing-relation-card strong {
   border: 1px solid rgba(17, 20, 17, 0.1);
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.08);
-  color: #0d6f61;
+  background: rgba(169, 131, 54, 0.08);
+  color: #a98336;
   padding: 6px 9px;
   font-size: 13px;
 }
@@ -4642,7 +4642,7 @@ body {
 }
 
 .hexagram-table td strong {
-  color: #111411;
+  color: #16130e;
   font-size: 15px;
 }
 
@@ -4688,9 +4688,9 @@ body {
   min-height: 28px;
   align-items: center;
   border-radius: 999px;
-  border: 1px solid rgba(13, 111, 97, 0.14);
-  background: rgba(13, 111, 97, 0.08);
-  color: #0d6f61;
+  border: 1px solid rgba(169, 131, 54, 0.14);
+  background: rgba(169, 131, 54, 0.08);
+  color: #a98336;
   padding: 0 10px;
   font-size: 12px;
   font-weight: 820;
@@ -4731,13 +4731,13 @@ body {
 }
 
 .shichen-candidate-card strong {
-  color: #111411;
+  color: #16130e;
   font-size: 18px;
 }
 
 .shichen-candidate-card h3 {
   margin: 14px 0 0;
-  color: #111411;
+  color: #16130e;
   font-size: 19px;
   line-height: 1.2;
 }
@@ -4796,7 +4796,7 @@ body {
 
 .trigram-card > span {
   display: block;
-  color: #111411;
+  color: #16130e;
   font-size: 42px;
   line-height: 1;
 }
@@ -4804,7 +4804,7 @@ body {
 .trigram-card h3,
 .shichen-card h3 {
   margin: 14px 0 0;
-  color: #111411;
+  color: #16130e;
   font-size: 20px;
   line-height: 1.2;
 }
@@ -4849,8 +4849,8 @@ body {
   min-height: 28px;
   align-items: center;
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.1);
-  color: #0d6f61;
+  background: rgba(169, 131, 54, 0.1);
+  color: #a98336;
   padding: 0 10px;
   font-size: 12px;
   font-weight: 860;
@@ -4858,7 +4858,7 @@ body {
 
 .shichen-card strong {
   justify-self: end;
-  color: #111411;
+  color: #16130e;
   font-size: 14px;
   text-align: right;
   white-space: nowrap;
@@ -4923,16 +4923,16 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid rgba(13, 111, 97, 0.2);
+  border: 1px solid rgba(169, 131, 54, 0.2);
   border-radius: 999px;
   background: rgba(255, 253, 248, 0.72);
-  color: #0d6f61;
+  color: #a98336;
   padding: 0 13px;
 }
 
 .xuan-tool-card:hover strong {
-  border-color: rgba(13, 111, 97, 0.36);
-  background: rgba(13, 111, 97, 0.08);
+  border-color: rgba(169, 131, 54, 0.36);
+  background: rgba(169, 131, 54, 0.08);
 }
 
 .xuan-hero-focus-list {
@@ -5029,9 +5029,9 @@ body {
 }
 
 .xuan-workflow-checkpoints span {
-  border: 1px solid rgba(13, 111, 97, 0.14);
+  border: 1px solid rgba(169, 131, 54, 0.14);
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.08);
+  background: rgba(169, 131, 54, 0.08);
   color: var(--xuan-jade-deep);
   padding: 7px 10px;
   font-size: 12px;
@@ -5157,9 +5157,9 @@ body {
 }
 
 .xuan-outcome-card-head em {
-  border: 1px solid rgba(13, 111, 97, 0.16);
+  border: 1px solid rgba(169, 131, 54, 0.16);
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.07);
+  background: rgba(169, 131, 54, 0.07);
   color: var(--xuan-jade-deep);
   padding: 7px 10px;
   font-size: 12px;
@@ -5192,9 +5192,9 @@ body {
   min-width: 0;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(13, 111, 97, 0.12);
+  border: 1px solid rgba(169, 131, 54, 0.12);
   border-radius: 8px;
-  background: rgba(13, 111, 97, 0.055);
+  background: rgba(169, 131, 54, 0.055);
   color: #3e4a41;
   padding: 10px 12px;
   font-size: 13px;
@@ -5345,7 +5345,7 @@ body {
   border-radius: 8px;
   background:
     radial-gradient(circle at 14% 14%, rgba(215, 192, 142, 0.16), transparent 28%),
-    linear-gradient(135deg, #111411 0%, #18211d 58%, #22342e 100%);
+    linear-gradient(135deg, #16130e 0%, #1e1a13 58%, #2c2519 100%);
   box-shadow: 0 26px 82px rgba(17, 20, 17, 0.18);
 }
 
@@ -5380,7 +5380,7 @@ body {
   width: 28px;
   height: 2px;
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.26);
+  background: rgba(169, 131, 54, 0.26);
   content: '';
 }
 
@@ -5390,7 +5390,7 @@ body {
 }
 
 .xuan-tool-workspace .bazi-pillar-token strong {
-  color: #111411;
+  color: #16130e;
   font-size: 31px;
   font-weight: 900;
 }
@@ -5408,7 +5408,7 @@ body {
   margin: -18px -18px 18px;
   background:
     linear-gradient(180deg, rgba(255, 253, 248, 0.05), rgba(255, 253, 248, 0.02)),
-    #111411;
+    #16130e;
   padding: 16px 18px;
 }
 
@@ -5436,7 +5436,7 @@ body {
 }
 
 .xuan-tool-workspace .chart-detail-row dd {
-  color: #111411;
+  color: #16130e;
   font-weight: 820;
 }
 
@@ -5454,7 +5454,7 @@ body {
   border-bottom: 1px solid rgba(244, 242, 235, 0.12);
   background:
     linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
-    #111411;
+    #16130e;
   padding: 18px;
 }
 
@@ -5469,18 +5469,18 @@ body {
 
 .xuan-tool-workspace .chart-export-action-button {
   min-height: 38px;
-  border-color: rgba(19, 116, 106, 0.28);
+  border-color: rgba(169, 131, 54, 0.28);
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(244, 255, 251, 0.98) 0%, rgba(228, 246, 239, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(253, 248, 236, 0.98) 0%, rgba(243, 234, 215, 0.96) 100%);
   color: var(--xuan-jade-deep);
   padding: 0 12px;
-  box-shadow: 0 12px 24px rgba(19, 116, 106, 0.08);
+  box-shadow: 0 12px 24px rgba(169, 131, 54, 0.08);
 }
 
 .xuan-tool-workspace .chart-export-action-button:hover {
-  border-color: rgba(19, 116, 106, 0.42);
-  background: linear-gradient(180deg, #fafffd 0%, #ddf4ec 100%);
-  color: #0b5f56;
+  border-color: rgba(169, 131, 54, 0.42);
+  background: linear-gradient(180deg, #fdf8ec 0%, #efe3c8 100%);
+  color: #6f5420;
 }
 
 .xuan-tool-workspace .bazi-fine-table-wrap,
@@ -5519,7 +5519,7 @@ body {
 }
 
 .xuan-tool-workspace .bazi-fine-table td {
-  color: #111411;
+  color: #16130e;
   font-weight: 820;
 }
 
@@ -5562,7 +5562,7 @@ body {
 }
 
 .xuan-tool-workspace .bazi-luck-head h3 {
-  color: #111411;
+  color: #16130e;
   font-size: 22px;
   font-weight: 900;
 }
@@ -5586,10 +5586,10 @@ body {
 }
 
 .xuan-tool-workspace .bazi-luck-card.active {
-  border-color: rgba(13, 111, 97, 0.54);
+  border-color: rgba(169, 131, 54, 0.54);
   background:
-    linear-gradient(180deg, rgba(223, 244, 238, 0.88), rgba(255, 253, 248, 0.9));
-  box-shadow: inset 0 0 0 1px rgba(13, 111, 97, 0.16);
+    linear-gradient(180deg, rgba(243, 234, 215, 0.88), rgba(255, 253, 248, 0.9));
+  box-shadow: inset 0 0 0 1px rgba(169, 131, 54, 0.16);
 }
 
 .xuan-tool-workspace .bazi-luck-card strong {
@@ -5607,7 +5607,7 @@ body {
 
 .xuan-tool-workspace .bazi-workflow-steps strong,
 .xuan-tool-workspace .chart-workflow-steps strong {
-  color: #111411;
+  color: #16130e;
   font-weight: 900;
 }
 
@@ -5646,10 +5646,10 @@ body {
 
 .xuan-tool-workspace .ziwei-fine-palace.is-ming,
 .xuan-tool-workspace .ziwei-fine-palace.is-body {
-  border-color: rgba(13, 111, 97, 0.38);
-  border-top-color: #0d6f61;
+  border-color: rgba(169, 131, 54, 0.38);
+  border-top-color: #a98336;
   background:
-    linear-gradient(180deg, rgba(223, 244, 238, 0.66), rgba(255, 253, 248, 0.88) 46%),
+    linear-gradient(180deg, rgba(243, 234, 215, 0.66), rgba(255, 253, 248, 0.88) 46%),
     #fffdf8;
 }
 
@@ -5659,12 +5659,12 @@ body {
 }
 
 .xuan-tool-workspace .ziwei-fine-palace-head strong {
-  color: #111411;
+  color: #16130e;
   font-weight: 900;
 }
 
 .xuan-tool-workspace .ziwei-fine-palace-head em {
-  background: #0d6f61;
+  background: #a98336;
   color: #fffdf6;
 }
 
@@ -5680,7 +5680,7 @@ body {
 .xuan-tool-workspace .ziwei-fine-center {
   background:
     radial-gradient(circle at 18% 12%, rgba(215, 192, 142, 0.18), transparent 28%),
-    linear-gradient(145deg, #111411, #1d2924);
+    linear-gradient(145deg, #16130e, #252017);
   color: #fffdf6;
 }
 
@@ -5716,7 +5716,7 @@ body {
 }
 
 .xuan-tool-workspace .liuyao-chart-table thead th {
-  background: #111411;
+  background: #16130e;
   color: rgba(255, 253, 246, 0.78);
 }
 
@@ -5732,19 +5732,19 @@ body {
 }
 
 .xuan-tool-workspace .liuyao-chart-table tbody tr.moving {
-  background: rgba(223, 244, 238, 0.52);
+  background: rgba(243, 234, 215, 0.52);
 }
 
 .xuan-tool-workspace .liuyao-line-mark i {
   height: 7px;
   border-radius: 999px;
-  background: #111411;
+  background: #16130e;
 }
 
 .xuan-tool-workspace .liuyao-tag-list span {
-  border-color: rgba(13, 111, 97, 0.14);
-  background: rgba(13, 111, 97, 0.07);
-  color: #0d6f61;
+  border-color: rgba(169, 131, 54, 0.14);
+  background: rgba(169, 131, 54, 0.07);
+  color: #a98336;
 }
 
 .xuan-tool-workspace .liuyao-hidden-spirit {
@@ -5841,7 +5841,7 @@ body {
   border-radius: 8px;
   background:
     radial-gradient(circle at 16% 12%, rgba(215, 192, 142, 0.18), transparent 30%),
-    linear-gradient(135deg, #111411 0%, #18211d 58%, #243730 100%);
+    linear-gradient(135deg, #16130e 0%, #1e1a13 58%, #243730 100%);
   color: #fffdf6;
   padding: 22px;
   box-shadow: 0 26px 82px rgba(17, 20, 17, 0.18);
@@ -5906,7 +5906,7 @@ body {
   border-bottom: 1px solid rgba(244, 242, 235, 0.12);
   background:
     linear-gradient(180deg, rgba(244, 242, 235, 0.06), rgba(244, 242, 235, 0.02)),
-    #111411;
+    #16130e;
   color: #fffdf6;
   font-size: 18px;
   padding: 16px 18px;
@@ -5944,7 +5944,7 @@ body {
 }
 
 .structured-result-section dd {
-  color: #111411;
+  color: #16130e;
   font-size: 14px;
   font-weight: 780;
   white-space: pre-wrap;
@@ -6003,7 +6003,7 @@ body {
 
 .structured-palace-cell h4 {
   margin: 0 0 12px;
-  color: #0d6f61;
+  color: #a98336;
   font-size: 18px;
   line-height: 1.15;
 }
@@ -6036,7 +6036,7 @@ body {
 }
 
 .structured-palace-cell dd {
-  color: #111411;
+  color: #16130e;
   font-size: 13px;
   font-weight: 820;
 }
@@ -6101,8 +6101,8 @@ body {
 .classic-card span {
   display: inline-flex;
   border-radius: 999px;
-  background: rgba(13, 111, 97, 0.08);
-  color: #0d6f61;
+  background: rgba(169, 131, 54, 0.08);
+  color: #a98336;
   font-size: 12px;
   font-weight: 900;
   padding: 7px 10px;
@@ -6111,7 +6111,7 @@ body {
 .classic-card h2,
 .knowledge-map-card h2 {
   margin: 28px 0 0;
-  color: #111411;
+  color: #16130e;
   font-size: 30px;
   line-height: 1.08;
 }
@@ -6220,7 +6220,7 @@ body {
   --xuan-soft: #f5f1e8;
   --xuan-panel: #fffdf6;
   --xuan-line: rgba(15, 19, 15, 0.11);
-  --xuan-jade: #0d6f61;
+  --xuan-jade: #a98336;
   --xuan-jade-deep: #084d44;
   --xuan-brass: #c2a06a;
   --xuan-copper: #9d6730;
@@ -6256,7 +6256,7 @@ body {
   border-color: rgba(255, 253, 246, 0.14);
   border-radius: 7px;
   background:
-    linear-gradient(135deg, rgba(13, 111, 97, 0.32), rgba(194, 160, 106, 0.13)),
+    linear-gradient(135deg, rgba(169, 131, 54, 0.32), rgba(194, 160, 106, 0.13)),
     #141814;
   color: #e2c98f;
   box-shadow: none;
@@ -6310,7 +6310,7 @@ body {
 .xuan-tool-workspace .template-actions .button:hover,
 .structured-action-grid .button:hover,
 .daily-action-row .button:hover {
-  border-color: rgba(13, 111, 97, 0.32);
+  border-color: rgba(169, 131, 54, 0.32);
   background: #fffdf6;
   color: var(--xuan-jade-deep);
 }
@@ -6320,7 +6320,7 @@ body {
 .xuan-tool-workspace .tool-action-buttons .button.primary,
 .xuan-tool-workspace .template-actions .button.primary,
 .structured-action-grid .button.primary {
-  border-color: rgba(13, 111, 97, 0.58);
+  border-color: rgba(169, 131, 54, 0.58);
   background: linear-gradient(180deg, #147b6f 0%, #0a574d 100%);
   color: #fffdf6;
 }
@@ -6330,14 +6330,14 @@ body {
 .xuan-tool-workspace .tool-action-buttons .button.primary:hover,
 .xuan-tool-workspace .template-actions .button.primary:hover,
 .structured-action-grid .button.primary:hover {
-  border-color: rgba(13, 111, 97, 0.72);
+  border-color: rgba(169, 131, 54, 0.72);
   background: linear-gradient(180deg, #168474 0%, #0a574d 100%);
   color: #fffdf6;
 }
 
 .xuan-kicker {
-  border-color: rgba(13, 111, 97, 0.16);
-  background: rgba(13, 111, 97, 0.07);
+  border-color: rgba(169, 131, 54, 0.16);
+  background: rgba(169, 131, 54, 0.07);
   color: var(--xuan-jade-deep);
   letter-spacing: 0;
   text-transform: none;
@@ -6422,7 +6422,7 @@ body {
 }
 
 .xuan-hero-actions .button.primary {
-  border-color: rgba(13, 111, 97, 0.72);
+  border-color: rgba(169, 131, 54, 0.72);
   background: linear-gradient(180deg, #147b6f 0%, #0a574d 100%);
 }
 
@@ -6534,7 +6534,7 @@ body {
 .xuan-primary-workflow-card:hover,
 .xuan-tool-card:hover,
 .xuan-secondary-tool-link:hover {
-  border-color: rgba(13, 111, 97, 0.32);
+  border-color: rgba(169, 131, 54, 0.32);
   box-shadow: 0 30px 82px rgba(15, 19, 15, 0.11);
   transform: translateY(-2px);
 }
@@ -6544,8 +6544,8 @@ body {
 .xuan-workflow-checkpoints span,
 .xuan-tool-card div.xuan-tool-tags em,
 .xuan-secondary-tool-link em {
-  border-color: rgba(13, 111, 97, 0.16);
-  background: rgba(13, 111, 97, 0.07);
+  border-color: rgba(169, 131, 54, 0.16);
+  background: rgba(169, 131, 54, 0.07);
   color: var(--xuan-jade-deep);
 }
 
@@ -6693,7 +6693,7 @@ body {
 .xuan-tool-workspace .chart-segment-button:hover,
 .xuan-tool-workspace .chart-segment-button.active,
 .xuan-tool-workspace .liuyao-line-state-button.active {
-  border-color: rgba(13, 111, 97, 0.45);
+  border-color: rgba(169, 131, 54, 0.45);
   background: rgba(223, 241, 236, 0.62);
 }
 
@@ -7126,5 +7126,478 @@ body {
 
   .xuan-console-strip {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   2026-07-18 视觉系统批次：玄墨 · 香槟金 · 朱砂
+   宋体展示字 / 发丝线 / 罗盘主视觉 / 印章 / 卦爻符号 / 克制动效
+   ============================================================ */
+
+:root {
+  --display: var(--font-display), 'Songti SC', 'STSong', 'Noto Serif CJK SC', 'SimSun', serif;
+  --gold-ink: #a98336;
+  --gold-deep: #7c5f22;
+  --gold-champagne: #dfc68f;
+  --ink-night: #12100b;
+}
+
+/* ---------- 纸张噪点 ---------- */
+
+body::before {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  content: '';
+  mix-blend-mode: multiply;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+::selection {
+  background: rgba(169, 131, 54, 0.26);
+}
+
+/* ---------- 字体层级 ---------- */
+
+h1,
+h2,
+h3,
+.xuan-brand strong,
+.xuan-footer h2,
+.xuan-tool-index-panel strong,
+.xuan-hero-focus-list strong,
+.xuan-primary-workflow-head em,
+.xuan-outcome-card-head span,
+.xuan-suite-card-head em,
+.xuan-console-orbit b {
+  font-family: var(--display);
+}
+
+.xuan-hero-copy h1 {
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  line-height: 1.08;
+}
+
+.xuan-section-head h2,
+.xuan-tool-index-inner h1,
+.xuan-tool-hero h1 {
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.xuan-section-head h2 {
+  font-size: clamp(30px, 3.4vw, 42px);
+}
+
+.xuan-primary-workflow-card h3,
+.xuan-outcome-card h3,
+.xuan-tool-card h3,
+.xuan-quality-card h3,
+.xuan-suite-card h3 {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* 天干序号：淡金书体 */
+.xuan-primary-workflow-head em,
+.xuan-outcome-card-head span,
+.xuan-suite-card-head em {
+  color: rgba(169, 131, 54, 0.4);
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+/* ---------- kicker：细线 + 宽字距中文 ---------- */
+
+.xuan-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--gold-ink);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  padding: 0;
+}
+
+.xuan-kicker::after {
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  opacity: 0.4;
+}
+
+.xuan-hero-copy .xuan-kicker,
+.xuan-tool-hero .xuan-kicker,
+.xuan-tool-index-hero .xuan-kicker,
+.xuan-upgrade-panel .xuan-kicker,
+.xuan-footer .xuan-kicker {
+  border: 0;
+  background: transparent;
+  color: var(--gold-champagne);
+}
+
+/* ---------- 印章 ---------- */
+
+.xuan-seal {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background: var(--xuan-cinnabar);
+  box-shadow: inset 0 0 0 1px rgba(255, 244, 224, 0.35);
+  color: #fff6e6;
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.xuan-kicker .xuan-seal {
+  width: 26px;
+  height: 26px;
+  font-size: 15px;
+}
+
+.xuan-brand > span {
+  border: 0;
+  border-radius: 2px;
+  background: var(--xuan-cinnabar);
+  box-shadow: inset 0 0 0 1px rgba(255, 244, 224, 0.32);
+  color: #fff6e6;
+  font-family: var(--display);
+}
+
+/* ---------- Hero 重构 ---------- */
+
+.xuan-hero {
+  background:
+    radial-gradient(760px 520px at 80% 8%, rgba(201, 155, 90, 0.09), transparent 62%),
+    linear-gradient(180deg, rgba(255, 253, 246, 0.025), transparent 42%),
+    var(--ink-night);
+  padding: 118px 0 0;
+}
+
+.xuan-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  align-items: center;
+  gap: 48px;
+}
+
+.xuan-hero-copy p {
+  color: rgba(255, 250, 238, 0.66);
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.xuan-hero-actions .button {
+  border-radius: 3px;
+}
+
+.xuan-hero-actions .button.primary {
+  border-color: rgba(223, 198, 143, 0.55);
+  background: rgba(223, 198, 143, 0.12);
+  color: #f5e9cd;
+}
+
+.xuan-hero-actions .button.primary:hover {
+  border-color: rgba(223, 198, 143, 0.85);
+  background: rgba(223, 198, 143, 0.2);
+}
+
+/* 罗盘 */
+.xuan-compass {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+}
+
+.xuan-compass svg {
+  display: block;
+  width: min(560px, 100%);
+  height: auto;
+}
+
+.xuan-compass-ring-outer {
+  animation: xuan-spin 240s linear infinite;
+}
+
+.xuan-compass-ring-mid {
+  animation: xuan-spin-reverse 180s linear infinite;
+}
+
+.xuan-compass-ring-trigram {
+  animation: xuan-spin 320s linear infinite;
+}
+
+.xuan-compass text {
+  font-family: var(--display);
+}
+
+/* Hero 底部核心工具条 */
+.xuan-hero-strip {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(244, 240, 228, 0.1);
+  margin-top: 68px;
+  padding-bottom: 6px;
+}
+
+.xuan-hero-strip a {
+  display: inline-flex;
+  min-height: 58px;
+  align-items: center;
+  border-left: 1px solid rgba(244, 240, 228, 0.1);
+  color: rgba(255, 250, 238, 0.68);
+  font-size: 14px;
+  font-weight: 600;
+  gap: 9px;
+  padding: 0 26px;
+  transition: color 0.18s ease;
+}
+
+.xuan-hero-strip a:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.xuan-hero-strip a em {
+  color: rgba(223, 198, 143, 0.55);
+  font-family: var(--display);
+  font-size: 15px;
+  font-style: normal;
+}
+
+.xuan-hero-strip a:hover {
+  color: var(--gold-champagne);
+}
+
+/* Hero 统计：左发丝线 + 书体数字 */
+.xuan-hero-focus-list {
+  grid-template-columns: repeat(3, auto);
+  gap: 38px;
+  justify-content: start;
+  margin-top: 40px;
+}
+
+.xuan-hero-focus-list div {
+  border: 0;
+  border-left: 1px solid rgba(223, 198, 143, 0.32);
+  border-radius: 0;
+  background: transparent;
+  padding: 2px 0 2px 16px;
+}
+
+.xuan-hero-focus-list span {
+  color: rgba(255, 250, 238, 0.5);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.xuan-hero-focus-list strong {
+  color: #f7ecd4;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+/* ---------- 圆角收敛：药丸改方、卡片改直角 ---------- */
+
+.button,
+.card,
+.form-panel,
+.result-panel,
+.chart-card,
+.chart-side-panel,
+.chart-number-control,
+.chart-field select,
+.chart-segment-button,
+.xuan-primary-workflow-card,
+.xuan-outcome-card,
+.xuan-quality-card,
+.xuan-tool-card,
+.xuan-feature-card,
+.xuan-knowledge-card,
+.xuan-secondary-tool-link,
+.xuan-workflow-strip-item,
+.xuan-suite-card,
+.xuan-tool-panel,
+.field input,
+.field select,
+.field textarea {
+  border-radius: 3px;
+}
+
+.xuan-workflow-checkpoints span,
+.xuan-workflow-supporting a,
+.xuan-outcome-card-head em,
+.xuan-outcome-tool-row a,
+.xuan-tool-card div.xuan-tool-tags em,
+.xuan-tool-card strong,
+.xuan-tool-panel-tags span,
+.xuan-workflow-outcome,
+.xuan-outcome-output-list span,
+.tag,
+.status,
+.xuan-tool-workspace .chart-export-action-button,
+.xuan-tool-workspace .bazi-luck-card,
+.xuan-tool-workspace .ziwei-fine-palace,
+.xuan-tool-workspace .ziwei-fine-center,
+.xuan-tool-workspace .bazi-fine-table,
+.xuan-tool-workspace .element-meter,
+.xuan-tool-workspace .bazi-workflow-steps article,
+.xuan-tool-workspace .chart-workflow-steps article {
+  border-radius: 2px;
+}
+
+/* 阴影降噪：彩色投影换中性浅影 */
+.card,
+.card.clickable:hover,
+.xuan-outcome-card,
+.xuan-tool-workspace .chart-section-card,
+.xuan-tool-workspace .bazi-pillar-token,
+.chart-side-panel {
+  box-shadow: 0 10px 34px rgba(23, 20, 15, 0.05);
+}
+
+.card.highlight-card {
+  background: linear-gradient(180deg, rgba(243, 234, 215, 0.5), #fffdf6);
+}
+
+/* 工具卡 CTA：金发丝线 */
+.xuan-tool-card strong {
+  border-color: rgba(169, 131, 54, 0.35);
+  background: transparent;
+  color: var(--gold-deep);
+}
+
+.xuan-tool-card:hover strong {
+  border-color: rgba(169, 131, 54, 0.6);
+  background: rgba(169, 131, 54, 0.08);
+}
+
+.xuan-tool-card-top .tool-mark {
+  color: var(--gold-ink);
+}
+
+/* 排盘结果深色卡：墨金描边 */
+.xuan-tool-workspace .bazi-summary-card,
+.xuan-tool-workspace .ziwei-summary-card {
+  border-color: rgba(223, 198, 143, 0.22);
+}
+
+/* ---------- 动效 ---------- */
+
+@keyframes xuan-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes xuan-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes xuan-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.xuan-hero-copy > * {
+  animation: xuan-rise 0.9s cubic-bezier(0.22, 0.61, 0.21, 1) both;
+}
+
+.xuan-hero-copy > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.xuan-hero-copy > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.xuan-hero-copy > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.xuan-hero-copy > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+.xuan-compass {
+  animation: xuan-rise 1.2s cubic-bezier(0.22, 0.61, 0.21, 1) 0.12s both;
+}
+
+.xuan-section {
+  animation: xuan-rise 0.8s cubic-bezier(0.22, 0.61, 0.21, 1) both;
+  animation-range: entry 0% entry 28%;
+  animation-timeline: view();
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xuan-hero-copy > *,
+  .xuan-compass,
+  .xuan-section,
+  .xuan-compass-ring-outer,
+  .xuan-compass-ring-mid,
+  .xuan-compass-ring-trigram {
+    animation: none !important;
+  }
+}
+
+/* ---------- Hero 响应式 ---------- */
+
+@media (max-width: 1080px) {
+  .xuan-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .xuan-compass svg {
+    width: min(440px, 86vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .xuan-hero {
+    padding-top: 92px;
+  }
+
+  .xuan-hero-copy h1 {
+    font-size: clamp(40px, 11vw, 54px);
+  }
+
+  .xuan-hero-focus-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .xuan-hero-strip {
+    margin-top: 48px;
+  }
+
+  .xuan-hero-strip a {
+    min-height: 50px;
+    padding: 0 16px;
   }
 }

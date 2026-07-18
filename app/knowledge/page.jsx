@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/json-ld'
-import { ArrowRight, CircleDot } from '@/components/icons'
+import { ArrowRight } from '@/components/icons'
 import { buildBreadcrumbJsonLd, buildPageMetadata } from '@/lib/seo'
 
 export const metadata = buildPageMetadata({
@@ -44,13 +44,13 @@ export default function KnowledgePage() {
       <section className='xuan-tool-hero'>
         <div className='xuan-container xuan-tool-hero-inner'>
           <div>
-            <span className='xuan-kicker'><CircleDot size={16} /> Knowledge</span>
+            <span className='xuan-kicker'>图解</span>
             <h1>知识图解</h1>
             <p><span>把复杂术数拆成输入、排盘、字段、导出四层。</span><span>用户先看懂流程，再进入工具。</span></p>
           </div>
           <div className='xuan-tool-panel'>
             <div className='xuan-tool-panel-head'>
-              <span>Maps</span>
+              <span>图谱</span>
               <em>已上线</em>
             </div>
             <strong>流程图谱</strong>
@@ -78,7 +78,7 @@ export default function KnowledgePage() {
           </div>
           <div className='xuan-upgrade-panel classics-next-panel'>
             <div>
-              <span className='xuan-kicker'>Tool Flow</span>
+              <span className='xuan-kicker'>用法</span>
               <h2>从图解直接进入工具</h2>
               <p>新用户先理解入口，老用户直接打开工具并下载排盘图片。</p>
             </div>

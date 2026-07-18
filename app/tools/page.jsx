@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/json-ld'
-import { ArrowRight, ArrowUpRight, Blocks, CircleDot } from '@/components/icons'
+import { ArrowRight, ArrowUpRight } from '@/components/icons'
+import { ToolMark } from '@/components/tool-mark'
 import { site, xuanCoreTools, xuanPrimaryWorkflows, xuanSecondaryTools, xuanTools } from '@/lib/site'
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildPageMetadata } from '@/lib/seo'
 
@@ -22,11 +23,11 @@ const toolsItemListJsonLd = buildItemListJsonLd({
   items: xuanTools
 })
 
-function ToolCard({ tool, index }) {
+function ToolCard({ tool }) {
   return (
     <Link className='xuan-tool-card' href={tool.href}>
       <div className='xuan-tool-card-top'>
-        <span>{String(index + 1).padStart(2, '0')}</span>
+        <ToolMark href={tool.href} />
         <em>{tool.status}</em>
       </div>
       <h3>{tool.title}</h3>
@@ -49,12 +50,12 @@ export default function ToolsIndexPage() {
       <section className='xuan-tool-index-hero'>
         <div className='xuan-container xuan-tool-index-inner'>
           <div>
-            <span className='xuan-kicker'><Blocks size={16} /> Tools</span>
+            <span className='xuan-kicker'><span className='xuan-seal'>玄</span>工具总览</span>
             <h1>玄学工具箱</h1>
             <p>按用途选择入口：先完成排盘和图片下载，需要时再补充日课、时辰、五行和卦象资料。</p>
           </div>
           <div className='xuan-tool-index-panel'>
-            <span>Tools</span>
+            <span>工具</span>
             <strong>{xuanCoreTools.length}</strong>
             <em>常用入口</em>
           </div>
@@ -65,7 +66,7 @@ export default function ToolsIndexPage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Workflows</span>
+              <span className='xuan-kicker'>路径</span>
               <h2>按任务进入</h2>
             </div>
             <p>如果不知道该开哪个工具，先选任务路径。每条路径都会带你完成排盘、核对和导出。</p>
@@ -87,7 +88,7 @@ export default function ToolsIndexPage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>Main Tools</span>
+              <span className='xuan-kicker'>主盘</span>
               <h2>常用工具</h2>
             </div>
             <p>常用入口覆盖出生排盘、问事排盘、奇门六壬和资料查询。</p>
@@ -102,7 +103,7 @@ export default function ToolsIndexPage() {
         <div className='xuan-container'>
           <div className='xuan-section-head'>
             <div>
-              <span className='xuan-kicker'>References</span>
+              <span className='xuan-kicker'>典籍</span>
               <h2>辅助资料工具</h2>
             </div>
             <p>这些工具用于补充日课、时辰、五行、卦象、塔罗和其他材料，结果以图片下载为主。</p>
@@ -123,7 +124,7 @@ export default function ToolsIndexPage() {
         <div className='xuan-container'>
           <div className='xuan-upgrade-panel'>
             <div>
-              <span className='xuan-kicker'><CircleDot size={15} /> Main Site</span>
+              <span className='xuan-kicker'>主站</span>
               <h2>主站负责展示，玄学站负责工具</h2>
               <p>主站展示项目和服务，玄学站提供排盘、图片下载和资料整理入口。</p>
             </div>
