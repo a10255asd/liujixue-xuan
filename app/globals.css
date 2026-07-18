@@ -7605,3 +7605,113 @@ h3,
     padding: 0 16px;
   }
 }
+
+/* ---------- 知识图解内容层 ---------- */
+
+.knowledge-terms-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.knowledge-term-card {
+  margin: 0;
+  border: 1px solid rgba(15, 19, 15, 0.11);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(247, 244, 237, 0.92)),
+    #fffdf6;
+  box-shadow: 0 22px 66px rgba(15, 19, 15, 0.07);
+  padding: 22px 24px;
+}
+
+.knowledge-term-card dt {
+  font-family: var(--display);
+  color: #16130e;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.knowledge-term-card dd {
+  margin: 10px 0 0;
+  color: #5e675f;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.knowledge-example-panel {
+  margin-top: 14px;
+  border: 1px solid rgba(15, 19, 15, 0.11);
+  border-left: 2px solid var(--gold-ink);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 246, 0.96), rgba(247, 244, 237, 0.92)),
+    #fffdf6;
+  box-shadow: 0 22px 66px rgba(15, 19, 15, 0.07);
+  padding: 26px 28px;
+}
+
+.knowledge-example-panel h3 {
+  margin: 12px 0 0;
+  font-family: var(--display);
+  color: #16130e;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.knowledge-example-panel p {
+  margin: 12px 0 0;
+  max-width: 760px;
+  color: #5e675f;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.knowledge-qa {
+  margin-top: 22px;
+  border-top: 1px solid rgba(15, 19, 15, 0.12);
+}
+
+.knowledge-qa-item {
+  margin: 0;
+  border-bottom: 1px solid rgba(15, 19, 15, 0.09);
+  padding: 20px 0;
+}
+
+.knowledge-qa-item dt {
+  font-family: var(--display);
+  color: #16130e;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.knowledge-qa-item dt::before {
+  content: '问';
+  display: inline-block;
+  margin-right: 10px;
+  color: var(--gold-deep);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.knowledge-qa-item dd {
+  margin: 10px 0 0;
+  max-width: 760px;
+  color: #5e675f;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+@media (max-width: 900px) {
+  .knowledge-terms-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .knowledge-example-panel {
+    padding: 20px;
+  }
+}

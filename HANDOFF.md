@@ -43,6 +43,11 @@
 
 ## Recent Change
 
+- 2026-07-18 知识图解内容层批次：
+  - `/knowledge` 从 4 张结构卡扩为正式内容页：数据抽到 `lib/knowledge.js`，四条链路（出生盘/问事起卦/择日/图片导出）各含术语详解、例盘和口径问答；问答输出 FAQPage JSON-LD。口径原则：只讲字段与排盘口径，不做断语。
+  - 新样式在 globals.css 末尾「知识图解内容层」：`knowledge-terms-grid`、`knowledge-example-panel`（金左边线）、`knowledge-qa-item`（发丝线分隔）。
+  - 字体子集重建流程实际跑通：全量扫描 app/lib/components 源码汉字并入 `charset.txt`（1222 字），源字体从 gh 代理下载 `NotoSerifSC[wght].ttf`，`python3 -m fontTools.subset ... --flavor=woff2 --text-file` 重建（1214 字形、wght 200-900 保留，约 390KB）。新增文案后务必重跑字符集对比。
+  - 教训：本地 dev 验证前先 `lsof -ti :端口 | xargs kill` 清残留进程，僵尸 dev server 会用陈旧 .next 状态返回 500，误以为是代码问题。
 - 2026-07-18 字体失效修复批次：
   - **教训**：`--display: var(--font-display), ...` 不能写在 `:root`——next/font 把 `--font-display` 挂在 body 的 className 上，`:root` 解析不到，整条变量失效，全站 h1/h2/h3 静默回退无衬线。已改为在 `body` 规则里定义 `--display`。排障方法：Playwright 探针读 `getComputedStyle(h1).fontFamily` + `document.fonts` 状态。
   - 移除 `.xuan-section` 的 `animation-timeline: view()` 滚动入场：滚动中段内容长时间半透明发灰，且打印/整页截图/爬虫渲染下整块不可见。仅保留 Hero 载入动效。
