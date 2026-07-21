@@ -2,6 +2,8 @@
 
 import { ChartExportActions } from '@/components/chart-export-panel'
 import { RefreshCcw } from '@/components/icons'
+import { buildDailyHexagramReview, dailyHexagramFocusOptions } from '@/lib/daily-hexagram-review'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
 const trigramOrder = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤']
@@ -83,17 +85,18 @@ const buildHexagram = ({ date, time, topic }) => {
     changedUpper,
     changedLower,
     movingLine,
+    lineName: lineNames[movingLine - 1],
     name: hexagramNames[upper.name][lower.name],
     changedName: hexagramNames[changedUpper.name][changedLower.name],
     lines: [...upper.lines.map((line, index) => ({ bit: line, position: index + 4 })).reverse(), ...lower.lines.map((line, index) => ({ bit: line, position: index + 1 })).reverse()]
   }
 }
 
-const buildImagePayload = chart => ({
+const buildImagePayload = (chart, review) => ({
   toolCode: 'daily-hexagram',
-  title: '每日一卦',
+  title: '每日一卦记录',
   subtitle: `${chart.topic} · ${chart.date} ${chart.time}`,
-  badges: [chart.name, `变卦 ${chart.changedName}`, lineNames[chart.movingLine - 1]],
+  badges: [review.profile.label, chart.name, `变卦 ${chart.changedName}`, chart.lineName],
   filename: `daily-hexagram-${chart.date}.png`,
   sections: [
     {
@@ -112,6 +115,10 @@ const buildImagePayload = chart => ({
         { label: '上卦', value: `${chart.upper.name} / ${chart.upper.image} / 五行${chart.upper.element}` },
         { label: '下卦', value: `${chart.lower.name} / ${chart.lower.image} / 五行${chart.lower.element}` }
       ]
+    },
+    {
+      title: '复盘清单',
+      rows: review.rows
     }
   ]
 })
@@ -135,10 +142,12 @@ export function DailyHexagramTool() {
   const [form, setForm] = useState({
     date: todayDate(),
     time: currentTime(),
-    topic: '今天适合推进什么？'
+    topic: '今天适合推进什么？',
+    focus: 'action'
   })
   const chart = useMemo(() => buildHexagram(form), [form])
-  const imagePayload = useMemo(() => buildImagePayload(chart), [chart])
+  const review = useMemo(() => buildDailyHexagramReview(chart, form.focus), [chart, form.focus])
+  const imagePayload = useMemo(() => buildImagePayload(chart, review), [chart, review])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
@@ -156,7 +165,7 @@ export function DailyHexagramTool() {
             className='chart-icon-button'
             type='button'
             onClick={() => {
-              setForm({ date: todayDate(), time: currentTime(), topic: form.topic })
+              setForm({ date: todayDate(), time: currentTime(), topic: form.topic, focus: form.focus })
             }}>
             <RefreshCcw size={18} />
           </button>
@@ -179,6 +188,14 @@ export function DailyHexagramTool() {
               value={form.topic}
               onChange={event => updateForm('topic', event.target.value)}
             />
+          </div>
+          <div className='chart-field'>
+            <label htmlFor='daily-focus'>关注方向</label>
+            <select id='daily-focus' value={form.focus} onChange={event => updateForm('focus', event.target.value)}>
+              {dailyHexagramFocusOptions.map(option => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
           </div>
         </div>
         <div className='daily-action-row'>
@@ -203,9 +220,34 @@ export function DailyHexagramTool() {
             <div><span>起卦时间</span><strong>{chart.date} {chart.time}</strong></div>
             <div><span>本卦</span><strong>{chart.name} / {chart.upper.name}上{chart.lower.name}下</strong></div>
             <div><span>变卦</span><strong>{chart.changedName} / {chart.changedUpper.name}上{chart.changedLower.name}下</strong></div>
-            <div><span>动爻</span><strong>{lineNames[chart.movingLine - 1]}</strong></div>
+            <div><span>动爻</span><strong>{chart.lineName}</strong></div>
           </div>
         </div>
+        <section className='daily-review-panel'>
+          <div className='daily-review-head'>
+            <div>
+              <span>问事记录</span>
+              <h3>{review.profile.label}</h3>
+            </div>
+            <em>复盘清单</em>
+          </div>
+          <div className='daily-review-grid'>
+            {review.rows.map(row => (
+              <div className='daily-review-item' key={row.label}>
+                <span>{row.label}</span>
+                <strong>{row.value}</strong>
+              </div>
+            ))}
+          </div>
+          <div className='daily-next-step-list'>
+            {review.nextSteps.map(step => (
+              <Link href={step.href} key={step.href}>
+                <strong>{step.label}</strong>
+                <span>{step.text}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
       </section>
     </div>
   )

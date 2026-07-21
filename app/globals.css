@@ -4233,6 +4233,111 @@ body {
   gap: 10px;
 }
 
+.daily-review-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+  border: 1px solid rgba(13, 111, 97, 0.13);
+  border-radius: 8px;
+  background: #f7fbf6;
+  padding: 16px;
+}
+
+.daily-review-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.daily-review-head span {
+  display: block;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.daily-review-head h3 {
+  margin: 5px 0 0;
+  color: #111411;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.daily-review-head em {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(13, 111, 97, 0.1);
+  color: #0d6f61;
+  padding: 0 10px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.daily-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.daily-review-item {
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 253, 246, 0.82);
+  padding: 12px;
+}
+
+.daily-review-item span,
+.daily-next-step-list span {
+  display: block;
+  color: #687168;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.daily-review-item strong {
+  display: block;
+  margin-top: 5px;
+  color: #111411;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.daily-next-step-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.daily-next-step-list a {
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.09);
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.daily-next-step-list a:hover {
+  border-color: rgba(13, 111, 97, 0.28);
+  transform: translateY(-1px);
+}
+
+.daily-next-step-list strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #111411;
+  font-size: 14px;
+}
+
 .daily-result-details div,
 .calendar-detail-item,
 .calendar-hero-line > div {
@@ -4402,6 +4507,8 @@ body {
   .xuan-scenario-grid,
   .xuan-coming-grid,
   .daily-result-grid,
+  .daily-review-grid,
+  .daily-next-step-list,
   .calendar-hero-line,
   .calendar-plan-grid,
   .calendar-next-step-list,
@@ -4420,6 +4527,14 @@ body {
 
   .daily-result-main {
     min-height: 300px;
+  }
+
+  .daily-review-head {
+    display: grid;
+  }
+
+  .daily-review-head em {
+    justify-self: start;
   }
 
   .daily-hexagram-line {
