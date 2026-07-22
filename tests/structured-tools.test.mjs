@@ -227,7 +227,9 @@ test('dream tool exports journal fields without omen judgement', () => {
   const output = structuredTools.dream.calculate({
     title: '反复出现的走廊',
     date: '2026-07-04',
+    bedTime: '23:20',
     wakeTime: '06:40',
+    sleepQuality: 'light',
     focus: 'emotion',
     mood: '紧张但清醒',
     intensity: '4',
@@ -235,13 +237,22 @@ test('dream tool exports journal fields without omen judgement', () => {
     people: '一个熟悉但想不起名字的人',
     symbols: '走廊 灯 门',
     realContext: '最近在犹豫是否换项目方向',
+    stressors: '项目截止时间临近，沟通还没完成',
+    bodySignals: '醒来时肩颈紧',
     dreamText: '我一直往前走，看到很多门，但没有打开。'
   })
   const text = formatStructuredResultText(output)
+  const reviewRows = output.sections.find(section => section.title === '复盘清单').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
 
-  assert.equal(output.title, '梦境记录整理')
+  assert.equal(output.title, '梦境日志工作台')
   assert.ok(output.badges.includes('情绪线索'))
+  assert.ok(output.badges.includes('浅睡/易醒'))
+  assert.match(text, /睡眠背景/)
+  assert.match(text, /睡眠时长：7小时20分/)
   assert.match(text, /不输出吉凶、预兆、应期或结果判断/)
+  assert.match(reviewRows.find(row => row.label === '今日小动作').value, /小动作/)
+  assert.ok(nextRows.some(row => row.label === '每日行动速览'))
   assert.match(text, /梦境全文/)
   assert.match(text, /反复意象：走廊 \/ 灯 \/ 门/)
   assert.doesNotMatch(text, /一定|必然/)
