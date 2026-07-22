@@ -184,14 +184,27 @@ test('find time workspace highlights focused candidates and keeps full table', (
 test('name tool uses manual strokes for five grids', () => {
   const output = structuredTools.name.calculate({
     fullName: '刘鸡血',
+    usage: 'baby',
     surnameLength: '1',
-    strokes: '15 18 6'
+    strokes: '15 18 6',
+    namingGoal: '希望名字好读、好写，含义积极但不过度堆砌。',
+    meaningPreference: '偏向明亮、行动感，不要太生僻。',
+    avoidNotes: '避开同音误解和难输入字。'
   })
   const text = formatStructuredResultText(output)
+  const reviewRows = output.sections.find(section => section.title === '复核清单').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
 
+  assert.equal(output.title, '姓名方案复核')
+  assert.ok(output.badges.includes('新生儿命名'))
+  assert.ok(output.badges.includes('笔画完整'))
   assert.match(text, /天格：16画/)
   assert.match(text, /人格：33画/)
   assert.match(text, /总格：39画/)
+  assert.match(text, /方案信息/)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出姓名打分、吉凶定论/)
+  assert.ok(nextRows.some(row => row.label === '干支五行速查'))
+  assert.doesNotMatch(text, /一定|必然/)
 })
 
 test('tarot tool draws deterministic spread fields from a 78-card deck', () => {
