@@ -197,6 +197,8 @@ test('name tool uses manual strokes for five grids', () => {
 test('tarot tool draws deterministic spread fields from a 78-card deck', () => {
   const input = {
     question: '这件事现在最该关注什么？',
+    context: '已有两个可选方案，但信息不完整。',
+    focus: 'decision',
     spread: 'three',
     date: '2026-07-03',
     time: '20:30',
@@ -206,12 +208,17 @@ test('tarot tool draws deterministic spread fields from a 78-card deck', () => {
   const second = structuredTools.tarot.calculate(input)
   const text = formatStructuredResultText(first)
   const spreadRows = first.sections.find(section => section.title === '牌阵结果').rows
+  const reviewRows = first.sections.find(section => section.title === '问题拆解').rows
+  const nextRows = first.sections.find(section => section.title === '下一步入口').rows
 
-  assert.equal(first.title, '塔罗抽牌')
-  assert.deepEqual(first.badges, ['三张牌', '3张牌', '78张牌库'])
+  assert.equal(first.title, '塔罗问题记录')
+  assert.deepEqual(first.badges, ['决策拆解', '三张牌', '3张牌', '78张牌库'])
   assert.equal(spreadRows.length, 3)
   assert.deepEqual(first.sections, second.sections)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、应期/)
+  assert.ok(nextRows.some(row => row.label === '每日一卦记录'))
   assert.match(text, /牌库：莱德韦特通用 78 张/)
+  assert.match(text, /问题拆解/)
   assert.match(text, /正位|逆位/)
   assert.doesNotMatch(text, /一定|必然/)
 })
