@@ -3,16 +3,16 @@ import { ToolPageFrame } from '@/components/xuan-shell'
 import { buildPageMetadata } from '@/lib/seo'
 
 export const metadata = buildPageMetadata({
-  title: '干支五行速查',
-  description: '速查十天干、十二地支、阴阳、五行、藏干、生克关系和季节对应。',
+  title: '干支五行复核',
+  description: '按排盘、姓名、择日或资料留档场景复核天干地支、阴阳五行、藏干、生克关系和下一步入口。',
   path: '/tools/wuxing'
 })
 
 export default function WuxingPage() {
   return (
     <ToolPageFrame
-      title='干支五行速查'
-      description={'查询天干地支基础字段。\n包含阴阳、五行、藏干和生克关系。'}>
+      title='干支五行复核'
+      description={'输入要核对的天干、地支或五行。\n按排盘、姓名、择日或资料留档场景整理字段口径。'}>
       <LazyWuxingReferenceTool />
     </ToolPageFrame>
   )
