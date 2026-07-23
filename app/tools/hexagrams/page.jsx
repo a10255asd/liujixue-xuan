@@ -3,16 +3,16 @@ import { ToolPageFrame } from '@/components/xuan-shell'
 import { buildPageMetadata } from '@/lib/seo'
 
 export const metadata = buildPageMetadata({
-  title: '六十四卦速查',
-  description: '按上卦、下卦速查六十四卦名称、卦象组合、八卦五行和基础归类。',
+  title: '六十四卦复核',
+  description: '按问事、六爻、梅花或资料留档场景复核上下卦、卦名、卦象、八卦五行和下一步入口。',
   path: '/tools/hexagrams'
 })
 
 export default function HexagramsPage() {
   return (
     <ToolPageFrame
-      title='六十四卦速查'
-      description={'查询上卦和下卦组合。\n输出卦名、卦象和八卦基础字段。'}>
+      title='六十四卦复核'
+      description={'选择复核用途、上卦和下卦。\n输出卦名、卦象、八卦五行和资料边界。'}>
       <LazyHexagramReferenceTool />
     </ToolPageFrame>
   )

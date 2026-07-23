@@ -4781,6 +4781,80 @@ body {
   background: rgba(169, 131, 54, 0.08);
 }
 
+.hexagram-review-panel {
+  gap: 18px;
+}
+
+.hexagram-query-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(160px, 0.8fr));
+  gap: 12px;
+}
+
+.hexagram-select-field {
+  display: grid;
+  gap: 8px;
+}
+
+.hexagram-select-field span,
+.hexagram-result-card span {
+  color: #687168;
+  font-size: 12px;
+  font-weight: 840;
+}
+
+.hexagram-select-field input,
+.hexagram-select-field select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(17, 20, 17, 0.14);
+  border-radius: 8px;
+  background: #fffdf8;
+  color: #16130e;
+  padding: 0 14px;
+  font: inherit;
+}
+
+.hexagram-select-field input:focus,
+.hexagram-select-field select:focus {
+  border-color: rgba(169, 131, 54, 0.44);
+  box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.12);
+  outline: 0;
+}
+
+.hexagram-result-grid {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hexagram-result-card {
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 16px;
+}
+
+.hexagram-result-card strong {
+  display: block;
+  margin-top: 6px;
+  color: #16130e;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.hexagram-result-card p {
+  margin: 8px 0 0;
+  color: #4f574f;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.hexagram-result-card .wuxing-element {
+  margin-top: 12px;
+}
+
 .wuxing-table-wrap {
   overflow-x: auto;
   border: 1px solid rgba(17, 20, 17, 0.1);
@@ -5116,6 +5190,8 @@ body {
   .wuxing-review-grid,
   .wuxing-review-results,
   .wuxing-next-grid,
+  .hexagram-query-grid,
+  .hexagram-result-grid,
   .wuxing-relation-grid,
   .trigram-card-grid,
   .shichen-card-grid,
