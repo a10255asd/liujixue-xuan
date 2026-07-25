@@ -34,7 +34,7 @@ const reviewProfiles = {
     caution: '这里只复核卦象字段，不输出吉凶、应期或结果判断。',
     next: [
       ['每日一卦记录', '/tools/daily'],
-      ['六爻纳甲排盘', '/tools/liuyao'],
+      ['六爻问事记录', '/tools/liuyao'],
       ['梅花易数排盘', '/tools/meihua']
     ]
   },
@@ -45,7 +45,7 @@ const reviewProfiles = {
     method: '把本卦或变卦拆成上下卦，先核对卦名、卦象和八卦五行，再看世应、六亲和动爻。',
     caution: '六爻判断需回到完整盘面，不能只凭卦名或卦象下结论。',
     next: [
-      ['六爻纳甲排盘', '/tools/liuyao'],
+      ['六爻问事记录', '/tools/liuyao'],
       ['干支五行复核', '/tools/wuxing'],
       ['古籍书楼', '/classics']
     ]

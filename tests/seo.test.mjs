@@ -29,13 +29,13 @@ test('xuan metadata includes canonical open graph and twitter image', () => {
 test('xuan json ld helpers expose site tool and breadcrumb data', () => {
   const siteJsonLd = buildSiteJsonLd()
   const toolJsonLd = buildToolJsonLd({
-    title: '六爻纳甲排盘',
+    title: '六爻问事记录',
     description: '输出本卦、变卦和六亲字段。',
     path: '/tools/liuyao'
   })
   const breadcrumbs = buildBreadcrumbJsonLd([
     { name: '鸡血玄策', path: '/' },
-    { name: '六爻纳甲排盘', path: '/tools/liuyao' }
+    { name: '六爻问事记录', path: '/tools/liuyao' }
   ])
 
   assert.equal(absoluteUrl('/tools/liuyao'), 'https://xuan.liujixue.cn/tools/liuyao')

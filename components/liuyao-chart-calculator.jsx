@@ -4,9 +4,11 @@ import { RefreshCcw } from '@/components/icons'
 import { ChartExportActions } from '@/components/chart-export-panel'
 import {
   buildLiuYaoExportPayload,
+  buildLiuYaoReviewRows,
   calculateLiuYaoChart,
   defaultLiuYaoInput,
   liuYaoExampleInputs,
+  liuYaoFocusOptions,
   liuYaoLineStateOptions,
   liuYaoMethodOptions
 } from '@/lib/liuyao-chart'
@@ -94,7 +96,7 @@ function NumberField({ field, form, onChange, onCommit }) {
 function QuestionField({ value, onChange }) {
   return (
     <div className='chart-field wide'>
-      <label htmlFor='liuyao-question'>事项</label>
+      <label htmlFor='liuyao-question'>事项/问题</label>
       <input
         id='liuyao-question'
         className='chart-text-input'
@@ -102,6 +104,39 @@ function QuestionField({ value, onChange }) {
         value={value}
         onChange={event => onChange(event.target.value)}
       />
+    </div>
+  )
+}
+
+function ContextField({ value, onChange }) {
+  return (
+    <div className='chart-field wide'>
+      <label htmlFor='liuyao-context'>背景材料</label>
+      <textarea
+        id='liuyao-context'
+        className='chart-text-input structured-textarea'
+        maxLength={180}
+        placeholder='可记录已知事实、双方位置、限制条件和待确认信息。'
+        value={value}
+        onChange={event => onChange(event.target.value)}
+      />
+    </div>
+  )
+}
+
+function FocusField({ value, onChange }) {
+  return (
+    <div className='chart-field wide'>
+      <label htmlFor='liuyao-focus'>关注方向</label>
+      <select
+        id='liuyao-focus'
+        className='chart-text-input'
+        value={value}
+        onChange={event => onChange(event.target.value)}>
+        {liuYaoFocusOptions.map(option => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
     </div>
   )
 }
@@ -154,6 +189,10 @@ function LiuYaoInputAudit({ chart }) {
     {
       label: '事项',
       value: chart.input.question
+    },
+    {
+      label: '关注',
+      value: chart.input.focusLabel
     },
     {
       label: '起卦',
@@ -361,16 +400,16 @@ function LiuYaoChartTable({ chart, exportPayload }) {
 function LiuYaoWorkflowCard({ chart }) {
   const checkpoints = [
     {
-      label: '核对事项',
-      value: `${chart.input.question} · ${chart.input.methodLabel}`
+      label: '记录问题',
+      value: `${chart.input.question} · ${chart.input.focusLabel}`
     },
     {
       label: '确认卦象',
       value: `${chart.hexagram.name} · ${chart.hexagram.palace}宫${chart.hexagram.palaceElement} · 动爻 ${chart.movingLines.length ? chart.movingLines.map(item => `${item}爻`).join('、') : '无'}`
     },
     {
-      label: '下载结果',
-      value: '核对无误后下载排盘图片'
+      label: '复盘边界',
+      value: '先留字段和事实回传，不输出吉凶、应期或结果保证。'
     }
   ]
 
@@ -379,9 +418,9 @@ function LiuYaoWorkflowCard({ chart }) {
       <div className='chart-section-head'>
         <div>
           <span className='chart-kicker'>Workflow</span>
-          <h2>排盘核对</h2>
+          <h2>问事复盘</h2>
         </div>
-        <span className='chart-source'>核对 / 下载</span>
+        <span className='chart-source'>记录 / 核对 / 复盘</span>
       </div>
       <div className='chart-workflow-steps'>
         {checkpoints.map((item, index) => (
@@ -392,6 +431,27 @@ function LiuYaoWorkflowCard({ chart }) {
           </article>
         ))}
       </div>
+    </section>
+  )
+}
+
+function LiuYaoReviewCard({ chart }) {
+  const rows = buildLiuYaoReviewRows(chart)
+
+  return (
+    <section className='chart-section-card'>
+      <div className='chart-section-head'>
+        <div>
+          <span className='chart-kicker'>Review</span>
+          <h2>复盘清单</h2>
+        </div>
+        <span className='chart-source'>用神 / 世应 / 动爻</span>
+      </div>
+      <dl className='chart-detail-list compact'>
+        {rows.map(row => (
+          <DetailRow key={row.label} label={row.label} value={row.value} />
+        ))}
+      </dl>
     </section>
   )
 }
@@ -475,6 +535,16 @@ export function LiuYaoChartCalculator() {
             onChange={value => setForm(current => ({ ...current, question: value }))}
           />
 
+          <ContextField
+            value={form.context}
+            onChange={value => setForm(current => ({ ...current, context: value }))}
+          />
+
+          <FocusField
+            value={form.focus}
+            onChange={value => setForm(current => ({ ...current, focus: value }))}
+          />
+
           <MethodField
             value={form.method}
             onChange={value => setForm(current => ({ ...current, method: value }))}
@@ -532,9 +602,10 @@ export function LiuYaoChartCalculator() {
           <div className='bazi-summary-main'>
             <span className='chart-kicker'>本卦 / 变卦</span>
             <strong>{chart.hexagram.name} → {chart.changedHexagram.name}</strong>
-            <p>{chart.input.question}</p>
+            <p>{chart.input.question} · {chart.input.focusLabel}</p>
           </div>
           <div className='chart-summary-grid'>
+            <SummaryItem label='关注方向' value={chart.input.focusLabel} />
             <SummaryItem label='起卦方式' value={chart.input.methodLabel} />
             <SummaryItem label='卦宫' value={`${chart.hexagram.palace}宫${chart.hexagram.palaceElement}`} />
             <SummaryItem label='世应' value={`世${chart.hexagram.world} / 应${chart.hexagram.response}`} />
@@ -563,6 +634,8 @@ export function LiuYaoChartCalculator() {
         </section>
 
         <LiuYaoWorkflowCard chart={chart} />
+
+        <LiuYaoReviewCard chart={chart} />
 
         <LiuYaoChartTable chart={chart} exportPayload={exportPayload} />
 

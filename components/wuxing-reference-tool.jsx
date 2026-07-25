@@ -46,7 +46,7 @@ const reviewProfiles = {
     caution: '不把单个五行直接当作喜忌结论，必须结合完整盘面和问题场景。',
     next: [
       ['八字专业细盘', '/tools/bazi'],
-      ['六爻纳甲排盘', '/tools/liuyao'],
+      ['六爻问事记录', '/tools/liuyao'],
       ['奇门遁甲速盘', '/tools/qimen']
     ]
   },

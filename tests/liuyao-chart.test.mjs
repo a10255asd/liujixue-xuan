@@ -62,24 +62,37 @@ test('liu yao chart builds na jia six relatives six gods and hidden spirit', () 
 })
 
 test('liu yao export payload contains chart fields without judgement copy', () => {
-  const chart = calculateLiuYaoChart(defaultLiuYaoInput)
+  const chart = calculateLiuYaoChart({
+    ...defaultLiuYaoInput,
+    context: '双方已断联，但还有共同事务需要处理。',
+    focus: 'relation'
+  })
   const text = buildLiuYaoCopyText(chart)
   const payload = buildLiuYaoExportPayload(chart)
+  const reviewSection = payload.sections.find(section => section.title === '复盘清单')
 
-  assert.equal(payload.title, '六爻专业排盘')
+  assert.equal(payload.title, '六爻问事记录')
   assert.equal(payload.imageKind, 'liuYaoFine')
+  assert.ok(payload.badges.includes('关系复盘'))
   assert.ok(payload.badges.includes('本卦 泽雷随'))
   assert.ok(payload.sections.some(section => section.title === '六爻排盘'))
+  assert.ok(reviewSection.rows.some(row => row.label === '输出边界'))
+  assert.match(reviewSection.rows.find(row => row.label === '输出边界').value, /不输出吉凶、应期/)
   assert.equal(payload.liuYaoLines.length, 6)
   assert.equal(payload.liuYaoLines[0].label, '上爻')
   assert.equal(payload.liuYaoLines[3].role, '世')
   assert.match(payload.liuYaoLines[2].hiddenText, /伏/)
   assert.match(payload.hexagramSummary.main, /泽雷随/)
+  assert.ok(text.includes('六爻问事记录'))
+  assert.ok(text.includes('关注方向：关系复盘'))
+  assert.ok(text.includes('背景材料：双方已断联'))
   assert.ok(text.includes('本卦：泽雷随'))
   assert.ok(text.includes('变卦：水泽节'))
   assert.ok(text.includes('伏神:孙午火庚'))
+  assert.ok(text.includes('复盘清单：'))
   assert.ok(!text.includes('断语：'))
   assert.ok(!text.includes('建议：'))
+  assert.doesNotMatch(text, /一定|必然/)
 })
 
 test('liu yao three-number method derives hexagram and moving line', () => {
