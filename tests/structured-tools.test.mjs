@@ -36,6 +36,8 @@ test('structured tools do not expose cross-tool handoff targets', () => {
 test('meihua number method returns core hexagram fields', () => {
   const output = structuredTools.meihua.calculate({
     topic: '测试事项',
+    context: '已有两个方案，需要先确认下一步。',
+    focus: 'decision',
     method: 'numbers',
     date: '2026-05-14',
     time: '22:03',
@@ -43,11 +45,19 @@ test('meihua number method returns core hexagram fields', () => {
     lowerNumber: '8',
     movingNumber: '6'
   })
+  const text = formatStructuredResultText(output)
+  const reviewRows = output.sections.find(section => section.title === '复盘清单').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
 
-  assert.equal(output.title, '梅花易数排盘')
+  assert.equal(output.title, '梅花问事记录')
+  assert.ok(output.badges.includes('决策拆解'))
   assert.ok(output.badges.includes('本卦 天地否'))
   assert.ok(output.badges.includes('变卦 泽地萃'))
-  assert.match(formatStructuredResultText(output), /体卦：坤/)
+  assert.match(text, /体卦：坤/)
+  assert.match(text, /问事信息/)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、应期/)
+  assert.ok(nextRows.some(row => row.label === '六十四卦复核'))
+  assert.doesNotMatch(text, /一定|必然/)
 })
 
 test('qimen tool uses chai-bu chart and renders palace fields', () => {
