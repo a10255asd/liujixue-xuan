@@ -166,7 +166,7 @@ test('birth time workspace renders candidate differences and review boundary', (
   assert.equal(differenceRows.length, 5)
   assert.match(inputRows.find(row => row.label === '输出口径').value, /不直接判定唯一出生时辰/)
   assert.match(reviewRows.find(row => row.label === '子时提示').value, /晚子时|跨日/)
-  assert.ok(nextRows.some(row => row.label === '八字专业细盘'))
+  assert.ok(nextRows.some(row => row.label === '八字出生档案'))
   assert.match(text, /日柱变化|日柱同参考/)
 })
 

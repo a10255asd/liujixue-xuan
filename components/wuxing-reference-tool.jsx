@@ -45,7 +45,7 @@ const reviewProfiles = {
     method: '先把盘面里的天干、地支和五行拆开核对，再回到八字、六爻或奇门盘面看组合。',
     caution: '不把单个五行直接当作喜忌结论，必须结合完整盘面和问题场景。',
     next: [
-      ['八字专业细盘', '/tools/bazi'],
+      ['八字出生档案', '/tools/bazi'],
       ['六爻问事记录', '/tools/liuyao'],
       ['奇门遁甲速盘', '/tools/qimen']
     ]
@@ -57,7 +57,7 @@ const reviewProfiles = {
     caution: '姓名方案不能只看五行补缺，还要同步核对笔画、字义、谐音、出处和避讳。',
     next: [
       ['姓名方案复核', '/tools/name'],
-      ['八字专业细盘', '/tools/bazi'],
+      ['八字出生档案', '/tools/bazi'],
       ['出生校时工作台', '/tools/birth-time']
     ]
   },

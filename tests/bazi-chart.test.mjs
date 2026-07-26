@@ -8,6 +8,11 @@ import {
   defaultBaZiInput,
   normalizeBirthInput
 } from '../lib/bazi-chart.js'
+import {
+  buildBaZiCopyText,
+  buildBaZiExportPayload,
+  buildBaZiReviewRows
+} from '../lib/traditional-chart-annotations.js'
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 
@@ -211,6 +216,9 @@ test('birth input normalization clamps invalid ranges', () => {
     minute: -5,
     birthLongitude: 999,
     birthLatitude: -999,
+    archivePurpose: 'unknown',
+    birthSource: '',
+    calibrationNotes: '  23:30\n家人说法待核对  ',
     sect: 7
   })
 
@@ -223,8 +231,38 @@ test('birth input normalization clamps invalid ranges', () => {
     minute: 0,
     birthLongitude: 180,
     birthLatitude: -90,
+    archivePurposeLabel: '出生档案',
+    calibrationNotes: '23:30 家人说法待核对',
     sect: 2
   })
+})
+
+test('bazi birth archive export includes source and review boundary', () => {
+  const result = calculateBaZiChart({
+    year: 1996,
+    month: 7,
+    day: 19,
+    hour: 23,
+    minute: 30,
+    gender: '男',
+    archivePurpose: 'calibration',
+    birthSource: '出生证明复印件',
+    calibrationNotes: '晚子时边界，需要对照相邻时辰。',
+    currentYear: 2026
+  })
+  const payload = buildBaZiExportPayload(result)
+  const copyText = buildBaZiCopyText(result)
+  const reviewRows = buildBaZiReviewRows(result)
+
+  assert.equal(result.input.archivePurposeLabel, '校时复核')
+  assert.equal(payload.title, '八字出生档案')
+  assert.ok(payload.badges.includes('校时复核'))
+  assert.ok(payload.sections.some(section => section.title === '复核清单'))
+  assert.ok(reviewRows.some(row => row.label === '信息来源' && row.value === '出生证明复印件'))
+  assert.match(copyText, /八字出生档案/)
+  assert.match(copyText, /校时线索/)
+  assert.match(copyText, /不输出吉凶/)
+  assert.doesNotMatch(copyText, /一定|必然/)
 })
 
 test('bazi chart source version matches dependency declaration', () => {

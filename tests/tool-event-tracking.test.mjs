@@ -10,11 +10,11 @@ test('chart download event records stable operational fields only', () => {
     payload: {
       toolCode: 'bazi',
       imageKind: 'baziFine',
-      title: '八字专业细盘',
-      subtitle: '1996-07-19 23:30 公历/阳历 · 男 · 黑龙江省 黑河市',
+      title: '八字出生档案',
+      subtitle: '1996-07-19 23:30 公历/阳历 · 男 · 校时复核 · 黑龙江省 黑河市',
       filename: 'bazi-chart-19960719-2330.png',
-      badges: ['四柱 丙子 乙未 戊午 壬子'],
-      sections: [{ title: '核心字段', rows: [] }, { title: '专业细盘', rows: [] }],
+      badges: ['校时复核', '四柱 丙子 乙未 戊午 壬子'],
+      sections: [{ title: '核心字段', rows: [] }, { title: '复核清单', rows: [] }, { title: '专业细盘', rows: [] }],
       footer: 'Jixue Lab'
     }
   })
@@ -24,11 +24,11 @@ test('chart download event records stable operational fields only', () => {
   assert.equal(event.sourceSite, 'xuan')
   assert.equal(event.sourcePath, '/tools/bazi')
   assert.match(event.visitorId, /^visitor-/)
-  assert.equal(event.metadata.title, '八字专业细盘')
+  assert.equal(event.metadata.title, '八字出生档案')
   assert.equal(event.metadata.location, 'bazi-fine-chart')
   assert.equal(event.metadata.imageKind, 'baziFine')
-  assert.equal(event.metadata.badgeCount, 1)
-  assert.equal(event.metadata.sectionCount, 2)
+  assert.equal(event.metadata.badgeCount, 2)
+  assert.equal(event.metadata.sectionCount, 3)
   assert.equal(event.metadata.hasFooter, true)
   assert.equal(event.metadata.pageTitle, '鸡血玄策 - 八字')
   assert.match(event.metadata.sessionId, /^session-/)

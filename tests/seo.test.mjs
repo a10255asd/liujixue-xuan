@@ -13,7 +13,7 @@ import {
 
 test('xuan metadata includes canonical open graph and twitter image', () => {
   const metadata = buildPageMetadata({
-    title: '八字专业细盘',
+    title: '八字出生档案',
     description: '按公历、出生地和真太阳时输出四柱。',
     path: '/tools/bazi'
   })
@@ -60,7 +60,7 @@ test('xuan item list json ld exposes ordered tool catalogue entries', () => {
     path: '/tools',
     items: [
       {
-        title: '八字专业细盘',
+        title: '八字出生档案',
         summary: '输出四柱。',
         href: '/tools/bazi'
       }
