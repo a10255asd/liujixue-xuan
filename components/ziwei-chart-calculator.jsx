@@ -3,7 +3,7 @@
 import { RefreshCcw } from '@/components/icons'
 import { TermExplanationPanel } from '@/components/chart-annotation-panels'
 import { ChartExportActions } from '@/components/chart-export-panel'
-import { calculateZiWeiChart, defaultZiWeiInput, ziWeiExampleInputs, ziWeiGenderOptions, ziWeiSectOptions } from '@/lib/ziwei-chart'
+import { calculateZiWeiChart, defaultZiWeiInput, ziWeiArchiveOptions, ziWeiExampleInputs, ziWeiGenderOptions, ziWeiSectOptions } from '@/lib/ziwei-chart'
 import {
   getAreaOptions,
   getBirthPlaceSelection,
@@ -14,6 +14,7 @@ import {
 import { downloadZiWeiFineChartImage } from '@/lib/chart-image-export'
 import {
   buildZiWeiExportPayload,
+  buildZiWeiReviewRows,
   ziweiTermExplanations
 } from '@/lib/traditional-chart-annotations'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -141,6 +142,26 @@ function SegmentedControl({ label, value, options, onChange }) {
   )
 }
 
+function ArchiveTextField({ id, label, value, onChange, placeholder, textarea = false, maxLength = 120 }) {
+  const fieldProps = {
+    id: `ziwei-${id}`,
+    className: `chart-text-input ${textarea ? 'structured-textarea' : ''}`,
+    maxLength,
+    value: value || '',
+    onChange: event => onChange(event.target.value.slice(0, maxLength)),
+    placeholder
+  }
+
+  return (
+    <div className='chart-field wide'>
+      <label htmlFor={`ziwei-${id}`}>{label}</label>
+      {textarea
+        ? <textarea {...fieldProps} rows={3} />
+        : <input {...fieldProps} type='text' autoComplete='off' />}
+    </div>
+  )
+}
+
 function ZiWeiExamplePicker({ examples, onApply }) {
   return (
     <div className='chart-example-panel'>
@@ -166,6 +187,10 @@ function ZiWeiExamplePicker({ examples, onApply }) {
 
 function ZiWeiInputAudit({ result }) {
   const rows = [
+    {
+      label: '档案',
+      value: `${result.input.archivePurposeLabel} · ${result.input.birthSource || '未填写来源'}`
+    },
     {
       label: '输入',
       value: `${result.solarText} · ${result.input.gender}`
@@ -305,16 +330,16 @@ function ZiWeiWorkflowCard({ result }) {
   const bodyPosition = `${result.bodyPalace?.heavenlyStem || ''}${result.bodyPalace?.earthlyBranch || ''}` || '未取'
   const checkpoints = [
     {
-      label: '核对输入',
-      value: `${result.input.birthPlace || '未选择'} · ${result.solarText}`
+      label: '固定资料',
+      value: `${result.input.archivePurposeLabel} · ${result.input.birthSource || '未填写来源'}`
     },
     {
-      label: '确认命盘',
+      label: '确认宫位',
       value: `${result.fiveElementsClass} · 命宫 ${mingPosition} · 身宫 ${bodyPosition}`
     },
     {
-      label: '下载结果',
-      value: '核对无误后下载专业命盘图片'
+      label: '保留边界',
+      value: '只留命盘字段、口径和复核材料，不输出吉凶或人生判断。'
     }
   ]
 
@@ -323,9 +348,9 @@ function ZiWeiWorkflowCard({ result }) {
       <div className='chart-section-head'>
         <div>
           <span className='chart-kicker'>Workflow</span>
-          <h2>排盘核对</h2>
+          <h2>档案流程</h2>
         </div>
-        <span className='chart-source'>核对 / 下载</span>
+        <span className='chart-source'>记录 / 宫位 / 导出</span>
       </div>
       <div className='chart-workflow-steps'>
         {checkpoints.map((item, index) => (
@@ -336,6 +361,27 @@ function ZiWeiWorkflowCard({ result }) {
           </article>
         ))}
       </div>
+    </section>
+  )
+}
+
+function ZiWeiReviewCard({ result }) {
+  const rows = buildZiWeiReviewRows(result)
+
+  return (
+    <section className='chart-section-card'>
+      <div className='chart-section-head'>
+        <div>
+          <span className='chart-kicker'>Review</span>
+          <h2>复核清单</h2>
+        </div>
+        <span className='chart-source'>来源 / 宫位 / 边界</span>
+      </div>
+      <dl className='chart-detail-list compact'>
+        {rows.map(item => (
+          <DetailRow key={item.label} label={item.label} value={item.value} />
+        ))}
+      </dl>
     </section>
   )
 }
@@ -492,6 +538,13 @@ export function ZiWeiChartCalculator() {
         <ZiWeiExamplePicker examples={ziWeiExampleInputs} onApply={applyExample} />
 
         <div className='chart-form-grid'>
+          <SegmentedControl
+            label='档案用途'
+            value={form.archivePurpose}
+            options={ziWeiArchiveOptions}
+            onChange={value => setValue('archivePurpose', value)}
+          />
+
           {numberFields.map(field => (
             <NumberField
               key={field.key}
@@ -514,6 +567,35 @@ export function ZiWeiChartCalculator() {
           <div className={`chart-location-status ${locationState.status}`}>
             {locationState.message}
           </div>
+
+          <ArchiveTextField
+            id='birth-source'
+            label='信息来源'
+            value={form.birthSource}
+            maxLength={120}
+            placeholder='出生证明、医院记录或家人转述'
+            onChange={value => setValue('birthSource', value)}
+          />
+
+          <ArchiveTextField
+            id='calibration-notes'
+            label='校时线索'
+            value={form.calibrationNotes}
+            maxLength={180}
+            placeholder='候选时辰、子时边界、闰月或待核对材料'
+            textarea
+            onChange={value => setValue('calibrationNotes', value)}
+          />
+
+          <ArchiveTextField
+            id='focus-notes'
+            label='复核重点'
+            value={form.focusNotes}
+            maxLength={180}
+            placeholder='这次重点看命宫、身宫、主星、大限或某个宫位'
+            textarea
+            onChange={value => setValue('focusNotes', value)}
+          />
 
           <ZiWeiInputAudit result={result} />
 
@@ -552,6 +634,7 @@ export function ZiWeiChartCalculator() {
             <p>{result.lunarDate} · {result.time} {result.timeRange}</p>
           </div>
           <div className='chart-summary-grid'>
+            <SummaryItem label='档案用途' value={result.input.archivePurposeLabel} />
             <SummaryItem label='四柱' value={result.chineseDate} />
             <SummaryItem label='命宫' value={`${result.mingPalace?.heavenlyStem || ''}${result.mingPalace?.earthlyBranch || ''}`} />
             <SummaryItem label='身宫' value={result.bodyPalace?.name || '未取'} />
@@ -589,6 +672,8 @@ export function ZiWeiChartCalculator() {
         </section>
 
         <ZiWeiWorkflowCard result={result} />
+
+        <ZiWeiReviewCard result={result} />
 
         <ZiWeiFineChart exportPayload={exportPayload} result={result} />
 

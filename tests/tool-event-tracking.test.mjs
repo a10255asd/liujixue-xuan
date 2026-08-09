@@ -38,8 +38,8 @@ test('chart download event records stable operational fields only', () => {
 
 test('chart download event reuses visitor and session ids', () => {
   const browser = createBrowser()
-  const first = buildChartDownloadEvent({ payload: { toolCode: 'ziwei', title: '紫微斗数专业盘' }, browser })
-  const second = buildChartDownloadEvent({ payload: { toolCode: 'ziwei', title: '紫微斗数专业盘' }, browser })
+  const first = buildChartDownloadEvent({ payload: { toolCode: 'ziwei', title: '紫微命盘档案' }, browser })
+  const second = buildChartDownloadEvent({ payload: { toolCode: 'ziwei', title: '紫微命盘档案' }, browser })
 
   assert.equal(second.visitorId, first.visitorId)
   assert.equal(second.metadata.sessionId, first.metadata.sessionId)
