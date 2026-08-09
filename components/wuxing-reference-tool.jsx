@@ -47,7 +47,7 @@ const reviewProfiles = {
     next: [
       ['八字出生档案', '/tools/bazi'],
       ['六爻问事记录', '/tools/liuyao'],
-      ['奇门遁甲速盘', '/tools/qimen']
+      ['奇门问事记录', '/tools/qimen']
     ]
   },
   name: {

@@ -63,22 +63,34 @@ test('meihua number method returns core hexagram fields', () => {
 test('qimen tool uses chai-bu chart and renders palace fields', () => {
   const output = structuredTools.qimen.calculate({
     topic: '测试事项',
+    context: '已有两个方案，需要先看下一步动作。',
+    focus: 'timing',
     date: '2026-05-14',
     time: '22:03'
   })
   const palaceSection = output.sections.find(section => section.title === '九宫综合盘')
+  const infoRows = output.sections.find(section => section.title === '问事信息').rows
+  const reviewRows = output.sections.find(section => section.title === '复盘清单').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
   const text = formatStructuredResultText(output)
 
-  assert.equal(output.title, '奇门遁甲拆补法排盘')
+  assert.equal(output.title, '奇门问事记录')
+  assert.ok(output.badges.includes('行动窗口'))
   assert.ok(output.badges.includes('阳遁'))
   assert.ok(output.badges.includes('1局'))
   assert.ok(output.badges.includes('立夏 中元'))
   assert.ok(output.badges.includes('值符 天心'))
+  assert.equal(infoRows.find(row => row.label === '关注方向').value, '行动窗口')
   assert.equal(palaceSection.layout, 'palace-grid')
   assert.equal(palaceSection.cells.length, 9)
   assert.match(palaceSection.rows[0].value, /八神勾陈/)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、应期/)
+  assert.ok(nextRows.some(row => row.label === '六爻问事记录'))
   assert.match(text, /起局时间：2026051422/)
+  assert.match(text, /问事信息/)
+  assert.match(text, /复盘清单/)
   assert.match(text, /八门：杜门/)
+  assert.doesNotMatch(text, /一定|必然/)
 })
 
 test('daliuren tool renders month general, four lessons and three transmissions', () => {
