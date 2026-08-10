@@ -4994,8 +4994,12 @@ body {
 
 .shichen-planner-form {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.8fr) minmax(160px, 0.8fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(180px, 0.8fr) minmax(150px, 0.8fr) minmax(150px, 0.8fr);
   gap: 14px;
+}
+
+.shichen-wide-field {
+  grid-column: span 2;
 }
 
 .shichen-planner-summary {
@@ -5106,6 +5110,34 @@ body {
   line-height: 1.6;
 }
 
+.shichen-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.shichen-review-card {
+  min-width: 0;
+  border: 1px solid rgba(17, 20, 17, 0.1);
+  border-radius: 8px;
+  background: #fffdf8;
+  padding: 14px;
+}
+
+.shichen-review-card span {
+  display: block;
+  color: #8a9188;
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.shichen-review-card p {
+  margin: 7px 0 0;
+  color: #293028;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .trigram-card,
 .shichen-card {
   min-width: 0;
@@ -5196,8 +5228,13 @@ body {
   .trigram-card-grid,
   .shichen-card-grid,
   .shichen-planner-form,
-  .shichen-candidate-grid {
+  .shichen-candidate-grid,
+  .shichen-review-grid {
     grid-template-columns: 1fr;
+  }
+
+  .shichen-wide-field {
+    grid-column: auto;
   }
 
   .xuan-tool-index-panel {

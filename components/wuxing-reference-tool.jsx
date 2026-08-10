@@ -67,7 +67,7 @@ const reviewProfiles = {
     method: '先核对日期或时辰对应的地支五行、季节和藏干，再看黄历、择日或时辰候选。',
     caution: '时辰五行只做资料层复核，不替代冲煞、宜忌、事项类型和人工判断。',
     next: [
-      ['十二时辰速查', '/tools/shichen'],
+      ['时辰候选记录', '/tools/shichen'],
       ['黄历节气', '/tools/calendar'],
       ['择日候选记录', '/tools/date-selection']
     ]
