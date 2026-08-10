@@ -96,24 +96,36 @@ test('qimen tool uses chai-bu chart and renders palace fields', () => {
 test('daliuren tool renders month general, four lessons and three transmissions', () => {
   const output = structuredTools.daliuren.calculate({
     topic: '测试事项',
+    context: '已有一条线索，需要确认下一步复核方式。',
+    focus: 'evidence',
     date: '2026-05-14',
     time: '22:03'
   })
+  const infoRows = output.sections.find(section => section.title === '问事信息').rows
   const plateSection = output.sections.find(section => section.title === '天地盘十二宫')
   const siKeSection = output.sections.find(section => section.title === '四课')
   const sanZhuanSection = output.sections.find(section => section.title === '三传')
+  const reviewRows = output.sections.find(section => section.title === '复盘清单').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
   const text = formatStructuredResultText(output)
 
-  assert.equal(output.title, '大六壬四课三传')
+  assert.equal(output.title, '大六壬问事记录')
+  assert.ok(output.badges.includes('证据整理'))
   assert.ok(output.badges.includes('月将 酉从魁'))
   assert.ok(output.badges.includes('课型 重审课'))
+  assert.equal(infoRows.find(row => row.label === '关注方向').value, '证据整理')
   assert.equal(plateSection.layout, 'palace-grid')
   assert.equal(plateSection.cells.length, 12)
   assert.equal(siKeSection.cells.length, 4)
   assert.equal(sanZhuanSection.cells.length, 3)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、应期/)
+  assert.ok(nextRows.some(row => row.label === '奇门问事记录'))
   assert.match(text, /月将：酉从魁/)
   assert.match(text, /一课：上神卯/)
   assert.match(text, /初传：传神丑/)
+  assert.match(text, /问事信息/)
+  assert.match(text, /复盘清单/)
+  assert.doesNotMatch(text, /一定|必然/)
 })
 
 test('date selection clamps date range and formats rows', () => {
