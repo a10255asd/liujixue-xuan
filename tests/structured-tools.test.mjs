@@ -132,6 +132,7 @@ test('date selection clamps date range and formats rows', () => {
   const output = structuredTools.dateSelection.calculate({
     topic: '上线发布',
     purpose: 'launch',
+    constraints: '避开周末，优先工作日上午。',
     startDate: '2026-07-02',
     days: '40',
     time: '09:00'
@@ -139,15 +140,24 @@ test('date selection clamps date range and formats rows', () => {
   const dateRows = output.sections.find(section => section.title === '日期清单').rows
   const candidateRows = output.sections.find(section => section.title === '候选日期').rows
   const filterRows = output.sections.find(section => section.title === '筛选信息').rows
+  const reviewRows = output.sections.find(section => section.title === '复核清单').rows
+  const nextRows = output.sections.find(section => section.title === '下一步入口').rows
+  const text = formatStructuredResultText(output)
 
+  assert.equal(output.title, '择日候选记录')
   assert.equal(dateRows.length, 30)
   assert.equal(candidateRows.length, 5)
   assert.match(output.badges.join(' / '), /上线发布/)
+  assert.equal(filterRows.find(row => row.label === '限制条件').value, '避开周末，优先工作日上午。')
   assert.match(filterRows.find(row => row.label === '筛选口径').value, /候选缩小/)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶/)
+  assert.ok(nextRows.some(row => row.label === '每日行动速览'))
   assert.equal(dateRows[0].label, '2026-07-02')
   assert.match(dateRows[0].value, /优先候选|可备选|需人工复核/)
   assert.match(dateRows[0].value, /宜：/)
   assert.match(candidateRows[0].value, /宜项命中|事项在忌项/)
+  assert.match(text, /复核清单/)
+  assert.doesNotMatch(text, /一定|必然|好运|坏运/)
 })
 
 test('daily action tool renders practical review fields without fortune claims', () => {

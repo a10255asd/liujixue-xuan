@@ -69,7 +69,7 @@ const reviewProfiles = {
     next: [
       ['十二时辰速查', '/tools/shichen'],
       ['黄历节气', '/tools/calendar'],
-      ['择日速览', '/tools/date-selection']
+      ['择日候选记录', '/tools/date-selection']
     ]
   },
   archive: {
