@@ -151,7 +151,7 @@ test('date selection clamps date range and formats rows', () => {
   assert.equal(filterRows.find(row => row.label === '限制条件').value, '避开周末，优先工作日上午。')
   assert.match(filterRows.find(row => row.label === '筛选口径').value, /候选缩小/)
   assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶/)
-  assert.ok(nextRows.some(row => row.label === '每日行动速览'))
+  assert.ok(nextRows.some(row => row.label === '每日行动记录'))
   assert.equal(dateRows[0].label, '2026-07-02')
   assert.match(dateRows[0].value, /优先候选|可备选|需人工复核/)
   assert.match(dateRows[0].value, /宜：/)
@@ -164,20 +164,31 @@ test('daily action tool renders practical review fields without fortune claims',
   const output = structuredTools.dailyFortune.calculate({
     topic: '上线发布',
     purpose: 'launch',
+    constraints: '下午需要等审核人确认，避免晚上临时发布。',
+    actionWindow: '14:00-17:00',
     date: '2026-07-02',
     time: '09:00',
     zodiac: '羊'
   })
-  const actionRows = output.sections.find(section => section.title === '今日行动速览').rows
+  const actionRows = output.sections.find(section => section.title === '行动记录').rows
+  const executionRows = output.sections.find(section => section.title === '执行清单').rows
+  const reviewRows = output.sections.find(section => section.title === '复盘清单').rows
   const nextRows = output.sections.find(section => section.title === '下一步入口').rows
   const text = formatStructuredResultText(output)
 
-  assert.equal(output.title, '每日行动速览')
+  assert.equal(output.title, '每日行动记录')
   assert.match(output.badges.join(' / '), /上线发布/)
+  assert.equal(actionRows.find(row => row.label === '现实限制').value, '下午需要等审核人确认，避免晚上临时发布。')
+  assert.equal(actionRows.find(row => row.label === '执行窗口').value, '14:00-17:00')
   assert.match(actionRows.find(row => row.label === '生肖复核').value, /个人生肖冲日/)
   assert.match(actionRows.find(row => row.label === '输出口径').value, /不输出吉凶、运势断语/)
+  assert.match(executionRows.find(row => row.label === '先做事项').value, /上线发布/)
+  assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、运势断语/)
   assert.ok(nextRows.some(row => row.label === '筛当天时辰'))
+  assert.ok(nextRows.some(row => row.label === '黄历节气'))
+  assert.ok(!nextRows.some(row => row.label === '看每日行动记录'))
   assert.match(text, /宜项命中：交易/)
+  assert.match(text, /复盘清单/)
   assert.doesNotMatch(text, /一定|必然|好运|坏运/)
 })
 
@@ -309,7 +320,7 @@ test('dream tool exports journal fields without omen judgement', () => {
   assert.match(text, /睡眠时长：7小时20分/)
   assert.match(text, /不输出吉凶、预兆、应期或结果判断/)
   assert.match(reviewRows.find(row => row.label === '今日小动作').value, /小动作/)
-  assert.ok(nextRows.some(row => row.label === '每日行动速览'))
+  assert.ok(nextRows.some(row => row.label === '每日行动记录'))
   assert.match(text, /梦境全文/)
   assert.match(text, /反复意象：走廊 \/ 灯 \/ 门/)
   assert.doesNotMatch(text, /一定|必然/)
