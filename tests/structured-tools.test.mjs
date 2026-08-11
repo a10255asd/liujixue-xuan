@@ -185,7 +185,7 @@ test('daily action tool renders practical review fields without fortune claims',
   assert.match(executionRows.find(row => row.label === '先做事项').value, /上线发布/)
   assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、运势断语/)
   assert.ok(nextRows.some(row => row.label === '筛当天时辰'))
-  assert.ok(nextRows.some(row => row.label === '黄历节气'))
+  assert.ok(nextRows.some(row => row.label === '黄历日课记录'))
   assert.ok(!nextRows.some(row => row.label === '看每日行动记录'))
   assert.match(text, /宜项命中：交易/)
   assert.match(text, /复盘清单/)

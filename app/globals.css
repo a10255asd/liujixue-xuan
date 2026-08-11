@@ -4435,6 +4435,12 @@ body {
   gap: 10px;
 }
 
+.calendar-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .calendar-plan-item {
   min-width: 0;
   border: 1px solid rgba(17, 20, 17, 0.08);
@@ -4511,6 +4517,7 @@ body {
   .daily-next-step-list,
   .calendar-hero-line,
   .calendar-plan-grid,
+  .calendar-review-grid,
   .calendar-next-step-list,
   .calendar-detail-grid {
     grid-template-columns: 1fr;

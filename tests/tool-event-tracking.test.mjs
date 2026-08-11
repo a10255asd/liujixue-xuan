@@ -50,7 +50,7 @@ test('chart download event falls back to location when payload has no tool code'
     location: 'calendar',
     browser: createBrowser('/tools/calendar'),
     payload: {
-      title: '黄历节气',
+      title: '黄历日课记录',
       sections: []
     }
   })

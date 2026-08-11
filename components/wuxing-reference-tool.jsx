@@ -68,7 +68,7 @@ const reviewProfiles = {
     caution: '时辰五行只做资料层复核，不替代冲煞、宜忌、事项类型和人工判断。',
     next: [
       ['时辰候选记录', '/tools/shichen'],
-      ['黄历节气', '/tools/calendar'],
+      ['黄历日课记录', '/tools/calendar'],
       ['择日候选记录', '/tools/date-selection']
     ]
   },

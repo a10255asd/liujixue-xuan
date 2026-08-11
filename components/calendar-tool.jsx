@@ -2,7 +2,7 @@
 
 import { ChartExportActions } from '@/components/chart-export-panel'
 import { RefreshCcw } from '@/components/icons'
-import { buildCalendarDayPlan, calendarPurposeOptions } from '@/lib/calendar-day-plan'
+import { buildCalendarDayPlan, buildCalendarReviewRows, calendarPurposeOptions } from '@/lib/calendar-day-plan'
 import { Solar } from 'lunar-javascript'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
@@ -78,9 +78,9 @@ const buildCalendar = ({ date, time }) => {
   }
 }
 
-const buildImagePayload = (calendar, dayPlan, topic) => ({
+const buildImagePayload = (calendar, dayPlan, reviewRows, topic, constraints) => ({
   toolCode: 'calendar',
-  title: '黄历节气',
+  title: '黄历日课记录',
   subtitle: `${calendar.solar} · ${calendar.lunar} · ${topic || '未填写事项'}`,
   badges: [
     dayPlan.profile.label,
@@ -93,14 +93,19 @@ const buildImagePayload = (calendar, dayPlan, topic) => ({
   filename: `calendar-${calendar.solar.slice(0, 10)}.png`,
   sections: [
     {
-      title: '单日速览',
+      title: '日课记录',
       rows: [
         { label: '事项', value: topic || '未填写事项' },
         { label: '事项类型', value: dayPlan.profile.label },
+        { label: '现实限制', value: constraints || '未填写现实限制。' },
         { label: '候选级别', value: `${dayPlan.level}（${dayPlan.score}分）` },
         { label: '处理建议', value: dayPlan.advice },
         ...dayPlan.rows
       ]
+    },
+    {
+      title: '复核清单',
+      rows: reviewRows
     },
     {
       title: '日期信息',
@@ -151,12 +156,19 @@ export function CalendarTool() {
   const [form, setForm] = useState({
     topic: '上线发布',
     purpose: 'launch',
+    constraints: '避开夜间临时操作，需预留审核和回滚时间。',
     date: todayDate(),
     time: currentTime()
   })
   const calendar = useMemo(() => buildCalendar(form), [form])
   const dayPlan = useMemo(() => buildCalendarDayPlan(calendar, form.purpose), [calendar, form.purpose])
-  const imagePayload = useMemo(() => buildImagePayload(calendar, dayPlan, form.topic), [calendar, dayPlan, form.topic])
+  const reviewRows = useMemo(() => buildCalendarReviewRows({
+    calendar,
+    dayPlan,
+    topic: form.topic,
+    constraints: form.constraints
+  }), [calendar, dayPlan, form.constraints, form.topic])
+  const imagePayload = useMemo(() => buildImagePayload(calendar, dayPlan, reviewRows, form.topic, form.constraints), [calendar, dayPlan, form.constraints, form.topic, reviewRows])
 
   const updateForm = (key, value) => {
     setForm(current => ({ ...current, [key]: value }))
@@ -166,6 +178,7 @@ export function CalendarTool() {
     setForm({
       topic: '上线发布',
       purpose: 'launch',
+      constraints: '避开夜间临时操作，需预留审核和回滚时间。',
       date: todayDate(),
       time: currentTime()
     })
@@ -177,7 +190,7 @@ export function CalendarTool() {
         <div className='chart-card-head'>
           <div>
             <span className='chart-kicker'>Almanac</span>
-            <h2>查询时间</h2>
+            <h2>记录时间</h2>
           </div>
           <button className='chart-icon-button' type='button' onClick={resetNow}>
             <RefreshCcw size={18} />
@@ -210,9 +223,20 @@ export function CalendarTool() {
             <label htmlFor='calendar-time'>时间</label>
             <input id='calendar-time' type='time' value={form.time} onChange={event => updateForm('time', event.target.value)} />
           </div>
+          <div className='chart-field wide'>
+            <label htmlFor='calendar-constraints'>现实限制</label>
+            <textarea
+              className='chart-text-input structured-textarea'
+              id='calendar-constraints'
+              rows={3}
+              value={form.constraints}
+              onChange={event => updateForm('constraints', event.target.value)}
+              placeholder='可记录人员档期、地点、准备周期、审核、预算或不可做事项。'
+            />
+          </div>
         </div>
         <div className='daily-action-row'>
-          <ChartExportActions imageLabel='下载排盘图片' payload={imagePayload} />
+          <ChartExportActions imageLabel='下载记录图片' payload={imagePayload} />
         </div>
       </section>
 
@@ -220,7 +244,7 @@ export function CalendarTool() {
         <div className='chart-section-head'>
           <div>
             <span className='chart-kicker'>Calendar Fields</span>
-            <h2>黄历节气</h2>
+            <h2>黄历日课记录</h2>
           </div>
           <span className='chart-source'>{calendar.ganZhi.year} {calendar.ganZhi.month} {calendar.ganZhi.day} {calendar.ganZhi.time}</span>
         </div>
@@ -237,7 +261,7 @@ export function CalendarTool() {
         <section className='calendar-action-panel'>
           <div className='calendar-action-head'>
             <div>
-              <span>单日速览</span>
+              <span>日课记录</span>
               <h3>{dayPlan.level}</h3>
             </div>
             <em>{dayPlan.profile.label} · {dayPlan.score}分</em>
@@ -245,6 +269,9 @@ export function CalendarTool() {
           <p>{dayPlan.advice}</p>
           <div className='calendar-plan-grid'>
             {dayPlan.rows.map(row => <PlanItem key={row.label} label={row.label} value={row.value} />)}
+          </div>
+          <div className='calendar-review-grid'>
+            {reviewRows.map(row => <PlanItem key={row.label} label={row.label} value={row.value} />)}
           </div>
           <div className='calendar-next-step-list'>
             {dayPlan.nextSteps.map(step => (
