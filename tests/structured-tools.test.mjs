@@ -242,21 +242,26 @@ test('name tool uses manual strokes for five grids', () => {
     usage: 'baby',
     surnameLength: '1',
     strokes: '15 18 6',
+    sourceNote: '姓氏来自家族用字，笔画按康熙字典口径人工填写。',
     namingGoal: '希望名字好读、好写，含义积极但不过度堆砌。',
     meaningPreference: '偏向明亮、行动感，不要太生僻。',
+    candidateNotes: '备选刘既明，需补重名检索和家人反馈。',
     avoidNotes: '避开同音误解和难输入字。'
   })
   const text = formatStructuredResultText(output)
   const reviewRows = output.sections.find(section => section.title === '复核清单').rows
+  const recordRows = output.sections.find(section => section.title === '姓名方案记录').rows
   const nextRows = output.sections.find(section => section.title === '下一步入口').rows
 
-  assert.equal(output.title, '姓名方案复核')
+  assert.equal(output.title, '姓名方案记录')
   assert.ok(output.badges.includes('新生儿命名'))
   assert.ok(output.badges.includes('笔画完整'))
   assert.match(text, /天格：16画/)
   assert.match(text, /人格：33画/)
   assert.match(text, /总格：39画/)
   assert.match(text, /方案信息/)
+  assert.match(recordRows.find(row => row.label === '来源/口径').value, /康熙字典/)
+  assert.match(recordRows.find(row => row.label === '候选对比').value, /刘既明/)
   assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出姓名打分、吉凶定论/)
   assert.ok(nextRows.some(row => row.label === '干支五行复核记录'))
   assert.doesNotMatch(text, /一定|必然/)

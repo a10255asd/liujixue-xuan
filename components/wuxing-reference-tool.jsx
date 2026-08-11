@@ -52,12 +52,12 @@ const reviewProfiles = {
     ]
   },
   name: {
-    label: '姓名方案复核',
+    label: '姓名方案记录',
     defaultQuery: '木 火 土',
     method: '把姓名五格得出的五行放到这里核对生克、方位和季节，再回到姓名方案看读音字义。',
     caution: '姓名方案不能只看五行补缺，还要同步核对笔画、字义、谐音、出处和避讳。',
     next: [
-      ['姓名方案复核', '/tools/name'],
+      ['姓名方案记录', '/tools/name'],
       ['八字出生档案', '/tools/bazi'],
       ['出生校时工作台', '/tools/birth-time']
     ]
