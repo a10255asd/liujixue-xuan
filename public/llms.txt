@@ -20,7 +20,7 @@
 - https://xuan.liujixue.cn/tools/daily-fortune - Daily action record with constraints, execution window, zodiac clash and review checklist.
 - https://xuan.liujixue.cn/tools/name - Name plan review with five-grid fields and manual checklist.
 - https://xuan.liujixue.cn/tools/wuxing - Stem branch and five-element review record with source notes and checklist.
-- https://xuan.liujixue.cn/tools/hexagrams - Hexagram field review workspace with trigram matrix.
+- https://xuan.liujixue.cn/tools/hexagrams - Hexagram review record with source notes, trigram matrix and checklist.
 - https://xuan.liujixue.cn/tools/birth-time - Birth time calibration workspace with candidate differences.
 - https://xuan.liujixue.cn/tools/find-time - Full-day birth time candidate workspace.
 - https://xuan.liujixue.cn/tools/shichen - Time-branch candidate record with execution window, constraints and review checklist.

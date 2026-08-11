@@ -56,7 +56,7 @@ test('meihua number method returns core hexagram fields', () => {
   assert.match(text, /体卦：坤/)
   assert.match(text, /问事信息/)
   assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出吉凶、应期/)
-  assert.ok(nextRows.some(row => row.label === '六十四卦复核'))
+  assert.ok(nextRows.some(row => row.label === '六十四卦复核记录'))
   assert.doesNotMatch(text, /一定|必然/)
 })
 

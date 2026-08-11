@@ -4822,7 +4822,8 @@ body {
 }
 
 .hexagram-select-field input,
-.hexagram-select-field select {
+.hexagram-select-field select,
+.hexagram-select-field textarea {
   width: 100%;
   min-height: 44px;
   border: 1px solid rgba(17, 20, 17, 0.14);
@@ -4833,8 +4834,19 @@ body {
   font: inherit;
 }
 
+.hexagram-select-field textarea {
+  min-height: 92px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.hexagram-wide-field {
+  grid-column: 1 / -1;
+}
+
 .hexagram-select-field input:focus,
-.hexagram-select-field select:focus {
+.hexagram-select-field select:focus,
+.hexagram-select-field textarea:focus {
   border-color: rgba(169, 131, 54, 0.44);
   box-shadow: 0 0 0 3px rgba(169, 131, 54, 0.12);
   outline: 0;
@@ -5250,6 +5262,10 @@ body {
   .shichen-candidate-grid,
   .shichen-review-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hexagram-wide-field {
+    grid-column: auto;
   }
 
   .shichen-wide-field {

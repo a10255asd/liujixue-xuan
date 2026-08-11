@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { buildHexagramRecordRows } from '@/lib/hexagram-review-record'
 
 const trigrams = [
   { name: '乾', image: '天', symbol: '☰', element: '金', lines: '111' },
@@ -96,16 +97,27 @@ export function HexagramReferenceTool() {
   const [upperName, setUpperName] = useState(profile.defaultUpper)
   const [lowerName, setLowerName] = useState(profile.defaultLower)
   const [topic, setTopic] = useState('正在复核的问事卦象')
+  const [sourceNote, setSourceNote] = useState('来自每日一卦、六爻、梅花或人工笔记，待回填原始记录。')
   const upper = trigramMap[upperName] || trigrams[0]
   const lower = trigramMap[lowerName] || trigrams[0]
   const selectedHexagram = useMemo(() => hexagramMatrix[upper.name][lower.name], [upper.name, lower.name])
   const sameElement = upper.element === lower.element
+  const recordRows = useMemo(() => buildHexagramRecordRows({
+    profile,
+    topic,
+    sourceNote,
+    upper,
+    lower,
+    hexagramName: selectedHexagram,
+    sameElement
+  }), [lower, profile, sameElement, selectedHexagram, sourceNote, topic, upper])
 
   function selectProfile(nextKey) {
     const nextProfile = reviewProfiles[nextKey] || reviewProfiles.question
     setProfileKey(nextKey)
     setUpperName(nextProfile.defaultUpper)
     setLowerName(nextProfile.defaultLower)
+    setSourceNote('来自每日一卦、六爻、梅花或人工笔记，待回填原始记录。')
   }
 
   return (
@@ -114,7 +126,7 @@ export function HexagramReferenceTool() {
         <div className='chart-section-head'>
           <div>
             <span className='chart-kicker'>Review</span>
-            <h2>卦象字段复核</h2>
+            <h2>六十四卦复核记录</h2>
           </div>
         </div>
 
@@ -138,6 +150,16 @@ export function HexagramReferenceTool() {
               aria-label='事项或来源'
               onChange={event => setTopic(event.target.value)}
               value={topic}
+            />
+          </label>
+          <label className='hexagram-select-field hexagram-wide-field'>
+            <span>原始出处/问题背景</span>
+            <textarea
+              aria-label='原始出处或问题背景'
+              onChange={event => setSourceNote(event.target.value)}
+              placeholder='例如来自每日一卦、六爻本卦/变卦、梅花体用、古籍条目或人工笔记。'
+              rows={3}
+              value={sourceNote}
             />
           </label>
           <label className='hexagram-select-field'>
@@ -189,6 +211,15 @@ export function HexagramReferenceTool() {
             <strong>{sameElement ? '同五行' : '异五行'}</strong>
             <p>{profile.caution}</p>
           </article>
+        </div>
+
+        <div className='wuxing-record-grid' aria-label='复核记录'>
+          {recordRows.map(row => (
+            <article className='wuxing-review-item' key={row.label}>
+              <span>{row.label}</span>
+              <strong>{row.value}</strong>
+            </article>
+          ))}
         </div>
 
         <div className='wuxing-next-grid' aria-label='下一步入口'>

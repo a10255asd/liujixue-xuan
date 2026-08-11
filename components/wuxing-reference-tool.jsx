@@ -81,7 +81,7 @@ const reviewProfiles = {
     next: [
       ['古籍书楼', '/classics'],
       ['知识图解', '/knowledge'],
-      ['六十四卦复核', '/tools/hexagrams']
+      ['六十四卦复核记录', '/tools/hexagrams']
     ]
   }
 }
