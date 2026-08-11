@@ -258,7 +258,7 @@ test('name tool uses manual strokes for five grids', () => {
   assert.match(text, /总格：39画/)
   assert.match(text, /方案信息/)
   assert.match(reviewRows.find(row => row.label === '输出边界').value, /不输出姓名打分、吉凶定论/)
-  assert.ok(nextRows.some(row => row.label === '干支五行速查'))
+  assert.ok(nextRows.some(row => row.label === '干支五行复核记录'))
   assert.doesNotMatch(text, /一定|必然/)
 })
 

@@ -46,7 +46,7 @@ const reviewProfiles = {
     caution: '六爻判断需回到完整盘面，不能只凭卦名或卦象下结论。',
     next: [
       ['六爻问事记录', '/tools/liuyao'],
-      ['干支五行复核', '/tools/wuxing'],
+      ['干支五行复核记录', '/tools/wuxing'],
       ['古籍书楼', '/classics']
     ]
   },
@@ -59,7 +59,7 @@ const reviewProfiles = {
     next: [
       ['梅花易数排盘', '/tools/meihua'],
       ['每日一卦记录', '/tools/daily'],
-      ['干支五行复核', '/tools/wuxing']
+      ['干支五行复核记录', '/tools/wuxing']
     ]
   },
   archive: {
@@ -71,7 +71,7 @@ const reviewProfiles = {
     next: [
       ['古籍书楼', '/classics'],
       ['知识图解', '/knowledge'],
-      ['干支五行复核', '/tools/wuxing']
+      ['干支五行复核记录', '/tools/wuxing']
     ]
   }
 }

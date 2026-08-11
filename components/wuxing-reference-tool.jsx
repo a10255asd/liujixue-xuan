@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { buildWuxingRecordRows } from '@/lib/wuxing-review-record'
 
 const stems = [
   { name: '甲', yinYang: '阳', element: '木', direction: '东方', note: '阳木' },
@@ -80,7 +81,7 @@ const reviewProfiles = {
     next: [
       ['古籍书楼', '/classics'],
       ['知识图解', '/knowledge'],
-      ['六十四卦速查', '/tools/hexagrams']
+      ['六十四卦复核', '/tools/hexagrams']
     ]
   }
 }
@@ -166,12 +167,20 @@ export function WuxingReferenceTool() {
   const [profileKey, setProfileKey] = useState('chart')
   const profile = reviewProfiles[profileKey] || reviewProfiles.chart
   const [query, setQuery] = useState(profile.defaultQuery)
+  const [sourceNote, setSourceNote] = useState('来自排盘、姓名方案或择日记录，待人工复核。')
   const reviewItems = useMemo(() => parseReviewTokens(query).map(describeReviewToken), [query])
+  const recordRows = useMemo(() => buildWuxingRecordRows({
+    profile,
+    query,
+    reviewItems,
+    sourceNote
+  }), [profile, query, reviewItems, sourceNote])
 
   function selectProfile(nextKey) {
     const nextProfile = reviewProfiles[nextKey] || reviewProfiles.chart
     setProfileKey(nextKey)
     setQuery(nextProfile.defaultQuery)
+    setSourceNote('来自排盘、姓名方案或择日记录，待人工复核。')
   }
 
   return (
@@ -180,7 +189,7 @@ export function WuxingReferenceTool() {
         <div className='chart-section-head'>
           <div>
             <span className='chart-kicker'>Review</span>
-            <h2>五行字段复核</h2>
+            <h2>干支五行复核记录</h2>
           </div>
         </div>
 
@@ -207,6 +216,17 @@ export function WuxingReferenceTool() {
             value={query}
           />
         </label>
+        <label className='wuxing-query-row'>
+          <span>资料来源/原始出处</span>
+          <textarea
+            aria-label='资料来源或原始出处'
+            className='wuxing-query-input wuxing-source-input'
+            onChange={event => setSourceNote(event.target.value)}
+            placeholder='例如来自八字日柱、姓名方案、择日记录、人工笔记或古籍条目。'
+            rows={3}
+            value={sourceNote}
+          />
+        </label>
 
         <div className='wuxing-review-grid'>
           <article className='wuxing-review-item'>
@@ -219,6 +239,15 @@ export function WuxingReferenceTool() {
             <strong>资料层</strong>
             <p>{profile.caution}</p>
           </article>
+        </div>
+
+        <div className='wuxing-record-grid' aria-label='复核记录'>
+          {recordRows.map(row => (
+            <article className='wuxing-review-item' key={row.label}>
+              <span>{row.label}</span>
+              <strong>{row.value}</strong>
+            </article>
+          ))}
         </div>
 
         <div className='wuxing-review-results' aria-live='polite'>
